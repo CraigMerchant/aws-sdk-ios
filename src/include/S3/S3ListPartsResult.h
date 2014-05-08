@@ -20,6 +20,21 @@
  *
  */
 @interface S3ListPartsResult:NSObject {
+    NSString       *bucket;
+    NSString       *key;
+    NSString       *uploadId;
+    NSString       *storageClass;
+
+    S3Owner        *owner;
+    S3Owner        *initiator;
+
+    NSInteger      partNumberMarker;
+    NSInteger      nextPartNumberMarker;
+    NSInteger      maxParts;
+
+    bool           isTruncated;
+
+    NSMutableArray *parts;
 }
 
 /** The name of the bucket to which the multipart upload was initiated. */
@@ -41,22 +56,22 @@
 @property (nonatomic, retain) S3Owner *initiator;
 
 /** The part number after which listing begins. */
-@property (nonatomic) int32_t partNumberMarker;
+@property (nonatomic) int partNumberMarker;
 
 /** When a list is truncated, specifies the last part that should be skipped
  * over to resume listing. Use this value for the partNumberMarker
  * request property in a subsequent request.
  */
-@property (nonatomic) int32_t nextPartNumberMarker;
+@property (nonatomic) int nextPartNumberMarker;
 
 /** The maxParts which was supplied in the request. */
-@property (nonatomic) int32_t maxParts;
+@property (nonatomic) int maxParts;
 
 /** Indicates whether the returned list of parts is truncated. A value true
  * indicates the list was truncated. A list may be truncated if the number of
  * parts exceeds the limit specified by MaxParts.
  */
-@property (nonatomic) BOOL isTruncated;
+@property (nonatomic) bool isTruncated;
 
 /** The list of S3Part objects representing the parts */
 @property (nonatomic, readonly) NSMutableArray *parts;

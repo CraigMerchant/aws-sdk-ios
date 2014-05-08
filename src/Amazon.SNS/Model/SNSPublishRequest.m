@@ -19,7 +19,6 @@
 @implementation SNSPublishRequest
 
 @synthesize topicArn;
-@synthesize targetArn;
 @synthesize message;
 @synthesize subject;
 @synthesize messageStructure;
@@ -29,7 +28,6 @@
 {
     if (self = [super init]) {
         topicArn         = nil;
-        targetArn        = nil;
         message          = nil;
         subject          = nil;
         messageStructure = nil;
@@ -67,7 +65,6 @@
 
     [buffer appendString:@"{"];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"TopicArn: %@,", topicArn] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"TargetArn: %@,", targetArn] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Message: %@,", message] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Subject: %@,", subject] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"MessageStructure: %@,", messageStructure] autorelease]];
@@ -82,7 +79,6 @@
 -(void)dealloc
 {
     [topicArn release];
-    [targetArn release];
     [message release];
     [subject release];
     [messageStructure release];

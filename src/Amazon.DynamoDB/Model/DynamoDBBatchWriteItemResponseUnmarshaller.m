@@ -24,11 +24,6 @@
 #import "DynamoDBAttributeValueUnmarshaller.h"
 #import "DynamoDBAttributeValueUnmarshaller.h"
 #import "DynamoDBConsumedCapacityUnmarshaller.h"
-#import "DynamoDBCapacityUnmarshaller.h"
-#import "DynamoDBCapacityUnmarshaller.h"
-#import "DynamoDBCapacityUnmarshaller.h"
-#import "DynamoDBCapacityUnmarshaller.h"
-#import "DynamoDBCapacityUnmarshaller.h"
 
 
 @implementation DynamoDBBatchWriteItemResponseUnmarshaller

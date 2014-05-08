@@ -18,6 +18,13 @@
 
 @implementation S3GetPreSignedURLRequest
 
+@synthesize expires;
+@synthesize protocol;
+@synthesize httpVerb;
+@synthesize accessKey;
+@synthesize versionId;
+@synthesize responseHeaderOverrides;
+
 -(AmazonURLRequest *)configureURLRequest
 {
     NSMutableString *queryString = [NSMutableString stringWithCapacity:512];
@@ -45,7 +52,7 @@
     [self setHttpMethod:self.httpVerb];
     [self.urlRequest setHTTPMethod:self.httpVerb];
 
-    int32_t epoch = (int32_t)[self.expires timeIntervalSince1970];
+    NSInteger epoch = (int)[self.expires timeIntervalSince1970];
     [self.urlRequest setValue:[NSString stringWithFormat:@"%d", epoch] forHTTPHeaderField:@"Date"];
 
     return self.urlRequest;
@@ -68,7 +75,7 @@
         [queryString appendFormat:@"&%@=0", kS3QueryParamMaxKeys];
     }
 
-    int32_t epoch = (int32_t)[self.expires timeIntervalSince1970];
+    NSInteger epoch = (int)[self.expires timeIntervalSince1970];
     [queryString appendFormat:@"&%@=%d", kS3QueryParamExpires, epoch];
 
 
@@ -107,12 +114,12 @@
 
 -(void)dealloc
 {
-    [_expires release];
-    [_protocol release];
-    [_httpVerb release];
-    [_accessKey release];
-    [_versionId release];
-    [_responseHeaderOverrides release];
+    [expires release];
+    [protocol release];
+    [httpVerb release];
+    [accessKey release];
+    [versionId release];
+    [responseHeaderOverrides release];
 
     [super dealloc];
 }

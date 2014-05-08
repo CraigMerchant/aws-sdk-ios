@@ -76,7 +76,7 @@
  * <i>LastEvaluatedKey</i> to apply in a subsequent operation to continue
  * the operation. For more information see <a
  * azon.com/amazondynamodb/latest/developerguide/QueryAndScan.html">Query
- * and Scan</a> in the Amazon DynamoDB Developer Guide.
+ * and Scan</a> in the <i>Amazon DynamoDB Developer Guide</i>.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Range: </b>1 - <br/>
@@ -85,19 +85,36 @@
 
 /**
  * The attributes to be returned in the result. You can retrieve all item
- * attributes, specific item attributes, or the count of matching items.
- * <ul> <li> <p><code>ALL_ATTRIBUTES</code>: Returns all of the item
- * attributes. </li> <li> <p><code>COUNT</code>: Returns the number of
- * matching items, rather than the matching items themselves. </li> <li>
- * <p> <code>SPECIFIC_ATTRIBUTES</code> : Returns only the attributes
- * listed in <i>AttributesToGet</i>. This is equivalent to specifying
- * <i>AttributesToGet</i> without specifying any value for <i>Select</i>.
- * </li> </ul> <p>If neither <i>Select</i> nor <i>AttributesToGet</i> are
- * specified, Amazon DynamoDB defaults to <code>ALL_ATTRIBUTES</code>.
- * You cannot use both <i>Select</i> and <i>AttributesToGet</i> together
- * in a single request, <i>unless</i> the value for <i>Select</i> is
- * <code>SPECIFIC_ATTRIBUTES</code>. (This usage is equivalent to
- * specifying <i>AttributesToGet</i> without any value for
+ * attributes, specific item attributes, the count of matching items, or
+ * in the case of an index, some or all of the attributes projected into
+ * the index. <ul> <li> <p><code>ALL_ATTRIBUTES</code>: Returns all of
+ * the item attributes. For a table, this is the default. For an index,
+ * this mode causes Amazon DynamoDB to fetch the full item from the table
+ * for each matching item in the index. If the index is configured to
+ * project all item attributes, the matching items will not be fetched
+ * from the table. Fetching items from the table incurs additional
+ * throughput cost and latency. </li> <li>
+ * <p><code>ALL_PROJECTED_ATTRIBUTES</code>: Retrieves all attributes
+ * which have been projected into the index. If the index is configured
+ * to project all attributes, this is equivalent to specifying
+ * <i>ALL_ATTRIBUTES</i>. </li> <li> <p><code>COUNT</code>: Returns the
+ * number of matching items, rather than the matching items themselves.
+ * </li> <li> <p> <code>SPECIFIC_ATTRIBUTES</code> : Returns only the
+ * attributes listed in <i>AttributesToGet</i>. This is equivalent to
+ * specifying <i>AttributesToGet</i> without specifying any value for
+ * <i>Select</i>. <p>If you are querying an index and request only
+ * attributes that are projected into that index, the operation will read
+ * only the index and not the table. If any of the requested attributes
+ * are not projected into the index, Amazon DynamoDB will need to fetch
+ * each matching item from the table. This extra fetching incurs
+ * additional throughput cost and latency. </li> </ul> <p>When neither
+ * <i>Select</i> nor <i>AttributesToGet</i> are specified, Amazon
+ * DynamoDB defaults to <code>ALL_ATTRIBUTES</code> when accessing a
+ * table, and <code>ALL_PROJECTED_ATTRIBUTES</code> when accessing an
+ * index. You cannot use both <i>Select</i> and <i>AttributesToGet</i>
+ * together in a single request, <i>unless</i> the value for
+ * <i>Select</i> is <code>SPECIFIC_ATTRIBUTES</code>. (This usage is
+ * equivalent to specifying <i>AttributesToGet</i> without any value for
  * <i>Select</i>.)
  * <p>
  * <b>Constraints:</b><br/>
@@ -130,7 +147,7 @@
  * NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN</code> <p>For information on
  * specifying data types in JSON, see <a
  * .amazon.com/amazondynamodb/latest/developerguide/DataFormat.html">JSON
- * Data Format</a> in the Amazon DynamoDB Developer Guide. <p>The
+ * Data Format</a> in the <i>Amazon DynamoDB Developer Guide</i>. <p>The
  * following are descriptions of each comparison operator. <ul> <li>
  * <p><code>EQ</code> : Equal. <p><i>AttributeValueList</i> can contain
  * only one <i>AttributeValue</i> of type String, Number, or Binary (not
@@ -218,40 +235,54 @@
 @property (nonatomic, retain) NSMutableDictionary *scanFilter;
 
 /**
- * The primary key of the first item that this operation will evalute.
- * Use the value that was returned for <i>LastEvaluatedKey</i> in the
- * previous operation. <p>The data type for <i>ExclusiveStartKey</i> must
- * be String, Number or Binary. No set data types are allowed. <p>In a
- * parallel scan, a <i>Scan</i> request that includes
- * <i>ExclusiveStartKey</i> must specify the same segment whose previous
- * <i>Scan</i> returned the corresponding value of
- * <i>LastEvaluatedKey</i>.
+ * The primary key of the item from which to continue an earlier
+ * operation. An earlier operation might provide this value as the
+ * <i>LastEvaluatedKey</i> if that operation was interrupted before
+ * completion; either because of the result set size or because of the
+ * setting for <i>Limit</i>. The <i>LastEvaluatedKey</i> can be passed
+ * back in a new request to continue the operation from that point.
+ * <p>The data type for <i>ExclusiveStartKey</i> must be String, Number
+ * or Binary. No set data types are allowed. <p>If you are performing a
+ * parallel scan, the value of <i>ExclusiveStartKey</i> must fall into
+ * the key space of the <i>Segment</i> being scanned. For example,
+ * suppose that there are two application threads scanning a table using
+ * the following <i>Scan</i> parameters <ul> <li> <p>Thread 0:
+ * <i>Segment</i>=0; <i>TotalSegments</i>=2 </li> <li> <p>Thread 1:
+ * <i>Segment</i>=1; <i>TotalSegments</i>=2 </li> </ul> <p>Now suppose
+ * that the <i>Scan</i> request for Thread 0 completed and returned a
+ * <i>LastEvaluatedKey</i> of "X". Because "X" is part of <i>Segment</i>
+ * 0's key space, it cannot be used anywhere else in the table. If Thread
+ * 1 were to issue another <i>Scan</i> request with an
+ * <i>ExclusiveStartKey</i> of "X", Amazon DynamoDB would throw an
+ * <i>InputValidationError</i> because hash key "X" cannot be in
+ * <i>Segment</i> 1.
  */
 @property (nonatomic, retain) NSMutableDictionary *exclusiveStartKey;
 
 /**
- * If set to <code>TOTAL</code>, the response includes
- * <i>ConsumedCapacity</i> data for tables and indexes. If set to
- * <code>INDEXES</code>, the repsonse includes <i>ConsumedCapacity</i>
- * for indexes. If set to <code>NONE</code> (the default),
- * <i>ConsumedCapacity</i> is not included in the response.
+ * If set to <code>TOTAL</code>, <i>ConsumedCapacity</i> is included in
+ * the response; if set to <code>NONE</code> (the default),
+ * <i>ConsumedCapacity</i> is not included.
  * <p>
  * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>INDEXES, TOTAL, NONE
+ * <b>Allowed Values: </b>TOTAL, NONE
  */
 @property (nonatomic, retain) NSString *returnConsumedCapacity;
 
 /**
- * For a parallel <i>Scan</i> request, <i>TotalSegments</i> represents
- * the total number of segments into which the <i>Scan</i> operation will
- * be divided. The value of <i>TotalSegments</i> corresponds to the
- * number of application workers that will perform the parallel scan. For
- * example, if you want to scan a table using four application threads,
- * you would specify a <i>TotalSegments</i> value of 4. <p>The value for
- * <i>TotalSegments</i> must be greater than or equal to 1, and less than
- * or equal to 4096. If you specify a <i>TotalSegments</i> value of 1,
- * the <i>Scan</i> will be sequential rather than parallel. <p>If you
- * specify <i>TotalSegments</i>, you must also specify <i>Segment</i>.
+ * For parallel <i>Scan</i> requests, <i>TotalSegments</i>represents the
+ * total number of segments for a table that is being scanned. Segments
+ * are a way to logically divide a table into equally sized portions, for
+ * the duration of the <i>Scan</i> request. The value of
+ * <i>TotalSegments</i> corresponds to the number of application
+ * "workers" (such as threads or processes) that will perform the
+ * parallel <i>Scan</i>. For example, if you want to scan a table using
+ * four application threads, you would specify a <i>TotalSegments</i>
+ * value of 4. <p>The value for <i>TotalSegments</i> must be greater than
+ * or equal to 1, and less than or equal to 4096. If you specify a
+ * <i>TotalSegments</i> value of 1, the <i>Scan</i> will be sequential
+ * rather than parallel. <p>If you specify <i>TotalSegments</i>, you must
+ * also specify <i>Segment</i>.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Range: </b>1 - 4096<br/>
@@ -259,18 +290,18 @@
 @property (nonatomic, retain) NSNumber *totalSegments;
 
 /**
- * For a parallel <i>Scan</i> request, <i>Segment</i> identifies an
- * individual segment to be scanned by an application worker. <p>Segment
- * IDs are zero-based, so the first segment is always 0. For example, if
- * you want to scan a table using four application threads, the first
- * thread would specify a <i>Segment</i> value of 0, the second thread
- * would specify 1, and so on. <p>The value of <i>LastEvaluatedKey</i>
- * returned from a parallel <i>Scan</i> request must be used as
- * <i>ExclusiveStartKey</i> with the same Segment ID in a subsequent
- * <i>Scan</i> operation. <p>The value for <i>Segment</i> must be greater
- * than or equal to 0, and less than the value provided for
- * <i>TotalSegments</i>. <p>If you specify <i>Segment</i>, you must also
- * specify <i>TotalSegments</i>.
+ * For parallel <i>Scan</i> requests, <i>Segment</i> identifies an
+ * individual segment to be scanned by an application "worker" (such as a
+ * thread or a process). Each worker issues a <i>Scan</i> request with a
+ * distinct value for the segment it will scan. <p>Segment IDs are
+ * zero-based, so the first segment is always 0. For example, if you want
+ * to scan a table using four application threads, the first thread would
+ * specify a <i>Segment</i> value of 0, the second thread would specify
+ * 1, and so on. <p>LastEvaluatedKey returned from a parallel scan
+ * request must be used with same Segment id in a subsequent operation.
+ * <p>The value for <i>Segment</i> must be less than or equal to 0, and
+ * less than the value provided for <i>TotalSegments</i>. <p>If you
+ * specify <i>Segment</i>, you must also specify <i>TotalSegments</i>.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Range: </b>0 - 4095<br/>

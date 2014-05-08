@@ -30,8 +30,8 @@
 
 {
     NSString *identity;
-    BOOL     forwardingEnabled;
-    BOOL     forwardingEnabledIsSet;
+    bool     forwardingEnabled;
+    bool     forwardingEnabledIsSet;
 }
 
 
@@ -58,9 +58,9 @@
  * only be set to <code>false</code> when topics are specified for both
  * <code>Bounce</code> and <code>Complaint</code> topic types.
  */
-@property (nonatomic) BOOL           forwardingEnabled;
+@property (nonatomic) bool           forwardingEnabled;
 
-@property (nonatomic, readonly) BOOL forwardingEnabledIsSet;
+@property (nonatomic, readonly) bool forwardingEnabledIsSet;
 
 /**
  * Returns a string representation of this object; useful for testing and

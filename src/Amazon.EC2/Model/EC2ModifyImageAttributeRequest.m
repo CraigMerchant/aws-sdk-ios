@@ -18,8 +18,6 @@
 
 @implementation EC2ModifyImageAttributeRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize imageId;
 @synthesize attribute;
 @synthesize operationType;
@@ -34,8 +32,6 @@
 -(id)init
 {
     if (self = [super init]) {
-        dryRun           = NO;
-        dryRunIsSet      = NO;
         imageId          = nil;
         attribute        = nil;
         operationType    = nil;
@@ -94,7 +90,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"ImageId: %@,", imageId] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Attribute: %@,", attribute] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"OperationType: %@,", operationType] autorelease]];
@@ -110,12 +105,6 @@
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
 
 
 -(void)dealloc

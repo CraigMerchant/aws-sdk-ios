@@ -19,6 +19,10 @@
  *
  */
 @interface S3Part:NSObject {
+    NSString  *etag;
+    NSDate    *lastModified;
+    NSInteger partNumber;
+    long long size;
 }
 
 /** The entity tag returned when the part was uploaded. */
@@ -28,9 +32,9 @@
 @property (nonatomic, retain) NSDate *lastModified;
 
 /** The unique part number identifying the part. */
-@property (nonatomic, assign) int32_t partNumber;
+@property (nonatomic) NSInteger partNumber;
 
 /** The size of the uploaded part data. */
-@property (nonatomic, assign) long long size;
+@property (nonatomic) long long size;
 
 @end

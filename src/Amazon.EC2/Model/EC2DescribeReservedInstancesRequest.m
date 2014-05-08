@@ -18,8 +18,6 @@
 
 @implementation EC2DescribeReservedInstancesRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize reservedInstancesIds;
 @synthesize filters;
 @synthesize offeringType;
@@ -28,8 +26,6 @@
 -(id)init
 {
     if (self = [super init]) {
-        dryRun               = NO;
-        dryRunIsSet          = NO;
         reservedInstancesIds = [[NSMutableArray alloc] initWithCapacity:1];
         filters              = [[NSMutableArray alloc] initWithCapacity:1];
         offeringType         = nil;
@@ -63,7 +59,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"ReservedInstancesIds: %@,", reservedInstancesIds] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Filters: %@,", filters] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"OfferingType: %@,", offeringType] autorelease]];
@@ -73,12 +68,6 @@
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
 
 
 -(void)dealloc

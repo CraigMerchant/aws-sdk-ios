@@ -21,6 +21,9 @@
  *
  */
 @interface S3ListPartsRequest:S3Request {
+    NSString  *uploadId;
+    NSInteger maxParts;
+    NSInteger partNumberMarker;
 }
 
 /** The uploadId of the multipart upload to list */
@@ -30,10 +33,10 @@
  *
  * The default value is 1000.
  */
-@property (nonatomic, assign) int32_t maxParts;
+@property (nonatomic) int maxParts;
 
 /** The part after which to start the listing. */
-@property (nonatomic, assign) int32_t partNumberMarker;
+@property (nonatomic) int partNumberMarker;
 
 /** Initializes the instance with the bucket, key, and uploadId from an S3MultipartUpload instance returned in an S3MultipartUploadResponse. */
 -(id)initWithMultipartUpload:(S3MultipartUpload *)multipartUpload;

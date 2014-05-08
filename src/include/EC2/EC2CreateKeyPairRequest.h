@@ -29,19 +29,10 @@
 @interface EC2CreateKeyPairRequest:AmazonServiceRequestConfig
 
 {
-    BOOL     dryRun;
-    BOOL     dryRunIsSet;
     NSString *keyName;
 }
 
 
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * The unique name for the new key pair.

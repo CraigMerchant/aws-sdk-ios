@@ -19,18 +19,25 @@
 #import "S3ErrorResponseHandler.h"
 #import "AmazonErrorHandler.h"
 
-@interface S3Response ()
-@property (nonatomic, readwrite, retain) NSDictionary *responseHeader;
-@end
-
 @implementation S3Response
+
+@synthesize contentLength;
+@synthesize connectionState;
+@synthesize date;
+@synthesize etag;
+@synthesize server;
+@synthesize deleteMarker;
+@synthesize id2;
+@synthesize versionId;
+@synthesize serverSideEncryption;
 
 -(id)init
 {
     self = [super init];
     if (self != nil) {
         isFinishedLoading = NO;
-        _headers = [NSMutableDictionary new];
+        exception         = nil;
+        headers           = [[NSMutableDictionary alloc] init];
     }
 
     return self;
@@ -38,7 +45,7 @@
 
 -(void)setValue:(id)value forHTTPHeaderField:(NSString *)header
 {
-    [self.headers setValue:value forKey:header];
+    [headers setValue:value forKey:header];
 
     // remove dashes from headers, and camelCase concatenate to get the corresponding
     // property name.
@@ -74,7 +81,7 @@
 
 -(id)valueForHTTPHeaderField:(NSString *)header
 {
-    return [self.headers valueForKey:header];
+    return [headers valueForKey:header];
 }
 
 
@@ -115,23 +122,23 @@
 
 -(NSString *)description
 {
-    NSMutableString *buffer = [NSMutableString stringWithCapacity:256];
+    NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[NSString stringWithFormat:@"Headers: %@,", self.headers]];
-    [buffer appendString:[NSString stringWithFormat:@"Content-Length: %lld,", self.contentLength]];
-    [buffer appendString:[NSString stringWithFormat:@"Connection-State: %@,", self.connectionState]];
-    [buffer appendString:[NSString stringWithFormat:@"Date:: %@,", self.date]];
-    [buffer appendString:[NSString stringWithFormat:@"ETag: %@,", self.etag]];
-    [buffer appendString:[NSString stringWithFormat:@"Server: %@,", self.server]];
-    [buffer appendString:[NSString stringWithFormat:@"Delete-Marker: %d,", self.deleteMarker]];
-    [buffer appendString:[NSString stringWithFormat:@"Id2: %@,", self.id2]];
-    [buffer appendString:[NSString stringWithFormat:@"VersionId: %@,", self.versionId]];
-    [buffer appendString:[NSString stringWithFormat:@"Server Side Encryption: %@,", self.serverSideEncryption]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"Headers: %@,", headers] autorelease]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"Content-Length: %lld,", contentLength] autorelease]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"Connection-State: %@,", connectionState] autorelease]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"Date:: %@,", date] autorelease]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"ETag: %@,", etag] autorelease]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"Server: %@,", server] autorelease]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"Delete-Marker: %d,", deleteMarker] autorelease]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"Id2: %@,", id2] autorelease]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"VersionId: %@,", versionId] autorelease]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"Server Side Encryption: %@,", serverSideEncryption] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
 
-    return buffer;
+    return [buffer autorelease];
 }
 
 #pragma mark NSURLConnection delegate methods
@@ -143,8 +150,6 @@
     self.httpStatusCode = [httpResponse statusCode];
 
     NSDictionary *allHeaders = [httpResponse allHeaderFields];
-    
-    self.responseHeader = [httpResponse allHeaderFields];
     for (id key in allHeaders)
     {
         [self setValue:[allHeaders valueForKey:key] forHTTPHeaderField:key];
@@ -152,7 +157,7 @@
 
     [body setLength:0];
 
-    if ([self.request.delegate respondsToSelector:@selector(request:didReceiveResponse:)]) {
+    if ([(NSObject *)self.request.delegate respondsToSelector:@selector(request:didReceiveResponse:)]) {
         [self.request.delegate request:self.request didReceiveResponse:response];
     }
 }
@@ -165,7 +170,7 @@
 
     [body appendData:data];
 
-    if ([self.request.delegate respondsToSelector:@selector(request:didReceiveData:)]) {
+    if ([(NSObject *)self.request.delegate respondsToSelector:@selector(request:didReceiveData:)]) {
         [self.request.delegate request:self.request didReceiveData:data];
     }
 }
@@ -194,14 +199,14 @@
         BOOL throwsExceptions = [AmazonErrorHandler throwsExceptions];
 
         if (throwsExceptions == YES
-            && [self.request.delegate respondsToSelector:@selector(request:didFailWithServiceException:)]) {
+            && [(NSObject *)self.request.delegate respondsToSelector:@selector(request:didFailWithServiceException:)]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [self.request.delegate request:self.request didFailWithServiceException:(AmazonServiceException *)exception];
 #pragma clang diagnostic pop
         }
         else if (throwsExceptions == NO
-                 && [self.request.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
+                 && [(NSObject *)self.request.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
             [self.request.delegate request:self.request didFailWithError:[AmazonErrorHandler errorFromException:exception]];
         }
 
@@ -214,7 +219,7 @@
         isFinishedLoading = YES;
     }
 
-    if ([self.request.delegate respondsToSelector:@selector(request:didCompleteWithResponse:)]) {
+    if ([(NSObject *)self.request.delegate respondsToSelector:@selector(request:didCompleteWithResponse:)]) {
         [self.request.delegate request:self.request didCompleteWithResponse:self];
     }
 
@@ -233,18 +238,18 @@
     exception = [[AmazonServiceException exceptionWithMessage:[theError description] andError:theError] retain];
     AMZLog(@"An error occured in the request: %@", [theError description]);
 
-    if ([self.request.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
+    if ([(NSObject *)self.request.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
         [self.request.delegate request:self.request didFailWithError:theError];
     }
 }
 
 -(void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
-    if ([self.request.delegate respondsToSelector:@selector(request:didSendData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
+    if ([(NSObject *)self.request.delegate respondsToSelector:@selector(request:didSendData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
         [self.request.delegate request:self.request
-                           didSendData:(long long)bytesWritten
-                     totalBytesWritten:(long long)totalBytesWritten
-             totalBytesExpectedToWrite:(long long)totalBytesExpectedToWrite];
+         didSendData:bytesWritten
+         totalBytesWritten:totalBytesWritten
+         totalBytesExpectedToWrite:totalBytesExpectedToWrite];
     }
 }
 
@@ -275,14 +280,14 @@
 
 -(void)dealloc
 {
-    [_connectionState release];
-    [_etag release];
-    [_server release];
-    [_id2 release];
-    [_versionId release];
-    [_serverSideEncryption release];
-    [_date release];
-    [_headers release];
+    [connectionState release];
+    [date release];
+    [etag release];
+    [server release];
+    [id2 release];
+    [versionId release];
+    [serverSideEncryption release];
+    [headers release];
 
     [super dealloc];
 }

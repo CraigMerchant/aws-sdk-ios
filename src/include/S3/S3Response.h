@@ -29,6 +29,17 @@
  *
  */
 @interface S3Response:AmazonServiceResponse {
+    int64_t             contentLength;
+    NSString            *connectionState;
+    NSDate              *date;
+    NSString            *etag;
+    NSString            *server;
+    bool                deleteMarker;
+    NSString            *id2;
+    NSString            *versionId;
+    NSString            *serverSideEncryption;
+
+    NSMutableDictionary *headers;
 }
 
 /** Specfies whether the connection to the server is open or closed. */
@@ -60,12 +71,10 @@
 @property (nonatomic, retain) NSDate *date;
 
 /** Specifies whether the object returned was (<code>true</code>) or was not (<code>false</code>) a Delete Marker. */
-@property (nonatomic, assign) BOOL deleteMarker;
+@property (nonatomic) bool deleteMarker;
 
 /** The length in bytes of the body in the response. */
-@property (nonatomic, assign) int64_t contentLength;
-
-@property (nonatomic, readonly) NSMutableDictionary *headers;
+@property (nonatomic) int64_t contentLength;
 
 /** Sets the value in the response corresponding to the HTTP header */
 -(void)setValue:(id)value forHTTPHeaderField:(NSString *)header;

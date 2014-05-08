@@ -14,9 +14,16 @@
  */
 
 #import "S3UploadPartRequest.h"
-#import "AmazonMD5Util.h"
+
 
 @implementation S3UploadPartRequest
+
+@synthesize contentMD5;
+@synthesize uploadId;
+@synthesize partNumber;
+@synthesize data;
+@synthesize stream;
+
 
 -(id)initWithMultipartUpload:(S3MultipartUpload *)multipartUpload
 {
@@ -25,9 +32,6 @@
         self.bucket   = multipartUpload.bucket;
         self.key      = multipartUpload.key;
         self.uploadId = multipartUpload.uploadId;
-
-        _contentMD5 = nil;
-        _generateMD5 = YES;
     }
 
     return self;
@@ -35,14 +39,10 @@
 
 -(NSMutableURLRequest *)configureURLRequest
 {
-    if (nil == self.contentMD5 && YES == self.generateMD5 && self.data != nil) {
-        self.contentMD5 = [AmazonMD5Util base64md5FromData:self.data];
-    }
-
     self.subResource = [NSString stringWithFormat:@"%@=%d&%@=%@", kS3QueryParamPartNumber, self.partNumber, kS3QueryParamUploadId, self.uploadId];
 
     if (self.contentLength < 1) {
-        self.contentLength = [self.data length];
+        self.contentLength = [data length];
     }
     [super configureURLRequest];
 
@@ -63,10 +63,10 @@
 
 -(void)dealloc
 {
-    [_contentMD5 release];
-    [_uploadId release];
-    [_data release];
-    [_stream release];
+    [contentMD5 release];
+    [uploadId release];
+    [data release];
+    [stream release];
 
     [super dealloc];
 }

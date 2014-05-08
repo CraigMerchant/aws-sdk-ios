@@ -29,8 +29,6 @@
 @interface EC2DescribeAccountAttributesRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSMutableArray *attributeNames;
 }
 
@@ -42,13 +40,6 @@
  * property methods to initialize this object after creating it.
  */
 -(id)init;
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * The value of the AttributeNames property for this object.

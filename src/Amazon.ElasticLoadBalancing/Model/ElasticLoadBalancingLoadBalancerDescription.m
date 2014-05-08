@@ -33,7 +33,6 @@
 @synthesize sourceSecurityGroup;
 @synthesize securityGroups;
 @synthesize createdTime;
-@synthesize scheme;
 
 
 -(id)init
@@ -54,7 +53,6 @@
         sourceSecurityGroup       = nil;
         securityGroups            = [[NSMutableArray alloc] initWithCapacity:1];
         createdTime               = nil;
-        scheme                    = nil;
     }
 
     return self;
@@ -136,7 +134,6 @@
     [buffer appendString:[[[NSString alloc] initWithFormat:@"SourceSecurityGroup: %@,", sourceSecurityGroup] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"SecurityGroups: %@,", securityGroups] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"CreatedTime: %@,", createdTime] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"Scheme: %@,", scheme] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
 
@@ -162,7 +159,6 @@
     [sourceSecurityGroup release];
     [securityGroups release];
     [createdTime release];
-    [scheme release];
 
     [super dealloc];
 }

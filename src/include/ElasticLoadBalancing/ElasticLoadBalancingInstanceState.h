@@ -37,21 +37,19 @@
 @property (nonatomic, retain) NSString *instanceId;
 
 /**
- * Specifies the current state of the instance. <p>Valid value:
- * <code>InService</code>|<code>OutOfService</code>
+ * Specifies the current status of the instance.
  */
 @property (nonatomic, retain) NSString *state;
 
 /**
  * Provides information about the cause of <i>OutOfService</i> instances.
  * Specifically, it indicates whether the cause is Elastic Load Balancing
- * or the instance behind the load balancer. <p>Valid value:
- * <code>ELB</code>|<code>Instance</code>|<code>N/A</code>
+ * or the instance behind the LoadBalancer.
  */
 @property (nonatomic, retain) NSString *reasonCode;
 
 /**
- * Provides a description of the instance state.
+ * Provides a description of the instance.
  */
 @property (nonatomic, retain) NSString *descriptionValue;
 

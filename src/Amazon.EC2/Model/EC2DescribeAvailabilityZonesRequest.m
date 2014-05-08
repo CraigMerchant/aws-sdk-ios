@@ -18,8 +18,6 @@
 
 @implementation EC2DescribeAvailabilityZonesRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize zoneNames;
 @synthesize filters;
 
@@ -27,10 +25,8 @@
 -(id)init
 {
     if (self = [super init]) {
-        dryRun      = NO;
-        dryRunIsSet = NO;
-        zoneNames   = [[NSMutableArray alloc] initWithCapacity:1];
-        filters     = [[NSMutableArray alloc] initWithCapacity:1];
+        zoneNames = [[NSMutableArray alloc] initWithCapacity:1];
+        filters   = [[NSMutableArray alloc] initWithCapacity:1];
     }
 
     return self;
@@ -61,7 +57,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"ZoneNames: %@,", zoneNames] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Filters: %@,", filters] autorelease]];
     [buffer appendString:[super description]];
@@ -70,12 +65,6 @@
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
 
 
 -(void)dealloc

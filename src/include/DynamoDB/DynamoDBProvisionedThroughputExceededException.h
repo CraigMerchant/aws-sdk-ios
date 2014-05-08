@@ -31,8 +31,8 @@
  * queue is too large to finish. Reduce the frequency of requests by
  * using the strategies listed in <a
  * m/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">
- * Error Retries and Exponential Backoff </a> in the Amazon DynamoDB
- * Developer Guide.
+ * Error Retries and Exponential Backoff </a> in the <i>Amazon DynamoDB
+ * Developer Guide</i> .
  * </p>
  */
 @interface DynamoDBProvisionedThroughputExceededException:AmazonServiceException

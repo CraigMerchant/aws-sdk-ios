@@ -23,7 +23,6 @@
 @property (nonatomic, retain) NSString                         *roleArn;
 @property (nonatomic, retain) NSString                         *token;
 @property (nonatomic, retain) NSString                         *providerId;
-@property (nonatomic, retain) NSError                          *error;
 
 @end
 
@@ -38,7 +37,6 @@
 @synthesize token=_token;
 @synthesize providerId=_providerId;
 @synthesize refreshThreshold=_refreshThreshold;
-@synthesize error=_error;
 
 
 -(AmazonCredentials *)credentials
@@ -66,29 +64,17 @@
             
             [request release];
             
-            // request failed
-            if (response.error) {
-                AMZLog(@"Error refreshing credentials: %@", response.error);
-                self.error = response.error;
-            }
-            else {
+            self.stsCredentials = [[[AmazonCredentials alloc] initWithAccessKey:response.credentials.accessKeyId
+                                                            withSecretKey:response.credentials.secretAccessKey
+                                                        withSecurityToken:response.credentials.sessionToken] autorelease];
             
-                self.stsCredentials = [[[AmazonCredentials alloc] initWithAccessKey:response.credentials.accessKeyId
-                                                                      withSecretKey:response.credentials.secretAccessKey
-                                                                  withSecurityToken:response.credentials.sessionToken] autorelease];
-                
-                _subjectFromWIF = response.subjectFromWebIdentityToken;
-                [_subjectFromWIF retain];
-                
-                self.expiration = response.credentials.expiration;
-            }
+            _subjectFromWIF = response.subjectFromWebIdentityToken;
+            [_subjectFromWIF retain];
+            
+            self.expiration = response.credentials.expiration;
         }
-        // If exceptions are enabled, catch it here
         @catch (AmazonServiceException *exception) {
             AMZLog(@"Error refreshing credentials: %@", exception);
-            
-            // store the error for later
-            self.error = [AmazonErrorHandler errorFromException:exception];
         }
     }
 }
@@ -110,8 +96,7 @@
 
 -(id)initWithRole:(NSString *)roleArn andWebIdentityToken:(NSString *)token fromProvider:(NSString *)providerId
 {
-    AmazonSecurityTokenServiceClient *stsClient = [[AmazonSecurityTokenServiceClient new] autorelease];
-    return [self initWithClient:stsClient andRole:roleArn andWebIdentityToken:token fromProvider:providerId];
+    return [self initWithClient:[[AmazonSecurityTokenServiceClient alloc] init] andRole:roleArn andWebIdentityToken:token fromProvider:providerId];
 }
 
 -(id)initWithClient:(AmazonSecurityTokenServiceClient *)theClient andRole:(NSString *)roleArn andWebIdentityToken:(NSString *)token fromProvider:(NSString *)providerId

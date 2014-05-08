@@ -68,9 +68,7 @@
 @property (nonatomic, retain) NSString *availabilityZone;
 
 /**
- * The life cycle state of this instance. for more information, see <a
- * ng/latest/DeveloperGuide/AS_Concepts.html#instance-lifecycle">Instance
- * Lifecycle State</a> in the <i>Auto Scaling Developer Guide</i>.
+ * The life cycle state of this instance.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Length: </b>1 - 32<br/>

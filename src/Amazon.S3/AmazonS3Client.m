@@ -25,7 +25,7 @@
 {
     if ((self = [super init]) != nil) {
         [AmazonS3Client initializeResponseObjects];
-        self.endpoint = AMAZON_S3_US_EAST_1_ENDPOINT_SECURE;
+        self.endpoint = AMAZON_S3_US_WEST_1_ENDPOINT_SECURE;
     }
 
     return self;
@@ -115,8 +115,10 @@
 
 -(NSArray *)listObjectsInBucket:(NSString *)bucketName
 {
-    S3ListObjectsRequest  *req = [[[S3ListObjectsRequest alloc] initWithName:bucketName] autorelease];
+    S3ListObjectsRequest  *req = [[S3ListObjectsRequest alloc] initWithName:bucketName];
     S3ListObjectsResponse *res = [self listObjects:req];
+
+    [req release];
 
     if (res.listObjectsResult != nil && res.listObjectsResult.objectSummaries != nil) {
         return [NSArray arrayWithArray:res.listObjectsResult.objectSummaries];
@@ -441,7 +443,7 @@
     AMZLogDebug(@"Begin Request: %@", NSStringFromClass([request class]));
 
     S3Response *response = nil;
-    int32_t  retries   = 0;
+    NSInteger  retries   = 0;
     while (retries < self.maxRetries) {
         if (retries > 0) {
             request.date = [NSDate date];
@@ -584,75 +586,10 @@
         // Setting this here and not the AmazonServiceRequest because S3 extends that class and sets its own Content-Type Header.
         [urlRequest addValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     }
-
-    NSString *contentMd5  = [urlRequest valueForHTTPHeaderField:@"Content-MD5"];
-    NSString *contentType = [urlRequest valueForHTTPHeaderField:@"Content-Type"];
-    NSString *timestamp   = [urlRequest valueForHTTPHeaderField:@"Date"];
-
-    if (nil == contentMd5) {
-        contentMd5 = @"";
-    }
-    if (nil == contentType) {
-        contentType = @"";
-    }
-
-    NSMutableString *canonicalizedAmzHeaders = [NSMutableString stringWithFormat:@""];
-
-    NSArray         *sortedHeaders = [[[urlRequest allHTTPHeaderFields] allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-    for (id key in sortedHeaders)
-    {
-        NSString *keyName = [(NSString *) key lowercaseString];
-        if ([keyName hasPrefix:@"x-amz-"]) {
-            [canonicalizedAmzHeaders appendFormat:@"%@:%@\n", keyName, [urlRequest valueForHTTPHeaderField:(NSString *)key]];
-        }
-    }
-
-    NSString *canonicalizedResource;
-    if (nil == [request key] || [[request key] length] < 1) {
-        if (nil == [request bucket] || [[request bucket] length] < 1) {
-            canonicalizedResource = @"/";
-        }
-        else {
-            canonicalizedResource = [NSString stringWithFormat:@"/%@/", [request bucket]];
-        }
-    }
-    else {
-        canonicalizedResource = [NSString stringWithFormat:@"/%@/%@", [request bucket], [[request key] stringWithURLEncoding]];
-    }
-
-    NSString *query = urlRequest.URL.query;
-
-    bool     isListObjects          = [request class] == [S3ListObjectsRequest class];
-    bool     isListVersions         = [request class] == [S3ListVersionsRequest class];
-    bool     isListMultipartUploads = [request class] == [S3ListMultipartUploadsRequest class];
-    bool     isListParts            = [request class] == [S3ListPartsRequest class];
-    if (query != nil && [query length] > 0 && !isListObjects && !isListVersions && !isListMultipartUploads && !isListParts) {
-        canonicalizedResource = [canonicalizedResource stringByAppendingFormat:@"?%@", [query stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    }
-    if (isListVersions) {
-        canonicalizedResource = [canonicalizedResource stringByAppendingFormat:@"?%@", kS3SubResourceVersions];
-    }
-    if (isListMultipartUploads) {
-        canonicalizedResource = [canonicalizedResource stringByAppendingFormat:@"?%@", kS3SubResourceUploads];
-    }
-    if (isListParts) {
-        canonicalizedResource = [canonicalizedResource stringByAppendingFormat:@"?%@=%@", kS3QueryParamUploadId, ((S3ListPartsRequest *)request).uploadId];
-    }
-
-    NSString *stringToSign = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", [urlRequest HTTPMethod], contentMd5, contentType, timestamp, canonicalizedAmzHeaders, canonicalizedResource];
-
-    AMZLogDebug(@"In SignURLRequest: String to Sign = [%@]", stringToSign);
-
-    NSString *signature = nil;
-    if (request.credentials != nil) {
-        signature = [AmazonAuthUtils HMACSign:[stringToSign dataUsingEncoding:NSASCIIStringEncoding] withKey:request.credentials.secretKey usingAlgorithm:kCCHmacAlgSHA1];
-        [urlRequest setValue:[NSString stringWithFormat:@"AWS %@:%@", request.credentials.accessKey, signature] forHTTPHeaderField:@"Authorization"];
-    }
-    else {
-        signature = [AmazonAuthUtils HMACSign:[stringToSign dataUsingEncoding:NSASCIIStringEncoding] withKey:[self.provider credentials].secretKey usingAlgorithm:kCCHmacAlgSHA1];
-        [urlRequest setValue:[NSString stringWithFormat:@"AWS %@:%@", [self.provider credentials].accessKey, signature] forHTTPHeaderField:@"Authorization"];
-    }
-
+    
+    [urlRequest setValue:[self.signedJson objectForKey:@"signature"] forHTTPHeaderField:@"Authorization"];
+    [urlRequest setValue:[self.signedJson objectForKey:@"date"] forHTTPHeaderField:@"Date"];
+    
     return urlRequest;
 }
 
@@ -665,6 +602,8 @@
 
 -(void)dealloc
 {
+    self.signedJson=nil;
+    [self.signedJson release];
     [super dealloc];
 }
 
@@ -703,14 +642,6 @@
     [S3GetBucketTaggingResponse class];
     [S3SetBucketTaggingResponse class];
     [S3DeleteBucketTaggingResponse class];
-    [S3DeleteBucketCrossOriginResponse class];
-    [S3DeleteBucketWebsiteConfigurationResponse class];
-    [S3DeleteObjectsResponse class];
-    [S3GetBucketCrossOriginResponse class];
-    [S3GetBucketWebsiteConfigurationResponse class];
-    [S3RestoreObjectResponse class];
-    [S3SetBucketCrossOriginResponse class];
-    [S3SetBucketWebsiteConfigurationResponse class];
 }
 
 

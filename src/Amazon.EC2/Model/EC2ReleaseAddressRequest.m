@@ -18,8 +18,6 @@
 
 @implementation EC2ReleaseAddressRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize publicIp;
 @synthesize allocationId;
 
@@ -27,8 +25,6 @@
 -(id)init
 {
     if (self = [super init]) {
-        dryRun       = NO;
-        dryRunIsSet  = NO;
         publicIp     = nil;
         allocationId = nil;
     }
@@ -52,7 +48,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"PublicIp: %@,", publicIp] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"AllocationId: %@,", allocationId] autorelease]];
     [buffer appendString:[super description]];
@@ -61,12 +56,6 @@
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
 
 
 -(void)dealloc

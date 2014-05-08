@@ -222,12 +222,7 @@
 
 +(NSString *)sesEndpoint:(AmazonRegion)region secure:(bool)useSSL
 {
-    switch (region) {
-        case US_EAST_1: return AMAZON_SES_US_EAST_1_ENDPOINT_SECURE;
-        case US_WEST_2: return AMAZON_SES_US_WEST_2_ENDPOINT_SECURE;
-        case EU_WEST_1: return AMAZON_SES_EU_WEST_1_ENDPOINT_SECURE;
-        default: return AMAZON_SES_US_EAST_1_ENDPOINT_SECURE;
-    };
+    return AMAZON_SES_US_EAST_1_ENDPOINT_SECURE;
 }
 
 +(NSString *)ec2Endpoint:(AmazonRegion)region

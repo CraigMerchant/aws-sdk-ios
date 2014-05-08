@@ -87,10 +87,7 @@
 
 /**
  * The amount of time, in seconds, after a scaling activity completes
- * before any further scaling activities can start. For more information,
- * see <a
- * /AutoScaling/latest/DeveloperGuide/AS_Concepts.html#Cooldown">Cooldown
- * Period</a>.
+ * before any further trigger-related scaling activities can start.
  */
 @property (nonatomic, retain) NSNumber *defaultCooldown;
 
@@ -103,9 +100,8 @@
 @property (nonatomic, retain) NSMutableArray *availabilityZones;
 
 /**
- * The type of health check for the instances in the Auto Scaling group.
- * The health check type can either be <code>EC2</code> for Amazon EC2 or
- * <code>ELB</code> for Elastic Load Balancing.
+ * The service of interest for the health status check, either "EC2" for
+ * Amazon EC2 or "ELB" for Elastic Load Balancing.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Length: </b>1 - 32<br/>
@@ -123,7 +119,7 @@
 /**
  * The name of the cluster placement group, if applicable. For more
  * information, go to <a
- * .aws.amazon.com/AWSEC2/latest/UserGuide/using_cluster_computing.html">
+ * webservices.com/AWSEC2/latest/UserGuide/using_cluster_computing.html">
  * Using Cluster Instances</a> in the Amazon EC2 User Guide.
  * <p>
  * <b>Constraints:</b><br/>
@@ -138,11 +134,6 @@
  * you specify <code>VPCZoneIdentifier</code> with
  * <code>AvailabilityZones</code>, ensure that the subnets' Availability
  * Zones match the values you specify for <code>AvailabilityZones</code>.
- * <p> For more information on creating your Auto Scaling group in Amazon
- * VPC by specifying subnets, see <a
- * .com/AutoScaling/latest/DeveloperGuide/autoscalingsubnets.html">Launch
- * Auto Scaling Instances into Amazon VPC</a> in the the <i>Auto Scaling
- * Developer Guide</i>.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Length: </b>1 - 255<br/>

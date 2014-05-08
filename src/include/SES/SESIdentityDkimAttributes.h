@@ -23,8 +23,8 @@
 @interface SESIdentityDkimAttributes:NSObject
 
 {
-    BOOL           dkimEnabled;
-    BOOL           dkimEnabledIsSet;
+    bool           dkimEnabled;
+    bool           dkimEnabledIsSet;
     NSString       *dkimVerificationStatus;
     NSMutableArray *dkimTokens;
 }
@@ -42,9 +42,9 @@
  * True if DKIM signing is enabled for email sent from the identity;
  * false otherwise.
  */
-@property (nonatomic) BOOL           dkimEnabled;
+@property (nonatomic) bool           dkimEnabled;
 
-@property (nonatomic, readonly) BOOL dkimEnabledIsSet;
+@property (nonatomic, readonly) bool dkimEnabledIsSet;
 
 /**
  * Describes whether Amazon SES has successfully verified the DKIM DNS
@@ -52,22 +52,17 @@
  * applies to domain identities, not email address identities.)
  * <p>
  * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>Pending, Success, Failed, TemporaryFailure, NotStarted
+ * <b>Allowed Values: </b>Pending, Success, Failed, TemporaryFailure
  */
 @property (nonatomic, retain) NSString *dkimVerificationStatus;
 
 /**
- * A set of character strings that represent the domain's identity. Using
- * these tokens, you will need to create DNS CNAME records that point to
- * DKIM public keys hosted by Amazon SES. Amazon Web Services will
- * eventually detect that you have updated your DNS records; this
- * detection process may take up to 72 hours. Upon successful detection,
- * Amazon SES will be able to DKIM-sign email originating from that
- * domain. (This only applies to domain identities, not email address
- * identities.) <p>For more information about creating DNS records using
- * DKIM tokens, go to the <a
- * mazon.com/ses/latest/DeveloperGuide/easy-dkim-dns-records.html">Amazon
- * SES Developer Guide</a>.
+ * A set of DNS records (tokens) that must be published in the domain
+ * name's DNS for DKIM verification to complete, and which must remain
+ * published in order for DKIM signing to succeed. The tokens are
+ * <code>CNAME</code> DNS records that point to DKIM public keys hosted
+ * by Amazon SES. (This only applies to domain entities, not email
+ * address identities.)
  */
 @property (nonatomic, retain) NSMutableArray *dkimTokens;
 

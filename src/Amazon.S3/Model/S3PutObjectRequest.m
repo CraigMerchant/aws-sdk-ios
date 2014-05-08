@@ -18,67 +18,42 @@
 
 @implementation S3PutObjectRequest
 
+@synthesize cacheControl;
+@synthesize contentDisposition;
+@synthesize contentEncoding;
+@synthesize contentMD5;
+@synthesize filename;
+@synthesize data;
+@synthesize stream;
+@synthesize expect;
+@synthesize generateMD5;
+@synthesize expires;
+@synthesize redirectLocation;
+
 -(id)init
 {
     if (self = [super init])
     {
-        _expires = 0;
-        _generateMD5 = YES;
+        cacheControl = nil;
+        contentDisposition = nil;
+        contentEncoding = nil;
+        contentMD5 = nil;
+        expect = nil;
+        data = nil;
+        stream = nil;
+        filename = nil;
+        redirectLocation = nil;
 
+        expires = 0;
         expiresSet  = NO;
+        generateMD5 = NO;
     }
-    
     return self;
 }
 
--(id)initWithKey:(NSString *)aKey inBucket:(NSString *)aBucket
+-(void)setExpires:(NSInteger)exp
 {
-    if(self = [self init])
-    {
-        self.key    = aKey;
-        self.bucket = aBucket;
-    }
-
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)decoder
-{
-    self = [super initWithCoder:decoder];
-    
-    [self setCacheControl:[decoder decodeObjectForKey:@"CacheControl"]];
-    [self setContentDisposition:[decoder decodeObjectForKey:@"ContentDisposition"]];
-    [self setContentEncoding:[decoder decodeObjectForKey:@"ContentEncoding"]];
-    [self setContentMD5:[decoder decodeObjectForKey:@"ContentMD5"]];
-    self.generateMD5 = [decoder decodeBoolForKey:@"GenerateMD5"];
-    [self setExpect:[decoder decodeObjectForKey:@"Expect"]];
-    self.expires = [decoder decodeIntegerForKey:@"Expires"];
-    [self setData:[decoder decodeObjectForKey:@"Data"]];
-    [self setFilename:[decoder decodeObjectForKey:@"Filename"]];
-    [self setRedirectLocation:[decoder decodeObjectForKey:@"RedirectionLocation"]];
-    
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)encoder
-{
-    [super encodeWithCoder:encoder];
-    
-    [encoder encodeObject:self.cacheControl forKey:@"CacheControl"];
-    [encoder encodeObject:self.contentDisposition forKey:@"ContentDisposition"];
-    [encoder encodeObject:self.contentEncoding forKey:@"ContentEncoding"];
-    [encoder encodeObject:self.contentMD5 forKey:@"ContentMD5"];
-    [encoder encodeBool:self.generateMD5 forKey:@"GenerateMD5"];
-    [encoder encodeObject:self.expect forKey:@"Expect"];
-    [encoder encodeInteger:self.expires forKey:@"Expires"];
-    [encoder encodeInteger:self.data forKey:@"Data"];
-    [encoder encodeObject:self.filename forKey:@"Filename"];
-    [encoder encodeObject:self.redirectLocation forKey:@"RedirectionLocation"];
-}
-
--(void)setExpires:(int32_t)exp
-{
-    _expires    = exp;
+    expires    = exp;
     expiresSet = YES;
 }
 
@@ -91,8 +66,8 @@
             self.contentMD5 = [AmazonMD5Util base64md5FromData:self.data];
         }
         else {
-            if (nil != self.filename) {
-                NSInputStream *inputStream = [[NSInputStream alloc] initWithFileAtPath:self.filename];
+            if (self.filename != nil) {
+                NSInputStream *inputStream = [[NSInputStream alloc] initWithFileAtPath:filename];
                 [inputStream open];
 
                 self.contentMD5 = [AmazonMD5Util base64md5FromStream:inputStream];
@@ -102,7 +77,7 @@
             }
         }
     }
-
+    
     [urlRequest setHTTPMethod:kHttpMethodPut];
 
     if (nil != self.expect) {
@@ -139,14 +114,25 @@
         [self.urlRequest setHTTPBodyStream:self.stream];
     }
     else {
-        [self.urlRequest setHTTPBody:self.data];
+        [self.urlRequest setHTTPBody:data];
         if (self.contentLength < 1) {
-            [self.urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[self.data length]]
+            [self.urlRequest setValue:[NSString stringWithFormat:@"%d", [data length]]
                    forHTTPHeaderField:kHttpHdrContentLength];
         }
     }
 
     return urlRequest;
+}
+
+-(id)initWithKey:(NSString *)aKey inBucket:(NSString *)aBucket
+{
+    if(self = [self init])
+    {
+        self.key    = aKey;
+        self.bucket = aBucket;
+    }
+
+    return self;
 }
 
 - (AmazonClientException *)validate
@@ -164,7 +150,7 @@
             else {
                 self.contentLength = [[[[NSFileManager defaultManager] attributesOfItemAtPath:self.filename
                                                                                         error:nil]
-                                       valueForKey:NSFileSize] longLongValue];
+                                       valueForKey:NSFileSize] intValue];
                 self.contentType   = [AmazonSDKUtil MIMETypeForExtension:[self.filename pathExtension]];
 
                 @try {
@@ -193,18 +179,14 @@
 
 -(void)dealloc
 {
-    [_cacheControl release];
-    [_contentDisposition release];
-    [_contentEncoding release];
-    [_contentMD5 release];
-    [_expect release];
-    [_data release];
-    if(_stream.streamStatus == NSStreamStatusOpen){
-        [_stream close];
-    }
-    [_stream release];
-    [_filename release];
-    [_redirectLocation release];
+    [expect release];
+    [contentMD5 release];
+    [cacheControl release];
+    [contentEncoding release];
+    [contentDisposition release];
+    [filename release];
+    [stream release];
+    [data release];
     
     [super dealloc];
 }

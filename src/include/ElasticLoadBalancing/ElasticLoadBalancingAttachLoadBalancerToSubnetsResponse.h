@@ -17,9 +17,9 @@
 #import "ElasticLoadBalancingResponse.h"
 
 #import "ElasticLoadBalancingInvalidSubnetException.h"
-#import "ElasticLoadBalancingInvalidConfigurationRequestException.h"
-#import "ElasticLoadBalancingLoadBalancerNotFoundException.h"
 #import "ElasticLoadBalancingSubnetNotFoundException.h"
+#import "ElasticLoadBalancingLoadBalancerNotFoundException.h"
+#import "ElasticLoadBalancingInvalidConfigurationRequestException.h"
 
 
 /**
@@ -44,7 +44,7 @@
 -(id)init;
 
 /**
- * A list of subnet IDs attached to the load balancer.
+ * A list of subnet IDs added for the LoadBalancer.
  */
 @property (nonatomic, retain) NSMutableArray *subnets;
 

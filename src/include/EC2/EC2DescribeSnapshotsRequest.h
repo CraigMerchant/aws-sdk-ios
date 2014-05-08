@@ -30,8 +30,6 @@
 @interface EC2DescribeSnapshotsRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSMutableArray *snapshotIds;
     NSMutableArray *ownerIds;
     NSMutableArray *restorableByUserIds;
@@ -48,30 +46,18 @@
 -(id)init;
 
 /**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
-
-/**
  * The optional list of EBS snapshot IDs to describe.
  */
 @property (nonatomic, retain) NSMutableArray *snapshotIds;
 
 /**
- * An optional list of owners by which to scope the described EBS
- * snapshots. Valid values are: <ul> <li> <code>self</code> : Snapshots
- * owned by you </li> <li> <i>AWS account ID</i> : Snapshots owned by
- * this account ID </li> <li> <code>amazon</code> : Snapshots owned by
- * Amazon </li> </ul> <p> The values <code>self</code> and
- * <code>amazon</code> are literals.
+ * The optional list of EBS snapshot owners.
  */
 @property (nonatomic, retain) NSMutableArray *ownerIds;
 
 /**
- * An optional list of users. The described snapshots are scoped to only
- * those snapshots from which these users can create volumes.
+ * The optional list of users who have permission to create volumes from
+ * the described EBS snapshots.
  */
 @property (nonatomic, retain) NSMutableArray *restorableByUserIds;
 

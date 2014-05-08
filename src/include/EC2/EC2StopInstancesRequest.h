@@ -29,21 +29,12 @@
 @interface EC2StopInstancesRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSMutableArray *instanceIds;
-    BOOL           force;
-    BOOL           forceIsSet;
+    bool           force;
+    bool           forceIsSet;
 }
 
 
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * The list of Amazon EC2 instances to stop.
@@ -56,9 +47,9 @@
  * option, you must perform file system check and repair procedures. This
  * option is not recommended for Windows instances.
  */
-@property (nonatomic) BOOL           force;
+@property (nonatomic) bool           force;
 
-@property (nonatomic, readonly) BOOL forceIsSet;
+@property (nonatomic, readonly) bool forceIsSet;
 
 
 /**

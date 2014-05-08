@@ -36,7 +36,8 @@
 
 
 /**
- * The mnemonic name associated with the load balancer.
+ * The mnemonic name associated with the LoadBalancer. The name must be
+ * unique within your AWS account.
  */
 @property (nonatomic, retain) NSString *loadBalancerName;
 
@@ -56,8 +57,8 @@
  * Constructs a new DeleteLoadBalancerPolicyRequest object.
  * Callers should use properties to initialize any additional object members.
  *
- * @param theLoadBalancerName The mnemonic name associated with the load
- * balancer.
+ * @param theLoadBalancerName The mnemonic name associated with the
+ * LoadBalancer. The name must be unique within your AWS account.
  * @param thePolicyName The mnemonic name for the policy being deleted.
  */
 -(id)initWithLoadBalancerName:(NSString *)theLoadBalancerName andPolicyName:(NSString *)thePolicyName;

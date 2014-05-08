@@ -84,11 +84,6 @@
         return;
     }
 
-    if ([elementName isEqualToString:@"end"]) {
-        self.response.end = [AmazonSDKUtil convertStringToDate:self.currentText];
-        return;
-    }
-
     if ([elementName isEqualToString:@"duration"]) {
         self.response.duration = [AmazonSDKUtil convertStringToNumber:self.currentText];
         return;

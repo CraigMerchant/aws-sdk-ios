@@ -59,7 +59,7 @@
 }
 
 
--(void)setPropagateAtLaunch:(BOOL)theValue
+-(void)setPropagateAtLaunch:(bool)theValue
 {
     propagateAtLaunch      = theValue;
     propagateAtLaunchIsSet = YES;

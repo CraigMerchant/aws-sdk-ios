@@ -74,7 +74,7 @@
 }
 
 
--(void)setIsDefault:(BOOL)theValue
+-(void)setIsDefault:(bool)theValue
 {
     isDefault      = theValue;
     isDefaultIsSet = YES;

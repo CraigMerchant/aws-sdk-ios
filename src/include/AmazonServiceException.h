@@ -19,6 +19,11 @@
 
 /** Represents an AWS Service Exception. */
 @interface AmazonServiceException:AmazonClientException {
+    NSString            *requestId;
+    NSString            *errorCode;
+    NSString            *serviceName;
+    NSInteger           statusCode;
+    NSMutableDictionary *additionalFields;
 }
 
 #pragma mark Properties
@@ -33,7 +38,7 @@
 @property (nonatomic, retain) NSString *serviceName;
 
 /** The HTTP status code returned by the service */
-@property (nonatomic, assign) int32_t statusCode;
+@property (nonatomic) NSInteger statusCode;
 
 /** Other fields in the error response from the service */
 @property (nonatomic, readonly) NSMutableDictionary *additionalFields;
@@ -48,7 +53,7 @@
  *
  * @param theStatusCode The HTTP status code.
  */
-+(id)exceptionWithStatusCode:(int32_t)theStatusCode;
++(id)exceptionWithStatusCode:(int)theStatusCode;
 
 /** Return an exception with the given message, error code, status, and request ID.
  *
@@ -58,7 +63,7 @@
  * @param theRequestId The request ID assigned by the service.
  * @return The exception.
  */
-+(id)exceptionWithMessage:(NSString *)theMessage withErrorCode:(NSString *)theErrorCode withStatusCode:(int32_t)theStatusCode withRequestId:(NSString *)theRequestId;
++(id)exceptionWithMessage:(NSString *)theMessage withErrorCode:(NSString *)theErrorCode withStatusCode:(NSInteger)theStatusCode withRequestId:(NSString *)theRequestId;
 
 /** Initialize the exception with a name, reason and userInfo.
  *
@@ -72,4 +77,7 @@
 
 -(NSString *)description;
 
+
+
 @end
+

@@ -18,6 +18,9 @@
 
 @implementation S3SetBucketVersioningConfigurationRequest
 
+@synthesize versioningConfiguration;
+@synthesize mfa;
+
 -(NSURLRequest *)configureURLRequest
 {
     // This needs to be done before the superclass's implementation so that
@@ -38,7 +41,7 @@
     NSData *data = [[[self versioningConfiguration] toXml] dataUsingEncoding:NSUTF8StringEncoding];
     [[self urlRequest] setHTTPBody:data];
     if (self.contentLength < 1) {
-        [self.urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[data length]] forHTTPHeaderField:kHttpHdrContentLength];
+        [self.urlRequest setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:kHttpHdrContentLength];
     }
 
     return self.urlRequest;
@@ -46,9 +49,8 @@
 
 -(void)dealloc
 {
-    [_versioningConfiguration release];
-    [_mfa release];
-
+    [mfa release];
+    [versioningConfiguration release];
     [super dealloc];
 }
 

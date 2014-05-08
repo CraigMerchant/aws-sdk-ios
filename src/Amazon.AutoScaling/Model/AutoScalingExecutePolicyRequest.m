@@ -53,7 +53,7 @@
 }
 
 
--(void)setHonorCooldown:(BOOL)theValue
+-(void)setHonorCooldown:(bool)theValue
 {
     honorCooldown      = theValue;
     honorCooldownIsSet = YES;

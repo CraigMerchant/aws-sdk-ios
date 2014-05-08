@@ -16,9 +16,9 @@
 
 #import "ElasticLoadBalancingResponse.h"
 
+#import "ElasticLoadBalancingLoadBalancerNotFoundException.h"
 #import "ElasticLoadBalancingInvalidConfigurationRequestException.h"
 #import "ElasticLoadBalancingInvalidSecurityGroupException.h"
-#import "ElasticLoadBalancingLoadBalancerNotFoundException.h"
 
 
 /**
@@ -43,7 +43,7 @@
 -(id)init;
 
 /**
- * A list of security group IDs associated with your load balancer.
+ * A list of security group IDs associated with your LoadBalancer.
  */
 @property (nonatomic, retain) NSMutableArray *securityGroups;
 

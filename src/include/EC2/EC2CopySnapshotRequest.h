@@ -29,8 +29,6 @@
 @interface EC2CopySnapshotRequest:AmazonServiceRequestConfig
 
 {
-    BOOL     dryRun;
-    BOOL     dryRunIsSet;
     NSString *sourceRegion;
     NSString *sourceSnapshotId;
     NSString *descriptionValue;
@@ -44,13 +42,6 @@
  * property methods to initialize this object after creating it.
  */
 -(id)init;
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * The value of the SourceRegion property for this object.

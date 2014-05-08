@@ -23,6 +23,13 @@
  *
  */
 @interface S3GetPreSignedURLRequest:S3Request {
+    NSDate                    *expires;
+    NSString                  *protocol;
+    NSString                  *httpVerb;
+    NSString                  *accessKey;
+    NSString                  *versionId;
+
+    S3ResponseHeaderOverrides *responseHeaderOverrides;
 }
 
 /** Gets and sets the expires property for this request.
@@ -57,6 +64,6 @@
 /** Specify one or more overrides to headers in the response to this request */
 @property (nonatomic, retain) S3ResponseHeaderOverrides *responseHeaderOverrides;
 
-@property (nonatomic, readonly) NSString *queryString;
+@property (nonatomic, readonly) NSString                *queryString;
 
 @end

@@ -22,18 +22,13 @@
     AmazonServiceRequest *request = [[EC2Request alloc] init];
 
     [request setParameterValue:@"RegisterImage"           forKey:@"Action"];
-    [request setParameterValue:@"2013-10-15"   forKey:@"Version"];
+    [request setParameterValue:@"2013-02-01"   forKey:@"Version"];
 
     [request setDelegate:[registerImageRequest delegate]];
     [request setCredentials:[registerImageRequest credentials]];
     [request setEndpoint:[registerImageRequest requestEndpoint]];
     [request setRequestTag:[registerImageRequest requestTag]];
 
-    if (registerImageRequest != nil) {
-        if (registerImageRequest.dryRunIsSet) {
-            [request setParameterValue:(registerImageRequest.dryRun ? @"true":@"false") forKey:[NSString stringWithFormat:@"%@", @"DryRun"]];
-        }
-    }
     if (registerImageRequest != nil) {
         if (registerImageRequest.imageLocation != nil) {
             [request setParameterValue:[NSString stringWithFormat:@"%@", registerImageRequest.imageLocation] forKey:[NSString stringWithFormat:@"%@", @"ImageLocation"]];
@@ -118,16 +113,6 @@
             }
 
             blockDeviceMappingsListIndex++;
-        }
-    }
-    if (registerImageRequest != nil) {
-        if (registerImageRequest.virtualizationType != nil) {
-            [request setParameterValue:[NSString stringWithFormat:@"%@", registerImageRequest.virtualizationType] forKey:[NSString stringWithFormat:@"%@", @"VirtualizationType"]];
-        }
-    }
-    if (registerImageRequest != nil) {
-        if (registerImageRequest.sriovNetSupport != nil) {
-            [request setParameterValue:[NSString stringWithFormat:@"%@", registerImageRequest.sriovNetSupport] forKey:[NSString stringWithFormat:@"%@", @"SriovNetSupport"]];
         }
     }
 

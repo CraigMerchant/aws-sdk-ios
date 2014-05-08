@@ -145,6 +145,8 @@
  */
 @interface AmazonS3Client:AmazonWebServiceClient {}
 
+@property (nonatomic, retain)NSDictionary* signedJson;
+
 /** Returns a list of all Amazon S3 buckets that the authenticated sender of the request owns.
  *
  * @return An NSArray of S3Bucket objects.

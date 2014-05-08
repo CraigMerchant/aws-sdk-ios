@@ -21,6 +21,13 @@
  *
  */
 @interface S3ListMultipartUploadsRequest:S3Request {
+    NSString  *delimiter;
+    NSString  *keyMarker;
+    NSString  *prefix;
+    NSString  *uploadIdMarker;
+
+    NSInteger maxUploads;
+    bool      maxUploadsIsSet;
 }
 
 
@@ -64,6 +71,6 @@
 @property (nonatomic, retain) NSString *uploadIdMarker;
 
 /** Gets and sets the maximum number of multipart uploads to return in the response. */
-@property (nonatomic, assign) int32_t maxUploads;
+@property (nonatomic) NSInteger maxUploads;
 
 @end

@@ -17,6 +17,9 @@
 
 @implementation AmazonClientException
 
+@synthesize message;
+@synthesize error;
+
 +(id)exceptionWithMessage:(NSString *)theMessage
 {
     AmazonClientException *e = [[[self class] alloc] initWithName:@"AmazonClientException" 
@@ -39,11 +42,24 @@
     return [e autorelease];
 }
 
+- (id)initWithName:(NSString *)name reason:(NSString *)reason userInfo:(NSDictionary *)userInfo
+{
+    self = [super initWithName:name reason:reason userInfo:userInfo];
+    if(self)
+    {
+        message = nil;
+        error = nil;
+    }
+    
+    return self;
+}
+
 -(id)initWithMessage:(NSString *)theMessage
 {
     self = [super initWithName:@"AmazonClientException" reason:theMessage userInfo:nil];
     if (self != nil) {
         self.message = theMessage;
+        error = nil;
     }
 
     return self;
@@ -51,8 +67,8 @@
 
 -(void)dealloc
 {
-    [_message release];
-    [_error release];
+    [message release];
+    [error release];
 
     [super dealloc];
 }

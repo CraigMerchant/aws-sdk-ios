@@ -56,7 +56,7 @@
 }
 
 
--(void)setActive:(BOOL)theValue
+-(void)setActive:(bool)theValue
 {
     active      = theValue;
     activeIsSet = YES;

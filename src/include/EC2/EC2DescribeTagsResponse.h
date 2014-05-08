@@ -27,7 +27,6 @@
 
 {
     NSMutableArray *tags;
-    NSString       *nextToken;
 }
 
 
@@ -45,11 +44,6 @@
  * A list of the tags for the specified resources.
  */
 @property (nonatomic, retain) NSMutableArray *tags;
-
-/**
- * The value of the NextToken property for this object.
- */
-@property (nonatomic, retain) NSString *nextToken;
 
 
 

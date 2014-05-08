@@ -18,6 +18,14 @@
 
 @implementation S3ObjectSummary
 
+@synthesize key;
+@synthesize etag;
+@synthesize size;
+@synthesize lastModified;
+@synthesize storageClass;
+@synthesize owner;
+
+
 -(NSString *)description
 {
     return self.key;
@@ -25,11 +33,11 @@
 
 -(void)dealloc
 {
-    [_key release];
-    [_etag release];
-    [_lastModified release];
-    [_storageClass release];
-    [_owner release];
+    [key release];
+    [etag release];
+    [lastModified release];
+    [storageClass release];
+    [owner release];
 
     [super dealloc];
 }

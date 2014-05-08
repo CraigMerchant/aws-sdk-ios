@@ -18,8 +18,6 @@
 
 @implementation EC2RegisterImageRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize imageLocation;
 @synthesize name;
 @synthesize descriptionValue;
@@ -28,15 +26,11 @@
 @synthesize ramdiskId;
 @synthesize rootDeviceName;
 @synthesize blockDeviceMappings;
-@synthesize virtualizationType;
-@synthesize sriovNetSupport;
 
 
 -(id)init
 {
     if (self = [super init]) {
-        dryRun              = NO;
-        dryRunIsSet         = NO;
         imageLocation       = nil;
         name                = nil;
         descriptionValue    = nil;
@@ -45,8 +39,6 @@
         ramdiskId           = nil;
         rootDeviceName      = nil;
         blockDeviceMappings = [[NSMutableArray alloc] initWithCapacity:1];
-        virtualizationType  = nil;
-        sriovNetSupport     = nil;
     }
 
     return self;
@@ -77,7 +69,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"ImageLocation: %@,", imageLocation] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Name: %@,", name] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Description: %@,", descriptionValue] autorelease]];
@@ -86,20 +77,12 @@
     [buffer appendString:[[[NSString alloc] initWithFormat:@"RamdiskId: %@,", ramdiskId] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"RootDeviceName: %@,", rootDeviceName] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"BlockDeviceMappings: %@,", blockDeviceMappings] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"VirtualizationType: %@,", virtualizationType] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"SriovNetSupport: %@,", sriovNetSupport] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
 
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
 
 
 -(void)dealloc
@@ -112,8 +95,6 @@
     [ramdiskId release];
     [rootDeviceName release];
     [blockDeviceMappings release];
-    [virtualizationType release];
-    [sriovNetSupport release];
 
     [super dealloc];
 }

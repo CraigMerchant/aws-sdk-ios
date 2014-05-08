@@ -18,8 +18,6 @@
 
 @implementation EC2DescribeConversionTasksRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize filters;
 @synthesize conversionTaskIds;
 
@@ -27,8 +25,6 @@
 -(id)init
 {
     if (self = [super init]) {
-        dryRun            = NO;
-        dryRunIsSet       = NO;
         filters           = [[NSMutableArray alloc] initWithCapacity:1];
         conversionTaskIds = [[NSMutableArray alloc] initWithCapacity:1];
     }
@@ -61,7 +57,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Filters: %@,", filters] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"ConversionTaskIds: %@,", conversionTaskIds] autorelease]];
     [buffer appendString:[super description]];
@@ -70,12 +65,6 @@
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
 
 
 -(void)dealloc

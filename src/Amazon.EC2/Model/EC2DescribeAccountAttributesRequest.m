@@ -18,16 +18,12 @@
 
 @implementation EC2DescribeAccountAttributesRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize attributeNames;
 
 
 -(id)init
 {
     if (self = [super init]) {
-        dryRun         = NO;
-        dryRunIsSet    = NO;
         attributeNames = [[NSMutableArray alloc] initWithCapacity:1];
     }
 
@@ -50,7 +46,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"AttributeNames: %@,", attributeNames] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
@@ -58,12 +53,6 @@
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
 
 
 -(void)dealloc

@@ -25,8 +25,8 @@
 {
     NSString *name;
     NSString *value;
-    BOOL     replace;
-    BOOL     replaceIsSet;
+    bool     replace;
+    bool     replaceIsSet;
 }
 
 
@@ -46,9 +46,9 @@
  * or to add a new attribute/value pair. The default setting is
  * <code>false</code>.
  */
-@property (nonatomic) BOOL           replace;
+@property (nonatomic) bool           replace;
 
-@property (nonatomic, readonly) BOOL replaceIsSet;
+@property (nonatomic, readonly) bool replaceIsSet;
 
 
 /**
@@ -67,7 +67,7 @@
  * attribute/value pair or to add a new attribute/value pair. The default
  * setting is <code>false</code>.
  */
--(id)initWithName:(NSString *)theName andValue:(NSString *)theValue andReplace:(BOOL)theReplace;
+-(id)initWithName:(NSString *)theName andValue:(NSString *)theValue andReplace:(bool)theReplace;
 
 /**
  * Returns a string representation of this object; useful for testing and

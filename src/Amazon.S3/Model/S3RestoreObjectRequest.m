@@ -17,7 +17,9 @@
 
 @implementation S3RestoreObjectRequest
 
--(id)initWithKey:(NSString *)aKey withBucket:(NSString *)aBucket withDays:(int32_t)theDays
+@synthesize days=_days;
+
+-(id)initWithKey:(NSString *)aKey withBucket:(NSString *)aBucket withDays:(NSInteger)theDays
 {
     if (self = [self init]) {
         self.bucket    = aBucket;
@@ -50,10 +52,10 @@
 
     [urlRequest setHTTPMethod:kHttpMethodPost];
     [self.urlRequest setHTTPBody:nil];
-
+    
     NSData *data = [[self toXml] dataUsingEncoding:NSUTF8StringEncoding];
     
-    [self.urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[data length]] forHTTPHeaderField:kHttpHdrContentLength];
+    [self.urlRequest setValue:[NSString stringWithFormat:@"%d", [data length]] forHTTPHeaderField:kHttpHdrContentLength];
     [self.urlRequest setValue:@"text/xml" forHTTPHeaderField:kHttpHdrContentType];
     [self.urlRequest setHTTPBody:data];
     

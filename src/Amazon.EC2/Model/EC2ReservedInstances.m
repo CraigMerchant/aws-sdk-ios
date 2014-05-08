@@ -22,7 +22,6 @@
 @synthesize instanceType;
 @synthesize availabilityZone;
 @synthesize start;
-@synthesize end;
 @synthesize duration;
 @synthesize usagePrice;
 @synthesize fixedPrice;
@@ -43,7 +42,6 @@
         instanceType        = nil;
         availabilityZone    = nil;
         start               = nil;
-        end                 = nil;
         duration            = nil;
         usagePrice          = nil;
         fixedPrice          = nil;
@@ -89,7 +87,6 @@
     [buffer appendString:[[[NSString alloc] initWithFormat:@"InstanceType: %@,", instanceType] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"AvailabilityZone: %@,", availabilityZone] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Start: %@,", start] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"End: %@,", end] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Duration: %@,", duration] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"UsagePrice: %@,", usagePrice] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"FixedPrice: %@,", fixedPrice] autorelease]];
@@ -115,7 +112,6 @@
     [instanceType release];
     [availabilityZone release];
     [start release];
-    [end release];
     [duration release];
     [usagePrice release];
     [fixedPrice release];

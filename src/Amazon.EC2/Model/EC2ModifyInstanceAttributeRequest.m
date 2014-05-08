@@ -18,8 +18,6 @@
 
 @implementation EC2ModifyInstanceAttributeRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize instanceId;
 @synthesize attribute;
 @synthesize value;
@@ -36,14 +34,11 @@
 @synthesize groups;
 @synthesize ebsOptimized;
 @synthesize ebsOptimizedIsSet;
-@synthesize sriovNetSupport;
 
 
 -(id)init
 {
     if (self = [super init]) {
-        dryRun                            = NO;
-        dryRunIsSet                       = NO;
         instanceId                        = nil;
         attribute                         = nil;
         value                             = nil;
@@ -60,7 +55,6 @@
         groups                            = [[NSMutableArray alloc] initWithCapacity:1];
         ebsOptimized                      = NO;
         ebsOptimizedIsSet                 = NO;
-        sriovNetSupport                   = nil;
     }
 
     return self;
@@ -101,7 +95,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"InstanceId: %@,", instanceId] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Attribute: %@,", attribute] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Value: %@,", value] autorelease]];
@@ -115,7 +108,6 @@
     [buffer appendString:[[[NSString alloc] initWithFormat:@"InstanceInitiatedShutdownBehavior: %@,", instanceInitiatedShutdownBehavior] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Groups: %@,", groups] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"EbsOptimized: %d,", ebsOptimized] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"SriovNetSupport: %@,", sriovNetSupport] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
 
@@ -123,25 +115,19 @@
 }
 
 
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
-
--(void)setSourceDestCheck:(BOOL)theValue
+-(void)setSourceDestCheck:(bool)theValue
 {
     sourceDestCheck      = theValue;
     sourceDestCheckIsSet = YES;
 }
 
--(void)setDisableApiTermination:(BOOL)theValue
+-(void)setDisableApiTermination:(bool)theValue
 {
     disableApiTermination      = theValue;
     disableApiTerminationIsSet = YES;
 }
 
--(void)setEbsOptimized:(BOOL)theValue
+-(void)setEbsOptimized:(bool)theValue
 {
     ebsOptimized      = theValue;
     ebsOptimizedIsSet = YES;
@@ -160,7 +146,6 @@
     [userData release];
     [instanceInitiatedShutdownBehavior release];
     [groups release];
-    [sriovNetSupport release];
 
     [super dealloc];
 }

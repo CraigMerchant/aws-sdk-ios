@@ -22,9 +22,6 @@
 #import "DynamoDBRequest.h"
 #import "DynamoDBUpdateTableRequest.h"
 #import "DynamoDBProvisionedThroughput.h"
-#import "DynamoDBGlobalSecondaryIndexUpdate.h"
-#import "DynamoDBUpdateGlobalSecondaryIndexAction.h"
-#import "DynamoDBProvisionedThroughput.h"
 
 
 /**

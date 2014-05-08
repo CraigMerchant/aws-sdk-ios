@@ -43,10 +43,8 @@
     AutoScalingInstanceMonitoring *instanceMonitoring;
     NSString                      *spotPrice;
     NSString                      *iamInstanceProfile;
-    BOOL                          ebsOptimized;
-    BOOL                          ebsOptimizedIsSet;
-    BOOL                          associatePublicIpAddress;
-    BOOL                          associatePublicIpAddressIsSet;
+    bool                          ebsOptimized;
+    bool                          ebsOptimizedIsSet;
 }
 
 
@@ -68,12 +66,10 @@
 @property (nonatomic, retain) NSString *launchConfigurationName;
 
 /**
- * Unique ID of the <i>Amazon Machine Image</i> (AMI) you want to use to
- * launch your EC2 instances. For information about finding Amazon EC2
- * AMIs, see <a
- * cs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html">Finding
- * a Suitable AMI</a> in the <i>Amazon Elastic Compute Cloud User
- * Guide</i>.
+ * Unique ID of the <i>Amazon Machine Image</i> (AMI) which was assigned
+ * during registration. For more information about Amazon EC2 images,
+ * please see <a href="http://aws.amazon.com/ec2/"> Amazon EC2 product
+ * documentation</a>.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Length: </b>1 - 255<br/>
@@ -82,9 +78,7 @@
 @property (nonatomic, retain) NSString *imageId;
 
 /**
- * The name of the Amazon EC2 key pair. For more information, see <a
- * .amazon.com/AWSEC2/latest/UserGuide/generating-a-keypair.html">Getting
- * a Key Pair</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+ * The name of the Amazon EC2 key pair.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Length: </b>1 - 255<br/>
@@ -93,26 +87,25 @@
 @property (nonatomic, retain) NSString *keyName;
 
 /**
- * The security groups with which to associate Amazon EC2 or Amazon VPC
- * instances. <p>If your instances are launched in EC2, you can either
- * specify Amazon EC2 security group names or the security group IDs. For
- * more information about Amazon EC2 security groups, see <a
- * n.com/AWSEC2/latest/UserGuide/index.html?using-network-security.html">
- * Using Security Groups</a> in the <i>Amazon Elastic Compute Cloud User
- * Guide</i>. If your instances are launched within VPC, specify Amazon
- * VPC security group IDs. For more information about Amazon VPC security
- * groups, see <a
- * mazonVPC/latest/UserGuide/index.html?VPC_SecurityGroups.html">Security
- * Groups</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
+ * The names of the security groups with which to associate Amazon EC2 or
+ * Amazon VPC instances. Specify Amazon EC2 security groups using
+ * security group names, such as <code>websrv</code>. Specify Amazon VPC
+ * security groups using security group IDs, such as
+ * <code>sg-12345678</code>. For more information about Amazon EC2
+ * security groups, go to <a
+ * s.com/AWSEC2/latest/UserGuide/index.html?using-network-security.html">
+ * Using Security Groups</a> in the Amazon EC2 product documentation. For
+ * more information about Amazon VPC security groups, go to <a
+ * es.com/AmazonVPC/latest/UserGuide/index.html?VPC_SecurityGroups.html">
+ * Security Groups</a> in the Amazon VPC product documentation.
  */
 @property (nonatomic, retain) NSMutableArray *securityGroups;
 
 /**
- * The user data to make available to the launched Amazon EC2 instances.
- * For more information about Amazon EC2 user data, see <a
- * AESDG-chapter-instancedata.html#instancedata-user-data-retrieval">User
- * Data Retrieval</a> in the <i>Amazon Elastic Compute Cloud User
- * Guide</i>.
+ * The user data available to the launched Amazon EC2 instances. For more
+ * information about Amazon EC2 user data, please see <a
+ * href="http://aws.amazon.com/ec2/"> Amazon EC2 product
+ * documentation</a>.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Length: </b>0 - 21847<br/>
@@ -121,11 +114,10 @@
 @property (nonatomic, retain) NSString *userData;
 
 /**
- * The instance type of the Amazon EC2 instance. For information about
- * available Amazon EC2 instance types, see <a
- * m/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes">
- * Available Instance Types</a> in the <i>Amazon Elastic Cloud Compute
- * User Guide.</i>
+ * The instance type of the Amazon EC2 instance. For more information
+ * about Amazon EC2 instance types, please see <a
+ * href="http://aws.amazon.com/ec2/"> Amazon EC2 product
+ * documentation</a>
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Length: </b>1 - 255<br/>
@@ -163,17 +155,13 @@
 @property (nonatomic, retain) NSMutableArray *blockDeviceMappings;
 
 /**
- * Enables detailed monitoring if it is disabled. Detailed monitoring is
- * enabled by default. <p> When detailed monitoring is enabled, Amazon
- * Cloudwatch will generate metrics every minute and your account will be
- * charged a fee. When you disable detailed monitoring, by specifying
- * <code>False</code>, Cloudwatch will generate metrics every 5 minutes.
- * For more information, see <a
- * AutoScaling/latest/DeveloperGuide/as-instance-monitoring.html">Monitor
- * Your Auto Scaling Instances</a>. For information about Amazon
- * CloudWatch, see the <a
- * amazon.com/AmazonCloudWatch/latest/DeveloperGuide/Welcome.html">Amazon
- * CloudWatch Developer Guide</a>.
+ * Enables detailed monitoring, which is enabled by default. <p> When
+ * detailed monitoring is enabled, CloudWatch will generate metrics every
+ * minute and your account will be charged a fee. When you disable
+ * detailed monitoring, by specifying <code>False</code>, Cloudwatch will
+ * generate metrics every 5 minutes. For information about monitoring,
+ * see the <a href="http://aws.amazon.com/cloudwatch/">Amazon
+ * CloudWatch</a> product page.
  */
 @property (nonatomic, retain) AutoScalingInstanceMonitoring *instanceMonitoring;
 
@@ -181,8 +169,8 @@
  * The maximum hourly price to be paid for any Spot Instance launched to
  * fulfill the request. Spot Instances are launched when the price you
  * specify exceeds the current Spot market price. For more information on
- * launching Spot Instances, see <a
- * s.amazon.com/AutoScaling/latest/DeveloperGuide/US-SpotInstances.html">
+ * launching Spot Instances, go to <a
+ * services.com/AutoScaling/latest/DeveloperGuide/US-SpotInstances.html">
  * Using Auto Scaling to Launch Spot Instances</a> in the <i>Auto Scaling
  * Developer Guide</i>.
  * <p>
@@ -193,13 +181,9 @@
 
 /**
  * The name or the Amazon Resource Name (ARN) of the instance profile
- * associated with the IAM role for the instance. <p>Amazon EC2 instances
- * launched with an IAM role will automatically have AWS security
- * credentials available. You can use IAM roles with Auto Scaling to
- * automatically enable applications running on your Amazon EC2 instances
- * to securely access other AWS resources. For information on launching
- * EC2 instances with an IAM role, go to <a
- * azon.com/AutoScaling/latest/DeveloperGuide/us-iam-role.html">Launching
+ * associated with the IAM role for the instance. For information on
+ * launching EC2 instances with an IAM role, go to <a
+ * ices.com/AutoScaling/latest/DeveloperGuide/us-iam-role.html">Launching
  * Auto Scaling Instances With an IAM Role</a> in the <i>Auto Scaling
  * Developer Guide</i>.
  * <p>
@@ -210,37 +194,11 @@
 @property (nonatomic, retain) NSString *iamInstanceProfile;
 
 /**
- * Whether the instance is optimized for EBS I/O. The optimization
- * provides dedicated throughput to Amazon EBS and an optimized
- * configuration stack to provide optimal EBS I/O performance. This
- * optimization is not available with all instance types. Additional
- * usage charges apply when using an EBS Optimized instance. By default
- * the instance is not optimized for EBS I/O. For information about
- * EBS-optimized instances, go to <a
- * WSEC2/latest/UserGuide/instance-types.html#EBSOptimized">EBS-Optimized
- * Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+ * The value of the EbsOptimized property for this object.
  */
-@property (nonatomic) BOOL           ebsOptimized;
+@property (nonatomic) bool           ebsOptimized;
 
-@property (nonatomic, readonly) BOOL ebsOptimizedIsSet;
-
-/**
- * Used for Auto Scaling groups that launch instances into an Amazon
- * Virtual Private Cloud (Amazon VPC). Specifies whether to assign a
- * public IP address to each instance launched in a Amazon VPC. <note>
- * <p>If you specify a value for this parameter, be sure to specify at
- * least one VPC subnet using the <i>VPCZoneIdentifier</i> parameter when
- * you create your Auto Scaling group. </note> <p>Default: If the
- * instance is launched in default VPC, the default is <code>true</code>.
- * If the instance is launched in a nondefault VPC (EC2-VPC), the default
- * is <code>false</code>. For more information about the platforms
- * supported by Auto Scaling, see <a
- * amazon.com/AutoScaling/latest/DeveloperGuide/US_BasicSetup.html">Basic
- * Auto Scaling Configuration</a>.
- */
-@property (nonatomic) BOOL           associatePublicIpAddress;
-
-@property (nonatomic, readonly) BOOL associatePublicIpAddressIsSet;
+@property (nonatomic, readonly) bool ebsOptimizedIsSet;
 
 /**
  * Adds a single object to securityGroups.

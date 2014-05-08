@@ -37,13 +37,14 @@
 
 
 /**
- * The name of the load balancer.
+ * The name associated with the LoadBalancer. The name must be unique
+ * within the client AWS account.
  */
 @property (nonatomic, retain) NSString *loadBalancerName;
 
 /**
  * The name of the policy being created. The name must be unique within
- * the set of policies for this load balancer.
+ * the set of policies for this LoadBalancer.
  */
 @property (nonatomic, retain) NSString *policyName;
 
@@ -63,9 +64,10 @@
  * Constructs a new CreateAppCookieStickinessPolicyRequest object.
  * Callers should use properties to initialize any additional object members.
  *
- * @param theLoadBalancerName The name of the load balancer.
+ * @param theLoadBalancerName The name associated with the LoadBalancer.
+ * The name must be unique within the client AWS account.
  * @param thePolicyName The name of the policy being created. The name
- * must be unique within the set of policies for this load balancer.
+ * must be unique within the set of policies for this LoadBalancer.
  * @param theCookieName Name of the application cookie used for
  * stickiness.
  */

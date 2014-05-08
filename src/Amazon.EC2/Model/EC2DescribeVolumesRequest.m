@@ -18,8 +18,6 @@
 
 @implementation EC2DescribeVolumesRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize volumeIds;
 @synthesize filters;
 
@@ -27,10 +25,8 @@
 -(id)init
 {
     if (self = [super init]) {
-        dryRun      = NO;
-        dryRunIsSet = NO;
-        volumeIds   = [[NSMutableArray alloc] initWithCapacity:1];
-        filters     = [[NSMutableArray alloc] initWithCapacity:1];
+        volumeIds = [[NSMutableArray alloc] initWithCapacity:1];
+        filters   = [[NSMutableArray alloc] initWithCapacity:1];
     }
 
     return self;
@@ -70,7 +66,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"VolumeIds: %@,", volumeIds] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Filters: %@,", filters] autorelease]];
     [buffer appendString:[super description]];
@@ -79,12 +74,6 @@
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
 
 
 -(void)dealloc

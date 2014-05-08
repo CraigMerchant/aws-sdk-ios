@@ -30,8 +30,6 @@
 @interface EC2RegisterImageRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSString       *imageLocation;
     NSString       *name;
     NSString       *descriptionValue;
@@ -40,18 +38,9 @@
     NSString       *ramdiskId;
     NSString       *rootDeviceName;
     NSMutableArray *blockDeviceMappings;
-    NSString       *virtualizationType;
-    NSString       *sriovNetSupport;
 }
 
 
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * The full path to your AMI manifest in Amazon S3 storage.
@@ -74,9 +63,6 @@
 /**
  * The architecture of the image. <p> Valid Values: <code>i386</code>,
  * <code>x86_64</code>
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>i386, x86_64
  */
 @property (nonatomic, retain) NSString *architecture;
 
@@ -104,16 +90,6 @@
  * on instances launched from the new image.
  */
 @property (nonatomic, retain) NSMutableArray *blockDeviceMappings;
-
-/**
- * The value of the VirtualizationType property for this object.
- */
-@property (nonatomic, retain) NSString *virtualizationType;
-
-/**
- * The value of the SriovNetSupport property for this object.
- */
-@property (nonatomic, retain) NSString *sriovNetSupport;
 
 
 /**

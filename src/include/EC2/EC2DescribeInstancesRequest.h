@@ -30,12 +30,8 @@
 @interface EC2DescribeInstancesRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSMutableArray *instanceIds;
     NSMutableArray *filters;
-    NSString       *nextToken;
-    NSNumber       *maxResults;
 }
 
 
@@ -46,13 +42,6 @@
  * property methods to initialize this object after creating it.
  */
 -(id)init;
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * An optional list of the instances to describe.
@@ -67,16 +56,6 @@
  * EC2 API reference</a>.
  */
 @property (nonatomic, retain) NSMutableArray *filters;
-
-/**
- * The value of the NextToken property for this object.
- */
-@property (nonatomic, retain) NSString *nextToken;
-
-/**
- * The value of the MaxResults property for this object.
- */
-@property (nonatomic, retain) NSNumber *maxResults;
 
 /**
  * Adds a single object to instanceIds.

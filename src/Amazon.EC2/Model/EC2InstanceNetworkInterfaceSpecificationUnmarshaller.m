@@ -99,11 +99,6 @@
         return;
     }
 
-    if ([elementName isEqualToString:@"associatePublicIpAddress"]) {
-        self.response.associatePublicIpAddress = [self.currentText boolValue];
-        return;
-    }
-
     if ([elementName isEqualToString:@"instanceNetworkInterfaceSpecification"]) {
         if (caller != nil) {
             [parser setDelegate:caller];

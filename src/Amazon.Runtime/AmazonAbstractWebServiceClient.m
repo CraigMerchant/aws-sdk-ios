@@ -17,10 +17,15 @@
 #import "AmazonStaticCredentialsProvider.h"
 #import "AmazonEndpoints.h"
 
-
 @implementation AmazonAbstractWebServiceClient
 
+@synthesize endpoint = _endpoint;
+@synthesize maxRetries = _maxRetries;
+@synthesize timeout = _timeout;
+@synthesize connectionTimeout = _connectionTimeout;
+@synthesize delay = _delay;
 @synthesize userAgent = _userAgent;
+@synthesize provider = _provider;
 
 - (id)init
 {
@@ -37,12 +42,12 @@
 
 -(id)initWithCredentials:(AmazonCredentials *)credentials
 {
-    AmazonStaticCredentialsProvider *provider = [[AmazonStaticCredentialsProvider alloc] initWithCredentials:credentials];
-    if (self = [self initWithCredentialsProvider:provider]) {
+    if (self = [self init]) {
+        AmazonStaticCredentialsProvider *provider = [[AmazonStaticCredentialsProvider alloc] initWithCredentials:credentials];
+        [self initWithCredentialsProvider:provider];
+        [provider release];
     }
-
-    [provider release];
-
+    
     return self;
 }
 
@@ -51,7 +56,7 @@
     if (self = [self init]) {
         _provider = [provider retain];
     }
-
+    
     return self;
 }
 
@@ -94,6 +99,7 @@
         [generatedRequest sign];
     }
     [urlRequest setHTTPBody:[[generatedRequest queryString] dataUsingEncoding:NSUTF8StringEncoding]];
+
     [self logTheRequest:urlRequest];
 
     AmazonServiceResponse *response = nil;
@@ -108,30 +114,18 @@
         [urlRequest addValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
 
         if ([generatedRequest delegate] != nil) {
-            response.isAsyncCall = YES;
             [self startAsyncRequest:urlRequest response:response originalRequest:originalRequest];
             return nil;
         }
-
-        response.isAsyncCall = NO;
+        
         [self startSyncRequest:generatedRequest forRequest:urlRequest response:response originalRequest:originalRequest];
         AMZLogDebug(@"Response Status Code : %d", response.httpStatusCode);
-
-        if ( [self shouldRetry:response exception:((AmazonRequestDelegate *)generatedRequest.delegate).exception] ) {
+        if ( [self shouldRetry:response] ) {
             AMZLog(@"Retring Request: %d", retries);
-
-            // Only Clock Skew exception needs to resign
-            if(response.hasClockSkewError) {
-                urlRequest = [generatedRequest configureURLRequest];
-                [[generatedRequest parameters] removeObjectForKey:@"Signature"];
-                [generatedRequest sign];
-                [urlRequest setHTTPBody:[[generatedRequest queryString] dataUsingEncoding:NSUTF8StringEncoding]];
-                [self logTheRequest:urlRequest];
-            }
-
+            
             [self pauseExponentially:retries];
             retries++;
-
+            
             if (retries < self.maxRetries)
             {
                 generatedRequest.delegate = nil;
@@ -152,99 +146,76 @@
 
 - (BOOL)shouldRetry:(AmazonServiceResponse *)response exception:(NSException *)exception
 {
-    // Handling request timeout and HTTP errors.
     if (response.didTimeout || response.httpStatusCode == 500 || response.httpStatusCode == 503) {
 
         return YES;
     }
-
-    NSException *exceptionHolder = response.exception;
-    if(exceptionHolder == nil)
+    else if([exception isKindOfClass:[AmazonServiceException class]])
     {
-        exceptionHolder = exception;
-    }
+        AmazonServiceException *serviceException = (AmazonServiceException *)exception;
 
-    if([exceptionHolder isKindOfClass:[AmazonClientException class]])
-    {
-        AmazonClientException *clientException = (AmazonClientException *)exceptionHolder;
-
-        // Handling NSURL errors.
-        if(clientException.error != nil)
-        {
-            if([clientException.error.domain isEqualToString:NSURLErrorDomain]
-               && clientException.error.code == NSURLErrorNetworkConnectionLost)
-            {
-                // The network connection was lost.
-                return YES;
-            }
-
-            if([clientException.error.domain isEqualToString:NSURLErrorDomain]
-               && clientException.error.code == NSURLErrorTimedOut)
-            {
-                // The request timed out.
-                return YES;
-            }
-
-            if([clientException.error.domain isEqualToString:NSURLErrorDomain]
-               && clientException.error.code == NSURLErrorCannotFindHost)
-            {
-                // S3 sometimes returns this error even when the bucket exists.
-                return YES;
-            }
+        if (exception == nil) {
+            return NO;
         }
-        // Handling AWS client exceptions.
-        else
+        else if([serviceException.error.domain isEqualToString:NSURLErrorDomain]
+                && serviceException.error.code == kCFURLErrorNetworkConnectionLost)
         {
-            if ([clientException.message isEqualToString:@"CRC32 doesn't match."]) {
-                return YES;
-            }
-        }
-    }
-
-    // Handling AWS service exceptions.
-    if([exceptionHolder isKindOfClass:[AmazonServiceException class]])
-    {
-        AmazonServiceException *serviceException = (AmazonServiceException *)exceptionHolder;
-
-        if ( [serviceException.errorCode isEqualToString:@"BadDigest"]) {
-            // The Content-MD5 you specified did not match what S3 received.
+            // The network connection was lost.
             return YES;
         }
-
-        if ( [serviceException.errorCode isEqualToString:@"NoSuchUpload"]) {
+        else if([serviceException.error.domain isEqualToString:NSURLErrorDomain]
+                && serviceException.error.code == kCFURLErrorTimedOut)
+        {
+            // The request timed out.
+            return YES;
+        }
+        else if([serviceException.error.domain isEqualToString:NSURLErrorDomain]
+                && serviceException.error.code == NSURLErrorCannotFindHost)
+        {
+            // S3 sometimes returns this error even when the bucket exists.
+            return YES;
+        }
+        else if ( [serviceException.errorCode isEqualToString:@"NoSuchUpload"])
+        {
             // S3 Multipart Upload Complete request sometimes fails.
             return YES;
         }
-
-        if( [serviceException.errorCode isEqualToString:@"ExpiredToken"]
-           || [serviceException.errorCode isEqualToString:@"InvalidToken"]
-           || [serviceException.errorCode isEqualToString:@"TokenRefreshRequired"] ) {
-
+        else if( [serviceException.errorCode isEqualToString:@"ExpiredToken"]
+                || [serviceException.errorCode isEqualToString:@"InvalidToken"]
+                || [serviceException.errorCode isEqualToString:@"TokenRefreshRequired"] ) {
+            
             // If the service returned error indicating session expired,
             // force refresh on provider and retry
             [_provider refresh];
             return YES;
         }
-
-        if ( [serviceException.errorCode isEqualToString:@"ProvisionedThroughputExceededException"]) {
+        else if ( [serviceException.errorCode isEqualToString:@"ProvisionedThroughputExceededException"]) {
             return YES;
         }
-
-        if (serviceException.reason != nil && [serviceException.reason rangeOfString:@"Throttling"].location != NSNotFound) {
-            return YES;
-        }
-
-        if ( [response isClockSkewError:serviceException] ) {
-            response.hasClockSkewError = YES;
-            [AmazonSDKUtil setRuntimeClockSkew:[response getSkewTimeUsingResponse]];
+        else if (serviceException.reason != nil && [serviceException.reason rangeOfString:@"Throttling"].location != NSNotFound) {
             return YES;
         }
     }
+    else if([exception isKindOfClass:[AmazonClientException class]])
+    {
+        AmazonClientException *clientException = (AmazonClientException *)exception;
 
+        if ([clientException.message isEqualToString:@"CRC32 doesn't match."]) {
+            return YES;
+        }
+        else if([clientException.error.domain isEqualToString:NSURLErrorDomain]
+                && clientException.error.code == kCFURLErrorNetworkConnectionLost)
+        {
+            // The network connection was lost.
+            // * Note: AmazonClientException shouldn't involve any networking.
+            return YES;
+        }
+    }
+    
     return NO;
 }
 
--(void)pauseExponentially:(int32_t)tryCount
+-(void)pauseExponentially:(NSInteger)tryCount
 {
     NSTimeInterval pause = self.delay * (pow(2, tryCount));
 
@@ -288,8 +259,8 @@
 {
     AmazonServiceResponse *response = [[[AmazonServiceResponse alloc] init] autorelease];
     response.error = [AmazonErrorHandler errorFromExceptionWithThrowsExceptionOption:[AmazonClientException
-                                                                                      exceptionWithMessage:@"Request cannot be nil."]];
-
+                                                                                    exceptionWithMessage:@"Request cannot be nil."]];
+    
     return response;
 }
 
@@ -301,7 +272,7 @@
         NSString *rBody = [[NSString alloc] initWithData:[urlRequest HTTPBody] encoding:NSUTF8StringEncoding];
         AMZLogDebug(@"%@", rBody);
         [rBody release];
-    }
+    }    
 }
 
 -(void)logTheRequestHeaders:(NSMutableURLRequest *)urlRequest
@@ -352,7 +323,7 @@
                               [AmazonClientException exceptionWithMessage:@"Unknown error occurred."]];
         }
     }
-
+    
     return response;
 }
 
@@ -362,7 +333,7 @@
                                                                       delegate:response
                                                               startImmediately:NO] autorelease];
     originalRequest.urlConnection = urlConnection;
-
+    
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:self.timeout
                                                       target:response
                                                     selector:@selector(timeout)
@@ -375,25 +346,25 @@
 -(void)startSyncRequest:(AmazonServiceRequest *)generatedRequest forRequest:(NSMutableURLRequest *)urlRequest response:(AmazonServiceResponse *)response originalRequest:(AmazonServiceRequestConfig *)originalRequest
 {
     generatedRequest.delegate = [[[AmazonRequestDelegate alloc] init] autorelease];
-
+    
     NSURLConnection *urlConnection = [[[NSURLConnection alloc] initWithRequest:urlRequest
                                                                       delegate:response
                                                               startImmediately:NO] autorelease];
     [urlConnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:AWSDefaultRunLoopMode];
     originalRequest.urlConnection = urlConnection;
     [urlConnection start];
-
+    
     NSTimer *timeoutTimer = [NSTimer timerWithTimeInterval:self.timeout
                                                     target:response
                                                   selector:@selector(timeout)
                                                   userInfo:nil
                                                    repeats:NO];
     [[NSRunLoop currentRunLoop] addTimer:timeoutTimer forMode:AWSDefaultRunLoopMode];
-
+    
     while (![(AmazonRequestDelegate *)(generatedRequest.delegate)isFinishedOrFailed]) {
         [[NSRunLoop currentRunLoop] runMode:AWSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
-
+    
     if (response.didTimeout) {
         [urlConnection cancel];
     }
@@ -407,7 +378,7 @@
     AmazonServiceResponse *response = [AmazonAbstractWebServiceClient constructResponseFromRequest:generatedRequest];
     [response setRequest:generatedRequest];
     response.unmarshallerDelegate = unmarshallerDelegate;
-
+    
     return response;
 }
 
@@ -419,7 +390,7 @@
     else {
         [urlRequest setTimeoutInterval:self.timeout];
     }
-    
+
 }
 
 -(void)dealloc
@@ -427,7 +398,7 @@
     [_provider release];
     [_endpoint release];
     [_userAgent release];
-    
+
     [super dealloc];
 }
 

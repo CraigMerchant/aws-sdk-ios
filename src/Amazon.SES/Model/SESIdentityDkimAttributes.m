@@ -62,7 +62,7 @@
 }
 
 
--(void)setDkimEnabled:(BOOL)theValue
+-(void)setDkimEnabled:(bool)theValue
 {
     dkimEnabled      = theValue;
     dkimEnabledIsSet = YES;

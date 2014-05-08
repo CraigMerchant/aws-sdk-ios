@@ -18,21 +18,13 @@
 
 @implementation EC2DescribeTagsRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize filters;
-@synthesize maxResults;
-@synthesize nextToken;
 
 
 -(id)init
 {
     if (self = [super init]) {
-        dryRun      = NO;
-        dryRunIsSet = NO;
-        filters     = [[NSMutableArray alloc] initWithCapacity:1];
-        maxResults  = nil;
-        nextToken   = nil;
+        filters = [[NSMutableArray alloc] initWithCapacity:1];
     }
 
     return self;
@@ -63,10 +55,7 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Filters: %@,", filters] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"MaxResults: %@,", maxResults] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"NextToken: %@,", nextToken] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
 
@@ -74,18 +63,10 @@
 }
 
 
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
-
 
 -(void)dealloc
 {
     [filters release];
-    [maxResults release];
-    [nextToken release];
 
     [super dealloc];
 }

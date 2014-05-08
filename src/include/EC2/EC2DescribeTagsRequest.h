@@ -30,36 +30,15 @@
 @interface EC2DescribeTagsRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSMutableArray *filters;
-    NSNumber       *maxResults;
-    NSString       *nextToken;
 }
 
 
 
 /**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
-
-/**
  * A list of filters used to match properties for tags.
  */
 @property (nonatomic, retain) NSMutableArray *filters;
-
-/**
- * The value of the MaxResults property for this object.
- */
-@property (nonatomic, retain) NSNumber *maxResults;
-
-/**
- * The value of the NextToken property for this object.
- */
-@property (nonatomic, retain) NSString *nextToken;
 
 
 /**

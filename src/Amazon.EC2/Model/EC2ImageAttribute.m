@@ -24,7 +24,6 @@
 @synthesize kernelId;
 @synthesize ramdiskId;
 @synthesize descriptionValue;
-@synthesize sriovNetSupport;
 @synthesize blockDeviceMappings;
 
 
@@ -37,7 +36,6 @@
         kernelId            = nil;
         ramdiskId           = nil;
         descriptionValue    = nil;
-        sriovNetSupport     = nil;
         blockDeviceMappings = [[NSMutableArray alloc] initWithCapacity:1];
     }
 
@@ -84,7 +82,6 @@
     [buffer appendString:[[[NSString alloc] initWithFormat:@"KernelId: %@,", kernelId] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"RamdiskId: %@,", ramdiskId] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Description: %@,", descriptionValue] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"SriovNetSupport: %@,", sriovNetSupport] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"BlockDeviceMappings: %@,", blockDeviceMappings] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
@@ -102,7 +99,6 @@
     [kernelId release];
     [ramdiskId release];
     [descriptionValue release];
-    [sriovNetSupport release];
     [blockDeviceMappings release];
 
     [super dealloc];

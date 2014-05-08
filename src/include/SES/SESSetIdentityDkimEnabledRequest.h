@@ -30,8 +30,8 @@
 
 {
     NSString *identity;
-    BOOL     dkimEnabled;
-    BOOL     dkimEnabledIsSet;
+    bool     dkimEnabled;
+    bool     dkimEnabledIsSet;
 }
 
 
@@ -53,9 +53,9 @@
  * <code>true</code> to enable DKIM signing for this identity;
  * <code>false</code> to disable it.
  */
-@property (nonatomic) BOOL           dkimEnabled;
+@property (nonatomic) bool           dkimEnabled;
 
-@property (nonatomic, readonly) BOOL dkimEnabledIsSet;
+@property (nonatomic, readonly) bool dkimEnabledIsSet;
 
 /**
  * Returns a string representation of this object; useful for testing and

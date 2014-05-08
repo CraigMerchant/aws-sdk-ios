@@ -30,7 +30,6 @@
 @synthesize kernelId;
 @synthesize ramdiskId;
 @synthesize platform;
-@synthesize sriovNetSupport;
 @synthesize stateReason;
 @synthesize imageOwnerAlias;
 @synthesize name;
@@ -58,7 +57,6 @@
         kernelId            = nil;
         ramdiskId           = nil;
         platform            = nil;
-        sriovNetSupport     = nil;
         stateReason         = nil;
         imageOwnerAlias     = nil;
         name                = nil;
@@ -119,7 +117,6 @@
     [buffer appendString:[[[NSString alloc] initWithFormat:@"KernelId: %@,", kernelId] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"RamdiskId: %@,", ramdiskId] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Platform: %@,", platform] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"SriovNetSupport: %@,", sriovNetSupport] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"StateReason: %@,", stateReason] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"ImageOwnerAlias: %@,", imageOwnerAlias] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Name: %@,", name] autorelease]];
@@ -137,7 +134,7 @@
 }
 
 
--(void)setPublicValue:(BOOL)theValue
+-(void)setPublicValue:(bool)theValue
 {
     publicValue      = theValue;
     publicValueIsSet = YES;
@@ -156,7 +153,6 @@
     [kernelId release];
     [ramdiskId release];
     [platform release];
-    [sriovNetSupport release];
     [stateReason release];
     [imageOwnerAlias release];
     [name release];

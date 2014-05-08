@@ -18,11 +18,6 @@
 #import "AmazonServiceResponseUnmarshaller.h"
 #import "AmazonLogger.h"
 
-NSString *const AWSClockSkewError = @"AWSClockSkewError";
-
-@interface AmazonServiceResponse ()
-@property (nonatomic, readwrite, retain) NSDictionary *responseHeader;
-@end
 
 @implementation AmazonServiceResponse
 
@@ -35,9 +30,6 @@ NSString *const AWSClockSkewError = @"AWSClockSkewError";
 @synthesize processingTime;
 @synthesize error;
 @synthesize exception;
-@synthesize responseHeader;
-@synthesize isAsyncCall;
-@synthesize hasClockSkewError;
 
 -(id)init
 {
@@ -71,25 +63,25 @@ NSString *const AWSClockSkewError = @"AWSClockSkewError";
 -(void)timeout
 {
     if (!isFinishedLoading && !exception) {
-
+        
         didTimeout = YES;
         [self.request.urlConnection cancel];
         self.request.responseTimer = nil;
 
         exception  = [[AmazonClientException exceptionWithMessage:@"Request timed out."] retain];
-
+        
         BOOL throwsExceptions = [AmazonErrorHandler throwsExceptions];
-
+        
         if (throwsExceptions == YES
-            && [request.delegate respondsToSelector:@selector(request:didFailWithServiceException:)]) {
+            && [(NSObject *)request.delegate respondsToSelector:@selector(request:didFailWithServiceException:)]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [request.delegate request:request didFailWithServiceException:exception];
 #pragma clang diagnostic pop
         }
         else if (throwsExceptions == NO
-                 && [request.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
-
+                 && [(NSObject *)request.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
+            
             self.error = [AmazonErrorHandler errorFromException:exception];
             [request.delegate request:request didFailWithError:self.error];
         }
@@ -102,9 +94,6 @@ NSString *const AWSClockSkewError = @"AWSClockSkewError";
 {
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
 
-    // setting response header to use it in shouldRetry method of AmazonAbstractWebServiceClient
-    self.responseHeader = [httpResponse allHeaderFields];
-
     AMZLogDebug(@"Response Headers:");
     for (NSString *header in [[httpResponse allHeaderFields] allKeys]) {
         AMZLogDebug(@"%@ = [%@]", header, [[httpResponse allHeaderFields] valueForKey:header]);
@@ -114,7 +103,7 @@ NSString *const AWSClockSkewError = @"AWSClockSkewError";
 
     [body setLength:0];
 
-    if ([self.request.delegate respondsToSelector:@selector(request:didReceiveResponse:)]) {
+    if ([(NSObject *)self.request.delegate respondsToSelector:@selector(request:didReceiveResponse:)]) {
         [self.request.delegate request:self.request didReceiveResponse:response];
     }
 }
@@ -127,7 +116,7 @@ NSString *const AWSClockSkewError = @"AWSClockSkewError";
 
     [body appendData:data];
 
-    if ([self.request.delegate respondsToSelector:@selector(request:didReceiveData:)]) {
+    if ([(NSObject *)self.request.delegate respondsToSelector:@selector(request:didReceiveData:)]) {
         [self.request.delegate request:self.request didReceiveData:data];
     }
 }
@@ -135,7 +124,7 @@ NSString *const AWSClockSkewError = @"AWSClockSkewError";
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     [self.request.responseTimer invalidate];
-
+    
     NSDate *startDate = [NSDate date];
 
     isFinishedLoading = YES;
@@ -158,36 +147,27 @@ NSString *const AWSClockSkewError = @"AWSClockSkewError";
     {
         NSError *errorFound = [[response.error copy] autorelease];
         [response release];
-
-        if ([request.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
+        
+        if ([(NSObject *)request.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
             [request.delegate request:request didFailWithError:errorFound];
         }
     }
     else if (response.exception) {
         NSException *exceptionFound = [[response.exception copy] autorelease];
-        BOOL throwsExceptions = [AmazonErrorHandler throwsExceptions];
-        
-        // we just want to set the clock skew for async calls, client should handle the "resigning the request" part
-        if ( self.isAsyncCall && [self isClockSkewError:(AmazonServiceException *)exceptionFound]) {
-            [AmazonSDKUtil setRuntimeClockSkew:[self getSkewTimeUsingResponse]];
-            NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:self.exception.userInfo];
-            [dict setObject:[NSNumber numberWithBool:YES] forKey:AWSClockSkewError];
-            exceptionFound = [[[AmazonServiceException alloc] initWithName:@"AmazonServiceException"
-                                                                   reason:nil
-                                                                 userInfo:[NSDictionary dictionaryWithDictionary:dict]] autorelease];
-        }
         [response release];
         
+        BOOL throwsExceptions = [AmazonErrorHandler throwsExceptions];
+        
         if(throwsExceptions == YES
-           && [request.delegate respondsToSelector:@selector(request:didFailWithServiceException:)]) {
+           && [(NSObject *)request.delegate respondsToSelector:@selector(request:didFailWithServiceException:)]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [request.delegate request:request didFailWithServiceException:(AmazonServiceException *)exceptionFound];
 #pragma clang diagnostic pop
         }
         else if(throwsExceptions == NO
-                && [request.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
-            [request.delegate request:request
+                && [(NSObject *)request.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
+            [request.delegate request:request 
                      didFailWithError:[AmazonErrorHandler errorFromException:exceptionFound]];
         }
     }
@@ -195,13 +175,13 @@ NSString *const AWSClockSkewError = @"AWSClockSkewError";
         [response postProcess];
         processingTime          = fabs([startDate timeIntervalSinceNow]);
         response.processingTime = processingTime;
+        
 
-
-
-        if ([request.delegate respondsToSelector:@selector(request:didCompleteWithResponse:)]) {
+        
+        if ([(NSObject *)request.delegate respondsToSelector:@selector(request:didCompleteWithResponse:)]) {
             [request.delegate request:request didCompleteWithResponse:response];
         }
-
+        
         [response release];
     }
 }
@@ -217,19 +197,19 @@ NSString *const AWSClockSkewError = @"AWSClockSkewError";
     }
     exception = [[AmazonServiceException exceptionWithMessage:[theError description] andError:theError] retain];
     AMZLogDebug(@"An error occured in the request: %@", [theError description]);
-
-    if ([self.request.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
+    
+    if ([(NSObject *)self.request.delegate respondsToSelector:@selector(request:didFailWithError:)]) {
         [self.request.delegate request:self.request didFailWithError:theError];
     }
 }
 
 -(void)connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
-    if ([self.request.delegate respondsToSelector:@selector(request:didSendData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
+    if ([(NSObject *)self.request.delegate respondsToSelector:@selector(request:didSendData:totalBytesWritten:totalBytesExpectedToWrite:)]) {
         [self.request.delegate request:self.request
-                           didSendData:(long long)bytesWritten
-                     totalBytesWritten:(long long)totalBytesWritten
-             totalBytesExpectedToWrite:(long long)totalBytesExpectedToWrite];
+         didSendData:bytesWritten
+         totalBytesWritten:totalBytesWritten
+         totalBytesExpectedToWrite:totalBytesExpectedToWrite];
     }
 }
 
@@ -253,46 +233,9 @@ NSString *const AWSClockSkewError = @"AWSClockSkewError";
 
 //- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
 //    [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
-//
+//    
 //    [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
 //}
-
-#pragma mark Utility methods
-
--(BOOL)isClockSkewError:(AmazonServiceException*)serviceException
-{
-    // if clock skew is within the limits (15 mins) then it is not clock skew error
-    // and clock skew has not been set before.
-    NSTimeInterval skewTime = [self getSkewTimeUsingResponse];
-
-    if (isnan(skewTime)) {
-        return NO;
-    }
-
-    if ( [serviceException.errorCode isEqualToString:@"RequestTimeTooSkewed"]
-        || [serviceException.errorCode isEqualToString:@"InvalidSignatureException"]
-        || [serviceException.errorCode isEqualToString:@"SignatureDoesNotMatch"]
-        || [serviceException.errorCode isEqualToString:@"RequestExpired"]) {
-        return YES;
-    }
-    return NO;
-}
-
--(NSTimeInterval)getSkewTimeUsingResponse
-{
-    NSDate *requestTime = [NSDate date];
-    NSDate *serverTime = [self getDateFromResponse];
-    return [requestTime timeIntervalSinceDate:serverTime];
-}
-
--(NSDate *)getDateFromResponse
-{
-    if ( [[self responseHeader] objectForKey:@"Date"] ) {
-        NSString *date = [[self responseHeader] valueForKey:@"Date"];
-        return [AmazonSDKUtil convertStringToDate:date usingFormat:kRFC822DateFormat];
-    }
-    return nil;
-}
 
 #pragma mark memory management
 
@@ -303,7 +246,6 @@ NSString *const AWSClockSkewError = @"AWSClockSkewError";
     [exception release];
     [request release];
     [error release];
-    [responseHeader release];
 
     [super dealloc];
 }
@@ -320,6 +262,8 @@ NSString *const AWSClockSkewError = @"AWSClockSkewError";
 }
 
 @end
+
+
 
 
 

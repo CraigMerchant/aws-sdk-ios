@@ -69,9 +69,6 @@
 
 /**
  * The value of the Status property for this object.
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>active, pending, cancelled, closed
  */
 @property (nonatomic, retain) NSString *status;
 

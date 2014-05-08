@@ -38,9 +38,6 @@
 /**
  * The state of monitoring on an Amazon EC2 instance (ex: enabled,
  * disabled).
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>disabled, enabled, pending
  */
 @property (nonatomic, retain) NSString *state;
 

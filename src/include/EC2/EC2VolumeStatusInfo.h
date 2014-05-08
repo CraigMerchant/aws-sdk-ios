@@ -39,9 +39,6 @@
 
 /**
  * The value of the Status property for this object.
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>ok, impaired, insufficient-data
  */
 @property (nonatomic, retain) NSString *status;
 

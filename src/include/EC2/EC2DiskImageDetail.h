@@ -39,9 +39,6 @@
 
 /**
  * The value of the Format property for this object.
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>VMDK, RAW, VHD
  */
 @property (nonatomic, retain) NSString *format;
 

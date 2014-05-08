@@ -22,19 +22,17 @@
 @synthesize tableName;
 @synthesize keySchema;
 @synthesize localSecondaryIndexes;
-@synthesize globalSecondaryIndexes;
 @synthesize provisionedThroughput;
 
 
 -(id)init
 {
     if (self = [super init]) {
-        attributeDefinitions   = [[NSMutableArray alloc] initWithCapacity:1];
-        tableName              = nil;
-        keySchema              = [[NSMutableArray alloc] initWithCapacity:1];
-        localSecondaryIndexes  = [[NSMutableArray alloc] initWithCapacity:1];
-        globalSecondaryIndexes = [[NSMutableArray alloc] initWithCapacity:1];
-        provisionedThroughput  = nil;
+        attributeDefinitions  = [[NSMutableArray alloc] initWithCapacity:1];
+        tableName             = nil;
+        keySchema             = [[NSMutableArray alloc] initWithCapacity:1];
+        localSecondaryIndexes = [[NSMutableArray alloc] initWithCapacity:1];
+        provisionedThroughput = nil;
     }
 
     return self;
@@ -89,15 +87,6 @@
     [localSecondaryIndexes addObject:localSecondaryIndexeObject];
 }
 
--(void)addGlobalSecondaryIndexe:(DynamoDBGlobalSecondaryIndex *)globalSecondaryIndexeObject
-{
-    if (globalSecondaryIndexes == nil) {
-        globalSecondaryIndexes = [[NSMutableArray alloc] initWithCapacity:1];
-    }
-
-    [globalSecondaryIndexes addObject:globalSecondaryIndexeObject];
-}
-
 
 -(NSString *)description
 {
@@ -108,7 +97,6 @@
     [buffer appendString:[[[NSString alloc] initWithFormat:@"TableName: %@,", tableName] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"KeySchema: %@,", keySchema] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"LocalSecondaryIndexes: %@,", localSecondaryIndexes] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"GlobalSecondaryIndexes: %@,", globalSecondaryIndexes] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"ProvisionedThroughput: %@,", provisionedThroughput] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
@@ -124,7 +112,6 @@
     [tableName release];
     [keySchema release];
     [localSecondaryIndexes release];
-    [globalSecondaryIndexes release];
     [provisionedThroughput release];
 
     [super dealloc];

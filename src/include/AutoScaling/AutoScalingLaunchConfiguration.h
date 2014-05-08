@@ -39,10 +39,8 @@
     NSString                      *spotPrice;
     NSString                      *iamInstanceProfile;
     NSDate                        *createdTime;
-    BOOL                          ebsOptimized;
-    BOOL                          ebsOptimizedIsSet;
-    BOOL                          associatePublicIpAddress;
-    BOOL                          associatePublicIpAddressIsSet;
+    bool                          ebsOptimized;
+    bool                          ebsOptimizedIsSet;
 }
 
 
@@ -170,20 +168,11 @@
 @property (nonatomic, retain) NSDate *createdTime;
 
 /**
- * Specifies whether the instance is optimized for EBS I/O (<i>true</i>)
- * or not (<i>false</i>).
+ * The value of the EbsOptimized property for this object.
  */
-@property (nonatomic) BOOL           ebsOptimized;
+@property (nonatomic) bool           ebsOptimized;
 
-@property (nonatomic, readonly) BOOL ebsOptimizedIsSet;
-
-/**
- * Specifies whether the instance is associated with a public IP address
- * (<code>true</code>) or not (<code>false</code>).
- */
-@property (nonatomic) BOOL           associatePublicIpAddress;
-
-@property (nonatomic, readonly) BOOL associatePublicIpAddressIsSet;
+@property (nonatomic, readonly) bool ebsOptimizedIsSet;
 
 /**
  * Adds a single object to securityGroups.

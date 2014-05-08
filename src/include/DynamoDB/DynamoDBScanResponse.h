@@ -66,31 +66,29 @@
  * <i>Count</i> results indicates an inefficient <i>Scan</i> operation.
  * For more information, see <a
  * om/amazondynamodb/latest/developerguide/QueryAndScan.html#Count">Count
- * and ScannedCount</a> in the Amazon DynamoDB Developer Guide.
+ * and ScannedCount</a> in the <i>Amazon DynamoDB Developer Guide</i>.
  */
 @property (nonatomic, retain) NSNumber *scannedCount;
 
 /**
  * The primary key of the item where the operation stopped, inclusive of
  * the previous result set. Use this value to start a new operation,
- * excluding this value in the new request. <p>If <i>LastEvaluatedKey</i>
- * is null, then the "last page" of results has been processed and there
- * is no more data to be retrieved. <p>If <i>LastEvaluatedKey</i> is
- * anything other than null, this does not necessarily mean that there is
- * more data in the result set. The only way to know when you have
- * reached the end of the result set is when <i>LastEvaluatedKey</i> is
- * null.
+ * excluding this value in the new request. <p><i>LastEvaluatedKey</i> is
+ * null when the entire result set is complete (in other words, when the
+ * operation processed the "last page" of results). <p>If you are
+ * performing a parallel scan, <i>LastEvaluatedKey</i> is null if the
+ * requested <i>Segment</i> has been completely scanned. It does not
+ * indicate that any other segments have been scanned.
  */
 @property (nonatomic, retain) NSMutableDictionary *lastEvaluatedKey;
 
 /**
- * Represents the capacity units consumed by an operation. The data
- * returned includes the total provisioned throughput consumed, along
- * with statistics for the table and any indexes involved in the
- * operation. <i>ConsumedCapacity</i> is only returned if it was asked
- * for in the request. For more information, see <a
+ * The table name that consumed provisioned throughput, and the number of
+ * capacity units consumed by it. <i>ConsumedCapacity</i> is only
+ * returned if it was asked for in the request. For more information, see
+ * <a
  * odb/latest/developerguide/ProvisionedThroughputIntro.html">Provisioned
- * Throughput</a> in the Amazon DynamoDB Developer Guide.
+ * Throughput</a> in the <i>Amazon DynamoDB Developer Guide</i>.
  */
 @property (nonatomic, retain) DynamoDBConsumedCapacity *consumedCapacity;
 

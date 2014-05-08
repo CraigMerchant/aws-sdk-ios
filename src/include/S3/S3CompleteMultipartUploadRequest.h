@@ -21,6 +21,8 @@
  *
  */
 @interface S3CompleteMultipartUploadRequest:S3Request {
+    NSMutableDictionary *parts;
+    NSString            *uploadId;
 }
 
 @property (nonatomic, retain) NSString *uploadId;

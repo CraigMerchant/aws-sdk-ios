@@ -37,18 +37,21 @@
 
 
 /**
- * The name of the load balancer.
+ * The name associated with the LoadBalancer. The name must be unique
+ * within the client AWS account.
  */
 @property (nonatomic, retain) NSString *loadBalancerName;
 
 /**
- * The external port of the load balancer to associate the policy.
+ * The external port of the LoadBalancer with which this policy applies
+ * to.
  */
 @property (nonatomic, retain) NSNumber *loadBalancerPort;
 
 /**
- * List of policies to be associated with the listener. If the list is
- * empty, the current policy is removed from the listener.
+ * List of policies to be associated with the listener. Currently this
+ * list can have at most one policy. If the list is empty, the current
+ * policy is removed from the listener.
  */
 @property (nonatomic, retain) NSMutableArray *policyNames;
 
@@ -63,12 +66,13 @@
  * Constructs a new SetLoadBalancerPoliciesOfListenerRequest object.
  * Callers should use properties to initialize any additional object members.
  *
- * @param theLoadBalancerName The name of the load balancer.
- * @param theLoadBalancerPort The external port of the load balancer to
- * associate the policy.
+ * @param theLoadBalancerName The name associated with the LoadBalancer.
+ * The name must be unique within the client AWS account.
+ * @param theLoadBalancerPort The external port of the LoadBalancer with
+ * which this policy applies to.
  * @param thePolicyNames List of policies to be associated with the
- * listener. If the list is empty, the current policy is removed from the
- * listener.
+ * listener. Currently this list can have at most one policy. If the list
+ * is empty, the current policy is removed from the listener.
  */
 -(id)initWithLoadBalancerName:(NSString *)theLoadBalancerName andLoadBalancerPort:(NSNumber *)theLoadBalancerPort andPolicyNames:(NSMutableArray *)thePolicyNames;
 

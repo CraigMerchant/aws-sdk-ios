@@ -14,7 +14,6 @@
  */
 
 #import "DynamoDBProvisionedThroughput.h"
-#import "DynamoDBGlobalSecondaryIndexUpdate.h"
 
 #ifdef AWS_MULTI_FRAMEWORK
 #import <AWSRuntime/AmazonServiceRequestConfig.h>
@@ -33,7 +32,6 @@
 {
     NSString                      *tableName;
     DynamoDBProvisionedThroughput *provisionedThroughput;
-    NSMutableArray                *globalSecondaryIndexUpdates;
 }
 
 
@@ -48,20 +46,14 @@
 @property (nonatomic, retain) NSString *tableName;
 
 /**
- * Represents the provisioned throughput settings for a specified table
- * or index. The settings can be modified using the <i>UpdateTable</i>
- * operation. <p>For current minimum and maximum provisioned throughput
- * values, see <a
+ * The provisioned throughput settings for the specified table. The
+ * settings can be modified using the <i>UpdateTable</i> operation.
+ * <p>For current minimum and maximum provisioned throughput values, see
+ * <a
  * mazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
- * in the Amazon DynamoDB Developer Guide.
+ * in the <i>Amazon DynamoDB Developer Guide</i>.
  */
 @property (nonatomic, retain) DynamoDBProvisionedThroughput *provisionedThroughput;
-
-/**
- * An array of one or more global secondary indexes on the table,
- * together with provisioned throughput settings for each index.
- */
-@property (nonatomic, retain) NSMutableArray *globalSecondaryIndexUpdates;
 
 
 /**
@@ -75,20 +67,14 @@
  * Callers should use properties to initialize any additional object members.
  *
  * @param theTableName The name of the table to be updated.
- * @param theProvisionedThroughput Represents the provisioned throughput
- * settings for a specified table or index. The settings can be modified
- * using the <i>UpdateTable</i> operation. <p>For current minimum and
- * maximum provisioned throughput values, see <a
+ * @param theProvisionedThroughput The provisioned throughput settings
+ * for the specified table. The settings can be modified using the
+ * <i>UpdateTable</i> operation. <p>For current minimum and maximum
+ * provisioned throughput values, see <a
  * mazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
- * in the Amazon DynamoDB Developer Guide.
+ * in the <i>Amazon DynamoDB Developer Guide</i>.
  */
 -(id)initWithTableName:(NSString *)theTableName andProvisionedThroughput:(DynamoDBProvisionedThroughput *)theProvisionedThroughput;
-
-/**
- * Adds a single object to globalSecondaryIndexUpdates.
- * This function will alloc and init globalSecondaryIndexUpdates if not already done.
- */
--(void)addGlobalSecondaryIndexUpdate:(DynamoDBGlobalSecondaryIndexUpdate *)globalSecondaryIndexUpdateObject;
 
 /**
  * Returns a string representation of this object; useful for testing and

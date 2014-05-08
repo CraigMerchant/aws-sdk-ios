@@ -32,8 +32,8 @@
     NSString       *domainName;
     NSString       *itemName;
     NSMutableArray *attributeNames;
-    BOOL           consistentRead;
-    BOOL           consistentReadIsSet;
+    bool           consistentRead;
+    bool           consistentReadIsSet;
 }
 
 
@@ -60,9 +60,9 @@
  * consistent eventually, and the client may not see data that was
  * written immediately before your read.
  */
-@property (nonatomic) BOOL           consistentRead;
+@property (nonatomic) bool           consistentRead;
 
-@property (nonatomic, readonly) BOOL consistentReadIsSet;
+@property (nonatomic, readonly) bool consistentReadIsSet;
 
 
 /**

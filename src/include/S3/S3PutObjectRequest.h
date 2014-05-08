@@ -83,7 +83,7 @@
 @property (nonatomic, retain) NSInputStream *stream;
 
 /** Number of milliseconds before expiration. */
-@property (nonatomic, assign, readonly) int32_t expires;
+@property (nonatomic, assign, readonly) NSInteger expires;
 
 /** Path of file in the filesystem to be uploaded.
  * The <code>contentLength</code> and <code>contentType</code> will be inferred.
@@ -94,7 +94,6 @@
  */
 @property (nonatomic, retain) NSString *filename;
 
-/** The redirect location. */
 @property (nonatomic, retain) NSString *redirectLocation;
 
 /** Initializes the request with the key and bucket name */

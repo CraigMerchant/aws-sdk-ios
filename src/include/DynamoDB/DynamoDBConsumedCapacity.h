@@ -13,9 +13,6 @@
  * permissions and limitations under the License.
  */
 
-#import "DynamoDBCapacity.h"
-#import "DynamoDBCapacity.h"
-#import "DynamoDBCapacity.h"
 
 
 
@@ -26,11 +23,8 @@
 @interface DynamoDBConsumedCapacity:NSObject
 
 {
-    NSString            *tableName;
-    NSNumber            *capacityUnits;
-    DynamoDBCapacity    *table;
-    NSMutableDictionary *localSecondaryIndexes;
-    NSMutableDictionary *globalSecondaryIndexes;
+    NSString *tableName;
+    NSNumber *capacityUnits;
 }
 
 
@@ -43,7 +37,7 @@
 -(id)init;
 
 /**
- * The name of the table that was affected by the operation.
+ * The table that consumed the provisioned throughput.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Length: </b>3 - 255<br/>
@@ -52,41 +46,9 @@
 @property (nonatomic, retain) NSString *tableName;
 
 /**
- * The total number of capacity units consumed by the operation.
+ * The total number of capacity units consumed.
  */
 @property (nonatomic, retain) NSNumber *capacityUnits;
-
-/**
- * The amount of throughput consumed on the table affected by the
- * operation.
- */
-@property (nonatomic, retain) DynamoDBCapacity *table;
-
-/**
- * The amount of throughput consumed on each local index affected by the
- * operation.
- */
-@property (nonatomic, retain) NSMutableDictionary *localSecondaryIndexes;
-
-/**
- * The amount of throughput consumed on each global index affected by the
- * operation.
- */
-@property (nonatomic, retain) NSMutableDictionary *globalSecondaryIndexes;
-
-
-/**
- * Set a value in the dictionary localSecondaryIndexes for the specified key.
- * This function will alloc and init localSecondaryIndexes if not already done.
- */
--(void)setLocalSecondaryIndexesValue:(DynamoDBCapacity *)theValue forKey:(NSString *)theKey;
-
-
-/**
- * Set a value in the dictionary globalSecondaryIndexes for the specified key.
- * This function will alloc and init globalSecondaryIndexes if not already done.
- */
--(void)setGlobalSecondaryIndexesValue:(DynamoDBCapacity *)theValue forKey:(NSString *)theKey;
 
 /**
  * Returns a string representation of this object; useful for testing and

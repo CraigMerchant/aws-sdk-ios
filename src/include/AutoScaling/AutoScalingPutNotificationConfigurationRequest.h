@@ -63,9 +63,8 @@
 @property (nonatomic, retain) NSString *topicARN;
 
 /**
- * The type of event that will cause the notification to be sent. For
- * details about notification types supported by Auto Scaling, see
- * <a>DescribeAutoScalingNotificationTypes</a>.
+ * The type of events that will trigger the notification. For more
+ * information, go to <a>DescribeAutoScalingNotificationTypes</a>.
  */
 @property (nonatomic, retain) NSMutableArray *notificationTypes;
 

@@ -14,20 +14,20 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "S3TransferOperation.h"
+#import "AmazonServiceRequest.h"
+#import "AmazonS3Client.h"
 
-@class AmazonServiceRequest;
 @protocol AmazonCredentialsProvider;
 
-@interface S3MultipartUploadOperation_Internal : S3TransferOperation
+@interface S3MultipartUploadOperation_Internal : NSOperation <AmazonServiceRequestDelegate>
 {
 }
 
+@property (nonatomic, retain) AmazonS3Client *s3;
+@property (nonatomic, retain) S3PutObjectRequest *request;
 @property (nonatomic, retain) AmazonServiceResponse *response;
-@property (nonatomic, assign) int64_t partSize;
-
-- (id)initWithCurrentPartNo:(uint32_t)theCurrentPartNo;
-- (void)setS3CompleteMultipartUploadRequest:(S3MultipartUpload *)theMultipartUpload withParts:(NSMutableDictionary *)partEtags;
-- (void)setS3MultipartUploadObject:(S3MultipartUpload *)theMultipartUpload;
+@property (nonatomic, retain) NSError *error;
+@property (nonatomic, retain) NSException *exception;
+@property (nonatomic, assign) NSUInteger partSize;
 
 @end

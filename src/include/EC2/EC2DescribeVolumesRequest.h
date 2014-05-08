@@ -30,20 +30,11 @@
 @interface EC2DescribeVolumesRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSMutableArray *volumeIds;
     NSMutableArray *filters;
 }
 
 
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * The optional list of EBS volumes to describe.

@@ -14,15 +14,19 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "S3TransferOperation.h"
+#import "AmazonServiceRequest.h"
+#import "AmazonS3Client.h"
 
-@class AmazonServiceRequest;
 @protocol AmazonCredentialsProvider;
 
-@interface S3PutObjectOperation_Internal : S3TransferOperation
+@interface S3PutObjectOperation_Internal : NSOperation <AmazonServiceRequestDelegate>
 {
 }
 
+@property (nonatomic, retain) AmazonS3Client *s3;
+@property (nonatomic, retain) S3PutObjectRequest *request;
 @property (nonatomic, retain) AmazonServiceResponse *response;
+@property (nonatomic, retain) NSError *error;
+@property (nonatomic, retain) NSException *exception;
 
 @end

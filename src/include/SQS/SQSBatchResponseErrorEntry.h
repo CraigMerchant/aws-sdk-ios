@@ -26,8 +26,8 @@
 
 {
     NSString *idValue;
-    BOOL     senderFault;
-    BOOL     senderFaultIsSet;
+    bool     senderFault;
+    bool     senderFaultIsSet;
     NSString *code;
     NSString *message;
 }
@@ -51,9 +51,9 @@
 /**
  * Whether the error happened due to the sender's fault.
  */
-@property (nonatomic) BOOL           senderFault;
+@property (nonatomic) bool           senderFault;
 
-@property (nonatomic, readonly) BOOL senderFaultIsSet;
+@property (nonatomic, readonly) bool senderFaultIsSet;
 
 /**
  * An error code representing why the operation failed on this entry.

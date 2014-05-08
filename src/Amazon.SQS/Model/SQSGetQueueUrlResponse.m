@@ -35,7 +35,7 @@
 {
     AmazonServiceException *newException = nil;
 
-    if ([[theException errorCode] isEqualToString:@"AWS.SimpleQueueService.NonExistentQueue"]) {
+    if ([[theException errorCode] isEqualToString:@"AWS.SimpleQueueService.QueueDoesNotExist"]) {
         [newException release];
         newException = [[SQSQueueDoesNotExistException alloc] initWithMessage:@""];
     }

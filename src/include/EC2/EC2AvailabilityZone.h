@@ -46,9 +46,6 @@
 
 /**
  * State of the Availability Zone.
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>available
  */
 @property (nonatomic, retain) NSString *state;
 

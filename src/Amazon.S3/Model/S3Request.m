@@ -18,6 +18,17 @@
 
 @implementation S3Request
 
+#pragma mark Properties
+
+@synthesize authorization;
+@synthesize contentLength;
+@synthesize contentType;
+@synthesize date;
+@synthesize securityToken;
+@synthesize bucket;
+@synthesize key;
+@synthesize subResource;
+
 #pragma mark methods
 
 -(AmazonURLRequest *)configureURLRequest
@@ -28,9 +39,6 @@
     [self.urlRequest setValue:[NSString stringWithFormat:@"%lld", self.contentLength] forHTTPHeaderField:kHttpHdrContentLength];
 
     [self.urlRequest setValue:self.host forHTTPHeaderField:kHttpHdrHost];
-    
-    self.date = [NSDate date];
-    
     [self.urlRequest setValue:[self.date stringWithRFC822Format] forHTTPHeaderField:kHttpHdrDate];
 
     if (nil != self.httpMethod) {
@@ -59,35 +67,35 @@
 {
     NSString *keyPath;
     NSString *resQuery;
-
+    
     if (self.bucket == nil || [S3BucketNameUtilities isDNSBucketName:self.bucket]) {
-        keyPath  = (self.key == nil ? @"" : [NSString stringWithFormat:@"%@", [self.key stringWithURLEncoding]]);
+        keyPath  = (self.key == nil ? @"" : [NSString stringWithFormat:@"%@", self.key]);
     }
     else {
-        keyPath  = (self.key == nil ? [NSString stringWithFormat:@"%@/", self.bucket] : [NSString stringWithFormat:@"%@/%@", self.bucket, [self.key stringWithURLEncoding]]);
+        keyPath  = (self.key == nil ? [NSString stringWithFormat:@"%@/", self.bucket] : [NSString stringWithFormat:@"%@/%@", self.bucket, self.key]);
     }
     resQuery = (self.subResource == nil ? @"" : [NSString stringWithFormat:@"?%@", self.subResource]);
 
-    return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/%@%@", self.protocol, self.host, keyPath, resQuery]];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/%@%@", [self protocol], self.host, keyPath, resQuery]];
 }
 
 -(NSString *)host
 {
     if (nil != self.bucket) {
         if ( [S3BucketNameUtilities isDNSBucketName:self.bucket]) {
-            return [NSString stringWithFormat:@"%@.%@", self.bucket, self.hostName];
+            return [NSString stringWithFormat:@"%@.%@", self.bucket, [super hostName]];
         }
     }
 
-    return self.hostName;
+    return [self hostName];
 }
 
 -(NSDate *)date
 {
-    if (_date == nil) {
-        _date = [[NSDate date] retain];
+    if (date == nil) {
+        date = [[NSDate date] retain];
     }
-    return _date;
+    return date;
 }
 
 -(NSString *)protocol
@@ -102,48 +110,24 @@
 
 -(NSString *)endpointHost
 {
-    return self.hostName;
+    return [super hostName];
 }
+
 
 #pragma mark memory management
 
-- (id)initWithCoder:(NSCoder *)decoder
-{
-    self = [super initWithCoder:decoder];
-    
-    [self setAuthorization:[decoder decodeObjectForKey:@"Authorization"]];
-    self.contentLength = [decoder decodeInt64ForKey:@"ContentLength"];
-    [self setContentType:[decoder decodeObjectForKey:@"ContentType"]];
-    [self setSecurityToken:[decoder decodeObjectForKey:@"SecurityToken"]];
-    [self setBucket:[decoder decodeObjectForKey:@"Bucket"]];
-    [self setKey:[decoder decodeObjectForKey:@"Key"]];
-    [self setSubResource:[decoder decodeObjectForKey:@"SubResource"]];
-    
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)encoder
-{
-    [super encodeWithCoder:encoder];
-    
-    [encoder encodeObject:self.authorization forKey:@"Authorization"];
-    [encoder encodeInt64:self.contentLength forKey:@"ContentLength"];
-    [encoder encodeObject:self.contentType forKey:@"ContentType"];
-    [encoder encodeObject:self.securityToken forKey:@"SecurityToken"];
-    [encoder encodeObject:self.bucket forKey:@"Bucket"];
-    [encoder encodeObject:self.key forKey:@"Key"];
-    [encoder encodeObject:self.subResource forKey:@"SubResource"];
-}
-
 -(void)dealloc
 {
-    [_authorization release];
-    [_contentType release];
-    [_date release];
-    [_securityToken release];
-    [_bucket release];
-    [_key release];
-    [_subResource release];
+    delegate = nil;
+
+    [authorization release];
+    [contentType release];
+    [date release];
+    [securityToken release];
+    [httpMethod release];
+    [subResource release];
+    [key release];
+    [bucket release];
 
     [super dealloc];
 }

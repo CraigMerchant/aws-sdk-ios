@@ -43,7 +43,7 @@
 -(id)init;
 
 /**
- * A list of load balancer description structures.
+ * A list of LoadBalancer description structures.
  */
 @property (nonatomic, retain) NSMutableArray *loadBalancerDescriptions;
 

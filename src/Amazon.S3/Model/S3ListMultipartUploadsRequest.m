@@ -15,21 +15,19 @@
 
 #import "S3ListMultipartUploadsRequest.h"
 
-@interface S3ListMultipartUploadsRequest () {
-}
-
-@property (nonatomic, assign) BOOL maxUploadsIsSet;
-
-@end
 
 @implementation S3ListMultipartUploadsRequest
 
+@synthesize delimiter;
+@synthesize keyMarker;
+@synthesize prefix;
+@synthesize uploadIdMarker;
 
 -(id)init
 {
     if (self = [super init]) {
-        _maxUploads = 1000;
-        _maxUploadsIsSet = NO;
+        maxUploads      = 1000;
+        maxUploadsIsSet = NO;
     }
 
     return self;
@@ -45,7 +43,7 @@
     if (nil != self.keyMarker) {
         [subresource appendFormat:@"&key-marker=%@", self.keyMarker];
     }
-    if (self.maxUploadsIsSet) {
+    if (maxUploadsIsSet) {
         [subresource appendFormat:@"&max-uploads=%d", self.maxUploads];
     }
     if (nil != self.prefix) {
@@ -64,18 +62,23 @@
     return urlRequest;
 }
 
--(void)setMaxUploads:(int32_t)max
+-(void)setMaxUploads:(NSInteger)max
 {
-    _maxUploads = max;
-    self.maxUploadsIsSet = YES;
+    maxUploads      = max;
+    maxUploadsIsSet = YES;
+}
+
+-(NSInteger)maxUploads
+{
+    return maxUploads;
 }
 
 -(void) dealloc
 {
-    [_delimiter release];
-    [_keyMarker release];
-    [_prefix release];
-    [_uploadIdMarker release];
+    [delimiter release];
+    [keyMarker release];
+    [prefix release];
+    [uploadIdMarker release];
 
     [super dealloc];
 }

@@ -59,8 +59,8 @@
  * attribute definition. <p>For more information about primary keys, see
  * <a
  * modb/latest/developerguide/DataModel.html#DataModelPrimaryKey">Primary
- * Key</a> in the Amazon DynamoDB Developer Guide. <p>Each element in the
- * <i>Item</i> map is an <i>AttributeValue</i> object.
+ * Key</a> in the <i>Amazon DynamoDB Developer Guide</i>. <p>Each element
+ * in the <i>Item</i> map is an <i>AttributeValue</i> object.
  */
 @property (nonatomic, retain) NSMutableDictionary *item;
 
@@ -117,14 +117,12 @@
 @property (nonatomic, retain) NSString *returnValues;
 
 /**
- * If set to <code>TOTAL</code>, the response includes
- * <i>ConsumedCapacity</i> data for tables and indexes. If set to
- * <code>INDEXES</code>, the repsonse includes <i>ConsumedCapacity</i>
- * for indexes. If set to <code>NONE</code> (the default),
- * <i>ConsumedCapacity</i> is not included in the response.
+ * If set to <code>TOTAL</code>, <i>ConsumedCapacity</i> is included in
+ * the response; if set to <code>NONE</code> (the default),
+ * <i>ConsumedCapacity</i> is not included.
  * <p>
  * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>INDEXES, TOTAL, NONE
+ * <b>Allowed Values: </b>TOTAL, NONE
  */
 @property (nonatomic, retain) NSString *returnConsumedCapacity;
 
@@ -132,7 +130,7 @@
  * If set to <code>SIZE</code>, statistics about item collections, if
  * any, that were modified during the operation are returned in the
  * response. If set to <code>NONE</code> (the default), no statistics are
- * returned.
+ * returned..
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Allowed Values: </b>SIZE, NONE
@@ -159,8 +157,8 @@
  * the table's attribute definition. <p>For more information about
  * primary keys, see <a
  * modb/latest/developerguide/DataModel.html#DataModelPrimaryKey">Primary
- * Key</a> in the Amazon DynamoDB Developer Guide. <p>Each element in the
- * <i>Item</i> map is an <i>AttributeValue</i> object.
+ * Key</a> in the <i>Amazon DynamoDB Developer Guide</i>. <p>Each element
+ * in the <i>Item</i> map is an <i>AttributeValue</i> object.
  */
 -(id)initWithTableName:(NSString *)theTableName andItem:(NSMutableDictionary *)theItem;
 

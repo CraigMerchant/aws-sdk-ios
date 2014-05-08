@@ -22,18 +22,13 @@
     AmazonServiceRequest *request = [[EC2Request alloc] init];
 
     [request setParameterValue:@"ImportInstance"           forKey:@"Action"];
-    [request setParameterValue:@"2013-10-15"   forKey:@"Version"];
+    [request setParameterValue:@"2013-02-01"   forKey:@"Version"];
 
     [request setDelegate:[importInstanceRequest delegate]];
     [request setCredentials:[importInstanceRequest credentials]];
     [request setEndpoint:[importInstanceRequest requestEndpoint]];
     [request setRequestTag:[importInstanceRequest requestTag]];
 
-    if (importInstanceRequest != nil) {
-        if (importInstanceRequest.dryRunIsSet) {
-            [request setParameterValue:(importInstanceRequest.dryRun ? @"true":@"false") forKey:[NSString stringWithFormat:@"%@", @"DryRun"]];
-        }
-    }
     if (importInstanceRequest != nil) {
         if (importInstanceRequest.descriptionValue != nil) {
             [request setParameterValue:[NSString stringWithFormat:@"%@", importInstanceRequest.descriptionValue] forKey:[NSString stringWithFormat:@"%@", @"Description"]];
@@ -48,13 +43,13 @@
         }
 
         if (launchSpecification != nil) {
-            int groupNamesListIndex = 1;
-            for (NSString *groupNamesListValue in launchSpecification.groupNames) {
-                if (groupNamesListValue != nil) {
-                    [request setParameterValue:[NSString stringWithFormat:@"%@", groupNamesListValue] forKey:[NSString stringWithFormat:@"%@.%@.%d", @"LaunchSpecification", @"GroupName", groupNamesListIndex]];
+            int securityGroupsListIndex = 1;
+            for (NSString *securityGroupsListValue in launchSpecification.securityGroups) {
+                if (securityGroupsListValue != nil) {
+                    [request setParameterValue:[NSString stringWithFormat:@"%@", securityGroupsListValue] forKey:[NSString stringWithFormat:@"%@.%@.%d", @"LaunchSpecification", @"SecurityGroup", securityGroupsListIndex]];
                 }
 
-                groupNamesListIndex++;
+                securityGroupsListIndex++;
             }
         }
         if (launchSpecification != nil) {
@@ -90,6 +85,57 @@
                 }
             }
         }
+
+        if (launchSpecification != nil) {
+            int blockDeviceMappingsListIndex = 1;
+            for (EC2BlockDeviceMapping *blockDeviceMappingsListValue in launchSpecification.blockDeviceMappings) {
+                if (blockDeviceMappingsListValue != nil) {
+                    if (blockDeviceMappingsListValue.virtualName != nil) {
+                        [request setParameterValue:[NSString stringWithFormat:@"%@", blockDeviceMappingsListValue.virtualName] forKey:[NSString stringWithFormat:@"%@.%@.%d.%@", @"LaunchSpecification", @"BlockDeviceMapping", blockDeviceMappingsListIndex, @"VirtualName"]];
+                    }
+                }
+                if (blockDeviceMappingsListValue != nil) {
+                    if (blockDeviceMappingsListValue.deviceName != nil) {
+                        [request setParameterValue:[NSString stringWithFormat:@"%@", blockDeviceMappingsListValue.deviceName] forKey:[NSString stringWithFormat:@"%@.%@.%d.%@", @"LaunchSpecification", @"BlockDeviceMapping", blockDeviceMappingsListIndex, @"DeviceName"]];
+                    }
+                }
+                if (blockDeviceMappingsListValue != nil) {
+                    EC2EbsBlockDevice *ebs = blockDeviceMappingsListValue.ebs;
+                    if (ebs != nil) {
+                        if (ebs.snapshotId != nil) {
+                            [request setParameterValue:[NSString stringWithFormat:@"%@", ebs.snapshotId] forKey:[NSString stringWithFormat:@"%@.%@.%d.%@.%@", @"LaunchSpecification", @"BlockDeviceMapping", blockDeviceMappingsListIndex, @"Ebs", @"SnapshotId"]];
+                        }
+                    }
+                    if (ebs != nil) {
+                        if (ebs.volumeSize != nil) {
+                            [request setParameterValue:[NSString stringWithFormat:@"%@", ebs.volumeSize] forKey:[NSString stringWithFormat:@"%@.%@.%d.%@.%@", @"LaunchSpecification", @"BlockDeviceMapping", blockDeviceMappingsListIndex, @"Ebs", @"VolumeSize"]];
+                        }
+                    }
+                    if (ebs != nil) {
+                        if (ebs.deleteOnTerminationIsSet) {
+                            [request setParameterValue:(ebs.deleteOnTermination ? @"true":@"false") forKey:[NSString stringWithFormat:@"%@.%@.%d.%@.%@", @"LaunchSpecification", @"BlockDeviceMapping", blockDeviceMappingsListIndex, @"Ebs", @"DeleteOnTermination"]];
+                        }
+                    }
+                    if (ebs != nil) {
+                        if (ebs.volumeType != nil) {
+                            [request setParameterValue:[NSString stringWithFormat:@"%@", ebs.volumeType] forKey:[NSString stringWithFormat:@"%@.%@.%d.%@.%@", @"LaunchSpecification", @"BlockDeviceMapping", blockDeviceMappingsListIndex, @"Ebs", @"VolumeType"]];
+                        }
+                    }
+                    if (ebs != nil) {
+                        if (ebs.iops != nil) {
+                            [request setParameterValue:[NSString stringWithFormat:@"%@", ebs.iops] forKey:[NSString stringWithFormat:@"%@.%@.%d.%@.%@", @"LaunchSpecification", @"BlockDeviceMapping", blockDeviceMappingsListIndex, @"Ebs", @"Iops"]];
+                        }
+                    }
+                }
+                if (blockDeviceMappingsListValue != nil) {
+                    if (blockDeviceMappingsListValue.noDevice != nil) {
+                        [request setParameterValue:[NSString stringWithFormat:@"%@", blockDeviceMappingsListValue.noDevice] forKey:[NSString stringWithFormat:@"%@.%@.%d.%@", @"LaunchSpecification", @"BlockDeviceMapping", blockDeviceMappingsListIndex, @"NoDevice"]];
+                    }
+                }
+
+                blockDeviceMappingsListIndex++;
+            }
+        }
         if (launchSpecification != nil) {
             if (launchSpecification.monitoringIsSet) {
                 [request setParameterValue:(launchSpecification.monitoring ? @"true":@"false") forKey:[NSString stringWithFormat:@"%@.%@", @"LaunchSpecification", @"Monitoring"]];
@@ -98,6 +144,11 @@
         if (launchSpecification != nil) {
             if (launchSpecification.subnetId != nil) {
                 [request setParameterValue:[NSString stringWithFormat:@"%@", launchSpecification.subnetId] forKey:[NSString stringWithFormat:@"%@.%@", @"LaunchSpecification", @"SubnetId"]];
+            }
+        }
+        if (launchSpecification != nil) {
+            if (launchSpecification.disableApiTerminationIsSet) {
+                [request setParameterValue:(launchSpecification.disableApiTermination ? @"true":@"false") forKey:[NSString stringWithFormat:@"%@.%@", @"LaunchSpecification", @"DisableApiTermination"]];
             }
         }
         if (launchSpecification != nil) {

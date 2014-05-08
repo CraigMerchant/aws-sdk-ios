@@ -27,22 +27,20 @@
 @synthesize tableSizeBytes;
 @synthesize itemCount;
 @synthesize localSecondaryIndexes;
-@synthesize globalSecondaryIndexes;
 
 
 -(id)init
 {
     if (self = [super init]) {
-        attributeDefinitions   = [[NSMutableArray alloc] initWithCapacity:1];
-        tableName              = nil;
-        keySchema              = [[NSMutableArray alloc] initWithCapacity:1];
-        tableStatus            = nil;
-        creationDateTime       = nil;
-        provisionedThroughput  = nil;
-        tableSizeBytes         = nil;
-        itemCount              = nil;
-        localSecondaryIndexes  = [[NSMutableArray alloc] initWithCapacity:1];
-        globalSecondaryIndexes = [[NSMutableArray alloc] initWithCapacity:1];
+        attributeDefinitions  = [[NSMutableArray alloc] initWithCapacity:1];
+        tableName             = nil;
+        keySchema             = [[NSMutableArray alloc] initWithCapacity:1];
+        tableStatus           = nil;
+        creationDateTime      = nil;
+        provisionedThroughput = nil;
+        tableSizeBytes        = nil;
+        itemCount             = nil;
+        localSecondaryIndexes = [[NSMutableArray alloc] initWithCapacity:1];
     }
 
     return self;
@@ -76,15 +74,6 @@
     [localSecondaryIndexes addObject:localSecondaryIndexeObject];
 }
 
--(void)addGlobalSecondaryIndexe:(DynamoDBGlobalSecondaryIndexDescription *)globalSecondaryIndexeObject
-{
-    if (globalSecondaryIndexes == nil) {
-        globalSecondaryIndexes = [[NSMutableArray alloc] initWithCapacity:1];
-    }
-
-    [globalSecondaryIndexes addObject:globalSecondaryIndexeObject];
-}
-
 
 -(NSString *)description
 {
@@ -100,7 +89,6 @@
     [buffer appendString:[[[NSString alloc] initWithFormat:@"TableSizeBytes: %@,", tableSizeBytes] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"ItemCount: %@,", itemCount] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"LocalSecondaryIndexes: %@,", localSecondaryIndexes] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"GlobalSecondaryIndexes: %@,", globalSecondaryIndexes] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
 
@@ -120,7 +108,6 @@
     [tableSizeBytes release];
     [itemCount release];
     [localSecondaryIndexes release];
-    [globalSecondaryIndexes release];
 
     [super dealloc];
 }

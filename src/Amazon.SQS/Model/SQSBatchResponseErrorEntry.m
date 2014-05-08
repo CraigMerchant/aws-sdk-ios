@@ -72,7 +72,7 @@
 }
 
 
--(void)setSenderFault:(BOOL)theValue
+-(void)setSenderFault:(bool)theValue
 {
     senderFault      = theValue;
     senderFaultIsSet = YES;

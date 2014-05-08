@@ -29,8 +29,6 @@
 @interface EC2ReportInstanceStatusRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSMutableArray *instances;
     NSString       *status;
     NSDate         *startTime;
@@ -49,22 +47,12 @@
 -(id)init;
 
 /**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
-
-/**
  * The value of the Instances property for this object.
  */
 @property (nonatomic, retain) NSMutableArray *instances;
 
 /**
  * The value of the Status property for this object.
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>ok, impaired
  */
 @property (nonatomic, retain) NSString *status;
 

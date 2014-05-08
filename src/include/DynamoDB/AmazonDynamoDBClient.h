@@ -72,10 +72,10 @@
  * </p>
  * <p>
  * By default, <i>Scan</i> operations proceed sequentially; however, for faster performance on large tables, applications
- * can request a parallel <i>Scan</i> by specifying the <i>Segment</i> and <i>TotalSegments</i> parameters. For more
+ * can perform a parallel <i>Scan</i> by specifying the <i>Segment</i> and <i>TotalSegments</i> parameters. For more
  * information, see <a
  * href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#QueryAndScanParallelScan">
- * Parallel Scan </a> in the Amazon DynamoDB Developer Guide.
+ * Parallel Scan </a> in the <i>Amazon DynamoDB Developer Guide</i> .
  * </p>
  *
  * @param scanRequest Container for the necessary parameters to execute the Scan service method on AmazonDynamoDB.
@@ -105,8 +105,8 @@
  * </p>
  * <p>
  * The provisioned throughput values can be upgraded or downgraded based on the maximums and minimums listed in the <a
- * href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html"> Limits </a> section in the Amazon
- * DynamoDB Developer Guide.
+ * href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html"> Limits </a> section in the
+ * <i>Amazon DynamoDB Developer Guide</i> .
  * </p>
  * <p>
  * The table must be in the ACTIVE state for this operation to succeed. <i>UpdateTable</i> is an asynchronous operation;
@@ -115,7 +115,8 @@
  * the table returns to the ACTIVE state after the <i>UpdateTable</i> operation.
  * </p>
  * <p>
- * You cannot add, modify or delete indexes using <i>UpdateTable</i> . Indexes can only be defined at table creation time.
+ * You cannot add, modify or delete local secondary indexes using <i>UpdateTable</i> . Local secondary indexes can only be
+ * defined at table creation time.
  * </p>
  *
  * @param updateTableRequest Container for the necessary parameters to execute the UpdateTable service method on
@@ -153,7 +154,14 @@
  * table in the DELETING state until the table deletion is complete.
  * </p>
  * <p>
- * When you delete a table, any indexes on that table are also deleted.
+ * Tables are unique among those associated with the AWS Account issuing the request, and the AWS region that receives the
+ * request (such as dynamodb.us-east-1.amazonaws.com). Each Amazon DynamoDB endpoint is entirely independent. For example,
+ * if you have two tables called "MyTable," one in dynamodb.us-east-1.amazonaws.com and one in
+ * dynamodb.us-west-1.amazonaws.com, they are completely independent and do not share any data; deleting one does not
+ * delete the other.
+ * </p>
+ * <p>
+ * When you delete a table, any local secondary indexes on that table are also deleted.
  * </p>
  * <p>
  * Use the <i>DescribeTable</i> API to check the status of the table.
@@ -385,8 +393,8 @@
  * the <i>TableStatus</i> to ACTIVE . You can perform read and write operations only on an ACTIVE table.
  * </p>
  * <p>
- * If you want to create multiple tables with secondary indexes on them, you must create them sequentially. Only one table
- * with secondary indexes can be in the CREATING state at any given time.
+ * If you want to create multiple tables with local secondary indexes on them, you must create them sequentially. Only one
+ * table with local secondary indexes can be in the CREATING state at any given time.
  * </p>
  * <p>
  * You can use the <i>DescribeTable</i> API to check the table status.
@@ -431,9 +439,7 @@
  * or if you have used <i>Limit</i> .
  * </p>
  * <p>
- * You can query a table, a local secondary index (LSI), or a global secondary index (GSI). For a query on a table or on an
- * LSI, you can set <i>ConsistentRead</i> to true and obtain a strongly consistent result. GSIs support eventually
- * consistent reads only, so do not specify <i>ConsistentRead</i> when querying a GSI.
+ * To request a strongly consistent result, set <i>ConsistentRead</i> to true.
  * </p>
  *
  * @param queryRequest Container for the necessary parameters to execute the Query service method on AmazonDynamoDB.
@@ -483,7 +489,7 @@
  * <p>
  * For more information about using this API, see <a
  * href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithDDItems.html"> Working with Items </a>
- * in the Amazon DynamoDB Developer Guide.
+ * in the <i>Amazon DynamoDB Developer Guide</i> .
  * </p>
  *
  * @param putItemRequest Container for the necessary parameters to execute the PutItem service method on AmazonDynamoDB.
@@ -511,6 +517,12 @@
 /**
  * <p>
  * Returns an array of all the tables associated with the current account and endpoint.
+ * </p>
+ * <p>
+ * Each Amazon DynamoDB endpoint is entirely independent. For example, if you have two tables called "MyTable," one in
+ * <i>dynamodb.us-east-1.amazonaws.com</i> and one in <i>dynamodb.us-west-1.amazonaws.com</i> , they are completely
+ * independent and do not share any data. The <i>ListTables</i> operation returns all of the table names associated with
+ * the account making the request, for the endpoint that receives the request.
  * </p>
  *
  * @param listTablesRequest Container for the necessary parameters to execute the ListTables service method on
@@ -602,7 +614,7 @@
  * If a requested item does not exist, it is not returned in the result. Requests for nonexistent items consume the minimum
  * read capacity units according to the type of read. For more information, see <a
  * ref="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithDDTables.html#CapacityUnitCalculations">
- * Capacity Units Calculations </a> in the Amazon DynamoDB Developer Guide.
+ * Capacity Units Calculations </a> in the <i>Amazon DynamoDB Developer Guide</i> .
  * </p>
  *
  * @param batchGetItemRequest Container for the necessary parameters to execute the BatchGetItem service method on

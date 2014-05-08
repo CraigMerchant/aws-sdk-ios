@@ -22,6 +22,10 @@
  *
  */
 @interface S3VersionSummary:S3ObjectSummary {
+    NSString *versionId;
+    NSString *displayName;
+    bool     isLatest;
+    bool     isDeleteMarker;
 }
 
 
@@ -31,10 +35,10 @@
 @property (nonatomic, retain) NSString *displayName;
 
 /** True if this is the latest version of the associated object */
-@property (nonatomic, assign) BOOL isLatest;
+@property (nonatomic) bool isLatest;
 
 /** True if this object is a delete marker. */
-@property (nonatomic, assign) BOOL isDeleteMarker;
+@property (nonatomic) bool isDeleteMarker;
 
 /** The string representation of the S3VersionSummary */
 -(NSString *)description;

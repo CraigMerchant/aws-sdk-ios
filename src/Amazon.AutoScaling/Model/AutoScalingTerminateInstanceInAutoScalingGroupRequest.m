@@ -50,7 +50,7 @@
 }
 
 
--(void)setShouldDecrementDesiredCapacity:(BOOL)theValue
+-(void)setShouldDecrementDesiredCapacity:(bool)theValue
 {
     shouldDecrementDesiredCapacity      = theValue;
     shouldDecrementDesiredCapacityIsSet = YES;

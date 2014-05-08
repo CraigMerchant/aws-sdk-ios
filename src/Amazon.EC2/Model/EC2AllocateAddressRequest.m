@@ -18,17 +18,13 @@
 
 @implementation EC2AllocateAddressRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize domain;
 
 
 -(id)init
 {
     if (self = [super init]) {
-        dryRun      = NO;
-        dryRunIsSet = NO;
-        domain      = nil;
+        domain = nil;
     }
 
     return self;
@@ -41,7 +37,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Domain: %@,", domain] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
@@ -49,12 +44,6 @@
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
 
 
 -(void)dealloc

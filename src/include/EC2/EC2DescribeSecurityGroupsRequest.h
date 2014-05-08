@@ -30,8 +30,6 @@
 @interface EC2DescribeSecurityGroupsRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSMutableArray *groupNames;
     NSMutableArray *groupIds;
     NSMutableArray *filters;
@@ -47,15 +45,7 @@
 -(id)init;
 
 /**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
-
-/**
- * An optional list of group names that specify the Amazon EC2 security
- * groups to describe.
+ * The optional list of Amazon EC2 security groups to describe.
  */
 @property (nonatomic, retain) NSMutableArray *groupNames;
 

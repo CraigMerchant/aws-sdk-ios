@@ -28,12 +28,14 @@
  *
  */
 @interface S3ErrorResponseHandler:AmazonUnmarshallerXMLParserDelegate {
+    AmazonServiceException *exception;
+    NSInteger              httpStatusCode;
 }
 
 /** The exception represented by the XML */
 @property (nonatomic, readonly) AmazonServiceException *exception;
 
 /** Initialize the object with the an HTTP status code */
--(id)initWithStatusCode:(int32_t)statusCode;
+-(id)initWithStatusCode:(NSInteger)statusCode;
 
 @end

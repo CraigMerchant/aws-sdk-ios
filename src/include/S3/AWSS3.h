@@ -19,4 +19,3 @@
 #endif
 
 #import "AmazonS3Client.h"
-#import "S3TransferManager.h"

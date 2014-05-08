@@ -30,35 +30,25 @@
 @interface EC2ModifyInstanceAttributeRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSString       *instanceId;
     NSString       *attribute;
     NSString       *value;
     NSMutableArray *blockDeviceMappings;
-    BOOL           sourceDestCheck;
-    BOOL           sourceDestCheckIsSet;
-    BOOL           disableApiTermination;
-    BOOL           disableApiTerminationIsSet;
+    bool           sourceDestCheck;
+    bool           sourceDestCheckIsSet;
+    bool           disableApiTermination;
+    bool           disableApiTerminationIsSet;
     NSString       *instanceType;
     NSString       *kernel;
     NSString       *ramdisk;
     NSString       *userData;
     NSString       *instanceInitiatedShutdownBehavior;
     NSMutableArray *groups;
-    BOOL           ebsOptimized;
-    BOOL           ebsOptimizedIsSet;
-    NSString       *sriovNetSupport;
+    bool           ebsOptimized;
+    bool           ebsOptimizedIsSet;
 }
 
 
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * The ID of the instance whose attribute is being modified.
@@ -97,16 +87,16 @@
 /**
  * Boolean value
  */
-@property (nonatomic) BOOL           sourceDestCheck;
+@property (nonatomic) bool           sourceDestCheck;
 
-@property (nonatomic, readonly) BOOL sourceDestCheckIsSet;
+@property (nonatomic, readonly) bool sourceDestCheckIsSet;
 
 /**
  * Boolean value
  */
-@property (nonatomic) BOOL           disableApiTermination;
+@property (nonatomic) bool           disableApiTermination;
 
-@property (nonatomic, readonly) BOOL disableApiTerminationIsSet;
+@property (nonatomic, readonly) bool disableApiTerminationIsSet;
 
 /**
  * String value
@@ -141,14 +131,9 @@
 /**
  * Boolean value
  */
-@property (nonatomic) BOOL           ebsOptimized;
+@property (nonatomic) bool           ebsOptimized;
 
-@property (nonatomic, readonly) BOOL ebsOptimizedIsSet;
-
-/**
- * String value
- */
-@property (nonatomic, retain) NSString *sriovNetSupport;
+@property (nonatomic, readonly) bool ebsOptimizedIsSet;
 
 
 /**

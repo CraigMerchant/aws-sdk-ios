@@ -31,8 +31,6 @@
 @interface EC2ImportVolumeRequest:AmazonServiceRequestConfig
 
 {
-    BOOL               dryRun;
-    BOOL               dryRunIsSet;
     NSString           *availabilityZone;
     EC2DiskImageDetail *image;
     NSString           *descriptionValue;
@@ -47,13 +45,6 @@
  * property methods to initialize this object after creating it.
  */
 -(id)init;
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * The value of the AvailabilityZone property for this object.

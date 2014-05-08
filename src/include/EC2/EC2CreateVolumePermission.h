@@ -44,9 +44,6 @@
 /**
  * The group that is allowed to create volumes from the snapshot
  * (currently supports "all").
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>all
  */
 @property (nonatomic, retain) NSString *group;
 

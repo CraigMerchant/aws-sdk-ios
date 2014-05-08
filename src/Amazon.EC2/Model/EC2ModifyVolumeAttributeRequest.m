@@ -18,8 +18,6 @@
 
 @implementation EC2ModifyVolumeAttributeRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize volumeId;
 @synthesize autoEnableIO;
 @synthesize autoEnableIOIsSet;
@@ -28,8 +26,6 @@
 -(id)init
 {
     if (self = [super init]) {
-        dryRun            = NO;
-        dryRunIsSet       = NO;
         volumeId          = nil;
         autoEnableIO      = NO;
         autoEnableIOIsSet = NO;
@@ -45,7 +41,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"VolumeId: %@,", volumeId] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"AutoEnableIO: %d,", autoEnableIO] autorelease]];
     [buffer appendString:[super description]];
@@ -55,13 +50,7 @@
 }
 
 
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
-
--(void)setAutoEnableIO:(BOOL)theValue
+-(void)setAutoEnableIO:(bool)theValue
 {
     autoEnableIO      = theValue;
     autoEnableIOIsSet = YES;

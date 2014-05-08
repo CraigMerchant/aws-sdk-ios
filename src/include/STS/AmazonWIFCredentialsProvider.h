@@ -42,11 +42,6 @@
  */
 @property (readonly) NSString *subjectFromWIF;
 
-/**
- * The last error (if any) that occured during refresh
- */
-@property (readonly) NSError *error;
-
 /** Inits the provider with information from the Identity Provider.
  *
  * @param roleArn ARN for IAM Role to assume

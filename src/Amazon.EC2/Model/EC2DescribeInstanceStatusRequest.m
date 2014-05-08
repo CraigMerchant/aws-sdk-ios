@@ -18,8 +18,6 @@
 
 @implementation EC2DescribeInstanceStatusRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize instanceIds;
 @synthesize filters;
 @synthesize nextToken;
@@ -31,8 +29,6 @@
 -(id)init
 {
     if (self = [super init]) {
-        dryRun                   = NO;
-        dryRunIsSet              = NO;
         instanceIds              = [[NSMutableArray alloc] initWithCapacity:1];
         filters                  = [[NSMutableArray alloc] initWithCapacity:1];
         nextToken                = nil;
@@ -69,7 +65,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"InstanceIds: %@,", instanceIds] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Filters: %@,", filters] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"NextToken: %@,", nextToken] autorelease]];
@@ -82,13 +77,7 @@
 }
 
 
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
-
--(void)setIncludeAllInstances:(BOOL)theValue
+-(void)setIncludeAllInstances:(bool)theValue
 {
     includeAllInstances      = theValue;
     includeAllInstancesIsSet = YES;

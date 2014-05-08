@@ -50,29 +50,28 @@
 -(id)init;
 
 /**
- * A map of attribute values as they appeared before the
- * <i>UpdateItem</i> operation, but only if <i>ReturnValues</i> was
- * specified as something other than <code>NONE</code> in the request.
- * Each element represents one attribute.
+ * A map of attribute values as they appeard before the <i>UpdateItem</i>
+ * operation, but only if <i>ReturnValues</i> was specified as something
+ * other than <code>NONE</code> in the request. Each element represents
+ * one attribute.
  */
 @property (nonatomic, retain) NSMutableDictionary *attributes;
 
 /**
- * Represents the capacity units consumed by an operation. The data
- * returned includes the total provisioned throughput consumed, along
- * with statistics for the table and any indexes involved in the
- * operation. <i>ConsumedCapacity</i> is only returned if it was asked
- * for in the request. For more information, see <a
+ * The table name that consumed provisioned throughput, and the number of
+ * capacity units consumed by it. <i>ConsumedCapacity</i> is only
+ * returned if it was asked for in the request. For more information, see
+ * <a
  * odb/latest/developerguide/ProvisionedThroughputIntro.html">Provisioned
- * Throughput</a> in the Amazon DynamoDB Developer Guide.
+ * Throughput</a> in the <i>Amazon DynamoDB Developer Guide</i>.
  */
 @property (nonatomic, retain) DynamoDBConsumedCapacity *consumedCapacity;
 
 /**
  * Information about item collections, if any, that were affected by the
  * operation. <i>ItemCollectionMetrics</i> is only returned if it was
- * asked for in the request. If the table does not have any local
- * secondary indexes, this information is not returned in the response.
+ * asked for in the request. If the table does not have any secondary
+ * indexes, this information is not returned in the response.
  */
 @property (nonatomic, retain) DynamoDBItemCollectionMetrics *itemCollectionMetrics;
 

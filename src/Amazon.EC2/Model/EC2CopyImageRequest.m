@@ -18,8 +18,6 @@
 
 @implementation EC2CopyImageRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize sourceRegion;
 @synthesize sourceImageId;
 @synthesize name;
@@ -30,8 +28,6 @@
 -(id)init
 {
     if (self = [super init]) {
-        dryRun           = NO;
-        dryRunIsSet      = NO;
         sourceRegion     = nil;
         sourceImageId    = nil;
         name             = nil;
@@ -49,7 +45,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"SourceRegion: %@,", sourceRegion] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"SourceImageId: %@,", sourceImageId] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Name: %@,", name] autorelease]];
@@ -61,12 +56,6 @@
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
 
 
 -(void)dealloc

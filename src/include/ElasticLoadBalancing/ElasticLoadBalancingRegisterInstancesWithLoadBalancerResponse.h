@@ -17,8 +17,8 @@
 
 #import "ElasticLoadBalancingResponse.h"
 
-#import "ElasticLoadBalancingLoadBalancerNotFoundException.h"
 #import "ElasticLoadBalancingInvalidInstanceException.h"
+#import "ElasticLoadBalancingLoadBalancerNotFoundException.h"
 
 
 /**
@@ -43,7 +43,7 @@
 -(id)init;
 
 /**
- * An updated list of instances for the load balancer.
+ * An updated list of instances for the LoadBalancer.
  */
 @property (nonatomic, retain) NSMutableArray *instances;
 

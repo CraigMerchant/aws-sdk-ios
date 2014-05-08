@@ -25,8 +25,8 @@
 {
     NSString *name;
     NSString *value;
-    BOOL     exists;
-    BOOL     existsIsSet;
+    bool     exists;
+    bool     existsIsSet;
 }
 
 
@@ -50,9 +50,9 @@
  * the attribute should not exist in order for the update condition to be
  * satisfied.
  */
-@property (nonatomic) BOOL           exists;
+@property (nonatomic) bool           exists;
 
-@property (nonatomic, readonly) BOOL existsIsSet;
+@property (nonatomic, readonly) bool existsIsSet;
 
 
 /**
@@ -76,7 +76,7 @@
  * <code>false</code> if the attribute should not exist in order for the
  * update condition to be satisfied.
  */
--(id)initWithName:(NSString *)theName andValue:(NSString *)theValue andExists:(BOOL)theExists;
+-(id)initWithName:(NSString *)theName andValue:(NSString *)theValue andExists:(bool)theExists;
 
 /**
  * Returns a string representation of this object; useful for testing and

@@ -125,7 +125,7 @@
 }
 
 
--(void)setActionsEnabled:(BOOL)theValue
+-(void)setActionsEnabled:(bool)theValue
 {
     actionsEnabled      = theValue;
     actionsEnabledIsSet = YES;

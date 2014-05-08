@@ -43,9 +43,6 @@
 
 /**
  * The value of the ProductCodeType property for this object.
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>devpay, marketplace
  */
 @property (nonatomic, retain) NSString *productCodeType;
 

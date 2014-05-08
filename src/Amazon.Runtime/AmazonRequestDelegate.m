@@ -57,7 +57,7 @@
     AMZLogDebug(@"didReceiveData");
 }
 
--(void)request:(AmazonServiceRequest *)request didSendData:(long long)bytesWritten totalBytesWritten:(long long)totalBytesWritten totalBytesExpectedToWrite:(long long)totalBytesExpectedToWrite
+-(void)request:(AmazonServiceRequest *)request didSendData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
     AMZLogDebug(@"didSendData");
 }
@@ -74,11 +74,6 @@
     AMZLogDebug(@"didFailWithServiceException");
     [exception release];
     exception = [theException retain];
-}
-
-- (void)request:(AmazonServiceRequest *)request didReceiveData:(NSData *)data totalBytesWritten:(long long)totalBytesWritten expectedTotalBytes:(long long)expectedTotalBytes
-{
-    AMZLogDebug(@"didReceiveData:totalBytesWritten:expectedTotalBytes");
 }
 
 -(void)dealloc

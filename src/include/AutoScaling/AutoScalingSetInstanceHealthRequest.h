@@ -31,8 +31,8 @@
 {
     NSString *instanceId;
     NSString *healthStatus;
-    BOOL     shouldRespectGracePeriod;
-    BOOL     shouldRespectGracePeriodIsSet;
+    bool     shouldRespectGracePeriod;
+    bool     shouldRespectGracePeriodIsSet;
 }
 
 
@@ -54,10 +54,9 @@
 @property (nonatomic, retain) NSString *instanceId;
 
 /**
- * The health status of the instance. Set to <code>Healthy</code> if you
- * want the instance to remain in service. Set to <code>Unhealthy</code>
- * if you want the instance to be out of service. Auto Scaling will
- * terminate and replace the unhealthy instance.
+ * The health status of the instance. "Healthy" means that the instance
+ * is healthy and should remain in service. "Unhealthy" means that the
+ * instance is unhealthy. Auto Scaling should terminate and replace it.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Length: </b>1 - 32<br/>
@@ -66,17 +65,12 @@
 @property (nonatomic, retain) NSString *healthStatus;
 
 /**
- * If the Auto Scaling group of the specified instance has a
- * <code>HealthCheckGracePeriod</code> specified for the group, by
- * default, this call will respect the grace period. Set this to
- * <code>False</code>, if you do not want the call to respect the grace
- * period associated with the group. <p>For more information, see the
- * <code>HealthCheckGracePeriod</code> parameter description in the
- * <a>CreateAutoScalingGroup</a> action.
+ * If True, this call should respect the grace period associated with the
+ * group.
  */
-@property (nonatomic) BOOL           shouldRespectGracePeriod;
+@property (nonatomic) bool           shouldRespectGracePeriod;
 
-@property (nonatomic, readonly) BOOL shouldRespectGracePeriodIsSet;
+@property (nonatomic, readonly) bool shouldRespectGracePeriodIsSet;
 
 /**
  * Returns a string representation of this object; useful for testing and

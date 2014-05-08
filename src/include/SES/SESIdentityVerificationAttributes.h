@@ -41,7 +41,7 @@
  * "Failed", or "TemporaryFailure".
  * <p>
  * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>Pending, Success, Failed, TemporaryFailure, NotStarted
+ * <b>Allowed Values: </b>Pending, Success, Failed, TemporaryFailure
  */
 @property (nonatomic, retain) NSString *verificationStatus;
 

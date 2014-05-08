@@ -41,16 +41,6 @@
     return self;
 }
 
--(id)initWithQueueUrl:(NSString *)theQueueUrl andAttributeNames:(NSMutableArray *)theAttributeNames
-{
-    if (self = [self init]) {
-        self.queueUrl       = theQueueUrl;
-        self.attributeNames = theAttributeNames;
-    }
-
-    return self;
-}
-
 
 -(void)addAttributeName:(NSString *)attributeNameObject
 {

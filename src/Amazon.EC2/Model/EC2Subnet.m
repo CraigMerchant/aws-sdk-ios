@@ -82,13 +82,13 @@
 }
 
 
--(void)setDefaultForAz:(BOOL)theValue
+-(void)setDefaultForAz:(bool)theValue
 {
     defaultForAz      = theValue;
     defaultForAzIsSet = YES;
 }
 
--(void)setMapPublicIpOnLaunch:(BOOL)theValue
+-(void)setMapPublicIpOnLaunch:(bool)theValue
 {
     mapPublicIpOnLaunch      = theValue;
     mapPublicIpOnLaunchIsSet = YES;

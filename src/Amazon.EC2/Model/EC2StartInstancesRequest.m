@@ -20,8 +20,6 @@
 
 @synthesize instanceIds;
 @synthesize additionalInfo;
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 
 
 -(id)init
@@ -29,8 +27,6 @@
     if (self = [super init]) {
         instanceIds    = [[NSMutableArray alloc] initWithCapacity:1];
         additionalInfo = nil;
-        dryRun         = NO;
-        dryRunIsSet    = NO;
     }
 
     return self;
@@ -63,19 +59,12 @@
     [buffer appendString:@"{"];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"InstanceIds: %@,", instanceIds] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"AdditionalInfo: %@,", additionalInfo] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
 
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
 
 
 -(void)dealloc

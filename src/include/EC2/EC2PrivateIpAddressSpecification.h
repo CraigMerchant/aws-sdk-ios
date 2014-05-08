@@ -24,8 +24,8 @@
 
 {
     NSString *privateIpAddress;
-    BOOL     primary;
-    BOOL     primaryIsSet;
+    bool     primary;
+    bool     primaryIsSet;
 }
 
 
@@ -45,9 +45,9 @@
 /**
  * The value of the Primary property for this object.
  */
-@property (nonatomic) BOOL           primary;
+@property (nonatomic) bool           primary;
 
-@property (nonatomic, readonly) BOOL primaryIsSet;
+@property (nonatomic, readonly) bool primaryIsSet;
 
 /**
  * Returns a string representation of this object; useful for testing and

@@ -18,8 +18,6 @@
 
 @implementation EC2DescribeReservedInstancesOfferingsRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize reservedInstancesOfferingIds;
 @synthesize instanceType;
 @synthesize availabilityZone;
@@ -29,18 +27,11 @@
 @synthesize offeringType;
 @synthesize nextToken;
 @synthesize maxResults;
-@synthesize includeMarketplace;
-@synthesize includeMarketplaceIsSet;
-@synthesize minDuration;
-@synthesize maxDuration;
-@synthesize maxInstanceCount;
 
 
 -(id)init
 {
     if (self = [super init]) {
-        dryRun                       = NO;
-        dryRunIsSet                  = NO;
         reservedInstancesOfferingIds = [[NSMutableArray alloc] initWithCapacity:1];
         instanceType                 = nil;
         availabilityZone             = nil;
@@ -50,11 +41,6 @@
         offeringType                 = nil;
         nextToken                    = nil;
         maxResults                   = nil;
-        includeMarketplace           = NO;
-        includeMarketplaceIsSet      = NO;
-        minDuration                  = nil;
-        maxDuration                  = nil;
-        maxInstanceCount             = nil;
     }
 
     return self;
@@ -85,7 +71,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"ReservedInstancesOfferingIds: %@,", reservedInstancesOfferingIds] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"InstanceType: %@,", instanceType] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"AvailabilityZone: %@,", availabilityZone] autorelease]];
@@ -95,28 +80,12 @@
     [buffer appendString:[[[NSString alloc] initWithFormat:@"OfferingType: %@,", offeringType] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"NextToken: %@,", nextToken] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"MaxResults: %@,", maxResults] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"IncludeMarketplace: %d,", includeMarketplace] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"MinDuration: %@,", minDuration] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"MaxDuration: %@,", maxDuration] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"MaxInstanceCount: %@,", maxInstanceCount] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
 
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
-
--(void)setIncludeMarketplace:(BOOL)theValue
-{
-    includeMarketplace      = theValue;
-    includeMarketplaceIsSet = YES;
-}
 
 
 -(void)dealloc
@@ -130,9 +99,6 @@
     [offeringType release];
     [nextToken release];
     [maxResults release];
-    [minDuration release];
-    [maxDuration release];
-    [maxInstanceCount release];
 
     [super dealloc];
 }

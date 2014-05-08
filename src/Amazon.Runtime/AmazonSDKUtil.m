@@ -18,8 +18,6 @@
 
 #import "AmazonSDKUtil.h"
 #import <CommonCrypto/CommonDigest.h>
-#import "AmazonClientException.h"
-
 
 static char        base64EncodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
@@ -47,6 +45,7 @@ NSString *const AWSDefaultRunLoopMode = @"com.amazonaws.DefaultRunLoopMode";
 NSString *const AWSS3TransferManagerUserAgentPrefix = @"Transfer Manager";
 
 static NSTimeInterval _clockskew = 0.0;
+
 
 @implementation AmazonSDKUtil
 
@@ -288,7 +287,6 @@ static NSTimeInterval _clockskew = 0.0;
                        @"video/webm", @"webm",
                        @"video/ogv", @"ogv",
                        @"audio/mp4a-latm", @"m4a",
-                       @"video/mp4", @"mp4",
                        nil];
     }
     NSString *mimetype = (NSString *)[lookupTable objectForKey:[extension lowercaseString]];
@@ -684,7 +682,7 @@ static const uint32_t crc32table[256] = {
 
 - (uint32_t)crc32
 {
-    unsigned long len = [self length];
+    uint32_t len = [self length];
     uint8_t *p = (uint8_t *)[self bytes];
     uint32_t crcinit = 0;
 	uint32_t crc = 0;

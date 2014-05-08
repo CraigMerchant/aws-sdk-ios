@@ -36,7 +36,7 @@
     return self;
 }
 
--(id)initWithName:(NSString *)theName andValue:(NSString *)theValue andExists:(BOOL)theExists
+-(id)initWithName:(NSString *)theName andValue:(NSString *)theValue andExists:(bool)theExists
 {
     if (self = [self init]) {
         self.name   = theName;
@@ -64,7 +64,7 @@
 }
 
 
--(void)setExists:(BOOL)theValue
+-(void)setExists:(bool)theValue
 {
     exists      = theValue;
     existsIsSet = YES;

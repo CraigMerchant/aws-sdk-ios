@@ -66,14 +66,13 @@
     NSString              *clientToken;
     NSMutableArray        *tags;
     NSMutableArray        *securityGroups;
-    BOOL                  sourceDestCheck;
-    BOOL                  sourceDestCheckIsSet;
+    bool                  sourceDestCheck;
+    bool                  sourceDestCheckIsSet;
     NSString              *hypervisor;
     NSMutableArray        *networkInterfaces;
     EC2IamInstanceProfile *iamInstanceProfile;
-    BOOL                  ebsOptimized;
-    BOOL                  ebsOptimizedIsSet;
-    NSString              *sriovNetSupport;
+    bool                  ebsOptimized;
+    bool                  ebsOptimizedIsSet;
 }
 
 
@@ -144,7 +143,7 @@
  * Amazon Elastic Compute Cloud Developer Guide</a>.
  * <p>
  * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>t1.micro, m1.small, m1.medium, m1.large, m1.xlarge, m3.xlarge, m3.2xlarge, m2.xlarge, m2.2xlarge, m2.4xlarge, cr1.8xlarge, hi1.4xlarge, hs1.8xlarge, c1.medium, c1.xlarge, c3.large, c3.xlarge, c3.2xlarge, c3.4xlarge, c3.8xlarge, cc1.4xlarge, cc2.8xlarge, g2.2xlarge, cg1.4xlarge
+ * <b>Allowed Values: </b>t1.micro, m1.small, m1.medium, m1.large, m1.xlarge, m2.xlarge, m2.2xlarge, m2.4xlarge, m3.xlarge, m3.2xlarge, c1.medium, c1.xlarge, hi1.4xlarge, hs1.8xlarge, cc1.4xlarge, cc2.8xlarge, cg1.4xlarge
  */
 @property (nonatomic, retain) NSString *instanceType;
 
@@ -170,9 +169,6 @@
 
 /**
  * Platform of the instance (e.g., Windows).
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>Windows
  */
 @property (nonatomic, retain) NSString *platform;
 
@@ -209,18 +205,12 @@
 
 /**
  * The architecture of this instance.
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>i386, x86_64
  */
 @property (nonatomic, retain) NSString *architecture;
 
 /**
  * The root device type used by the AMI. The AMI can use an Amazon EBS or
  * instance store root device.
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>ebs, instance-store
  */
 @property (nonatomic, retain) NSString *rootDeviceType;
 
@@ -244,9 +234,6 @@
 
 /**
  *
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>spot
  */
 @property (nonatomic, retain) NSString *instanceLifecycle;
 
@@ -279,9 +266,9 @@
 /**
  * The value of the SourceDestCheck property for this object.
  */
-@property (nonatomic) BOOL           sourceDestCheck;
+@property (nonatomic) bool           sourceDestCheck;
 
-@property (nonatomic, readonly) BOOL sourceDestCheckIsSet;
+@property (nonatomic, readonly) bool sourceDestCheckIsSet;
 
 /**
  * The value of the Hypervisor property for this object.
@@ -304,14 +291,9 @@
 /**
  * The value of the EbsOptimized property for this object.
  */
-@property (nonatomic) BOOL           ebsOptimized;
+@property (nonatomic) bool           ebsOptimized;
 
-@property (nonatomic, readonly) BOOL ebsOptimizedIsSet;
-
-/**
- * The value of the SriovNetSupport property for this object.
- */
-@property (nonatomic, retain) NSString *sriovNetSupport;
+@property (nonatomic, readonly) bool ebsOptimizedIsSet;
 
 /**
  * Adds a single object to productCodes.

@@ -30,8 +30,6 @@
 @interface EC2DescribeVolumeStatusRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSMutableArray *volumeIds;
     NSMutableArray *filters;
     NSString       *nextToken;
@@ -46,13 +44,6 @@
  * property methods to initialize this object after creating it.
  */
 -(id)init;
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * The value of the VolumeIds property for this object.

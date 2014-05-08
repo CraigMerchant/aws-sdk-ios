@@ -34,7 +34,7 @@
  * when the object was uploaded to S3.
  *
  */
-@interface S3ResponseHeaderOverrides:NSObject <NSCoding> {
+@interface S3ResponseHeaderOverrides:NSObject {
     NSString *contentType;
     NSString *contentLanguage;
     NSString *expires;

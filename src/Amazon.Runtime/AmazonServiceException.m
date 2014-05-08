@@ -15,15 +15,11 @@
 
 #import "AmazonServiceException.h"
 
-@interface AmazonServiceException () {
-}
-
-@property (nonatomic, retain) NSMutableDictionary *additionalFields;
-
-@end
-
 /** Generic excpetion type for AWS Service Errors. */
 @implementation AmazonServiceException
+
+
+@synthesize requestId, errorCode, serviceName, statusCode;
 
 +(id)exceptionWithMessage:(NSString *)theMessage
 {
@@ -35,7 +31,7 @@
     return [e autorelease];
 }
 
-+(id)exceptionWithStatusCode:(int32_t)theStatusCode
++(id)exceptionWithStatusCode:(NSInteger)theStatusCode
 {
     AmazonServiceException *e = [[[self class] alloc] initWithName:@"AmazonServiceException"
                                                                       reason:nil
@@ -45,7 +41,7 @@
     return [e autorelease];
 }
 
-+(id)exceptionWithMessage:(NSString *)theMessage withErrorCode:(NSString *)theErrorCode withStatusCode:(int32_t)theStatusCode withRequestId:(NSString *)theRequestId
++(id)exceptionWithMessage:(NSString *)theMessage withErrorCode:(NSString *)theErrorCode withStatusCode:(NSInteger)theStatusCode withRequestId:(NSString *)theRequestId
 {
     AmazonServiceException *e = [[[self class] alloc] initWithName:@"AmazonServiceException" 
                                                                       reason:theMessage 
@@ -62,7 +58,10 @@
     self = [super initWithName:name reason:reason userInfo:userInfo];
     if(self)
     {
-        _statusCode = 0;
+        requestId = nil;
+        errorCode = nil;
+        serviceName = nil;
+        statusCode = 0;
     }
     
     return self;
@@ -79,23 +78,23 @@
 
 -(NSString *)description
 {
-    return [[[NSString alloc] initWithFormat:@"%@ { RequestId:%@, ErrorCode:%@, Message:%@ }", NSStringFromClass([self class]), self.requestId, self.errorCode, self.message] autorelease];
+    return [[[NSString alloc] initWithFormat:@"%@ { RequestId:%@, ErrorCode:%@, Message:%@ }", NSStringFromClass([self class]), requestId, errorCode, message] autorelease];
 }
 
 -(NSMutableDictionary *)additionalFields
 {
-    if (nil == _additionalFields) {
-        _additionalFields = [[NSMutableDictionary alloc] initWithCapacity:1];
+    if (nil == additionalFields) {
+        additionalFields = [[NSMutableDictionary alloc] initWithCapacity:1];
     }
-    return _additionalFields;
+    return additionalFields;
 }
 
 -(void)dealloc
 {
-    [_requestId release];
-    [_errorCode release];
-    [_serviceName release];
-    [_additionalFields release];
+    [requestId release];
+    [errorCode release];
+    [serviceName release];
+    [additionalFields release];
 
     [super dealloc];
 }

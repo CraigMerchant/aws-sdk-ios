@@ -22,18 +22,13 @@
     AmazonServiceRequest *request = [[EC2Request alloc] init];
 
     [request setParameterValue:@"DescribeInstances"           forKey:@"Action"];
-    [request setParameterValue:@"2013-10-15"   forKey:@"Version"];
+    [request setParameterValue:@"2013-02-01"   forKey:@"Version"];
 
     [request setDelegate:[describeInstancesRequest delegate]];
     [request setCredentials:[describeInstancesRequest credentials]];
     [request setEndpoint:[describeInstancesRequest requestEndpoint]];
     [request setRequestTag:[describeInstancesRequest requestTag]];
 
-    if (describeInstancesRequest != nil) {
-        if (describeInstancesRequest.dryRunIsSet) {
-            [request setParameterValue:(describeInstancesRequest.dryRun ? @"true":@"false") forKey:[NSString stringWithFormat:@"%@", @"DryRun"]];
-        }
-    }
 
     if (describeInstancesRequest != nil) {
         int instanceIdsListIndex = 1;
@@ -67,16 +62,6 @@
             }
 
             filtersListIndex++;
-        }
-    }
-    if (describeInstancesRequest != nil) {
-        if (describeInstancesRequest.nextToken != nil) {
-            [request setParameterValue:[NSString stringWithFormat:@"%@", describeInstancesRequest.nextToken] forKey:[NSString stringWithFormat:@"%@", @"NextToken"]];
-        }
-    }
-    if (describeInstancesRequest != nil) {
-        if (describeInstancesRequest.maxResults != nil) {
-            [request setParameterValue:[NSString stringWithFormat:@"%@", describeInstancesRequest.maxResults] forKey:[NSString stringWithFormat:@"%@", @"MaxResults"]];
         }
     }
 

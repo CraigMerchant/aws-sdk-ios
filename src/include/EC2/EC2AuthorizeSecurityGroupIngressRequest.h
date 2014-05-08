@@ -30,8 +30,6 @@
 @interface EC2AuthorizeSecurityGroupIngressRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSString       *groupName;
     NSString       *groupId;
     NSString       *sourceSecurityGroupName;
@@ -44,13 +42,6 @@
 }
 
 
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * Name of the standard (EC2) security group to modify. The group must

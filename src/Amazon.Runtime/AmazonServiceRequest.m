@@ -56,43 +56,17 @@
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
-{
-    if (self = [self init]) {
-        [self setHttpMethod:[decoder decodeObjectForKey:@"HttpMethod"]];
-        [self setParameters:[decoder decodeObjectForKey:@"Parameters"]];
-        [self setEndpoint:[decoder decodeObjectForKey:@"Endpoint"]];
-        [self setUserAgent:[decoder decodeObjectForKey:@"UserAgent"]];
-        [self setResponseTimer:[decoder decodeObjectForKey:@"ResponseTime"]];
-        [self setRequestTag:[decoder decodeObjectForKey:@"RequestTag"]];
-        [self setServiceName:[decoder decodeObjectForKey:@"ServiceName"]];
-        [self setRegionName:[decoder decodeObjectForKey:@"RegionName"]];
-        [self setHostName:[decoder decodeObjectForKey:@"HostName"]];
-    }
-    
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)encoder
-{
-    [encoder encodeObject:httpMethod forKey:@"HttpMethod"];
-    [encoder encodeObject:parameters forKey:@"Parameters"];
-    [encoder encodeObject:endpoint forKey:@"Endpoint"];
-    [encoder encodeObject:userAgent forKey:@"UserAgent"];
-    [encoder encodeObject:responseTimer forKey:@"ResponseTimer"];
-    [encoder encodeObject:requestTag forKey:@"RequestTag"];
-    [encoder encodeObject:serviceName forKey:@"ServiceName"];
-    [encoder encodeObject:regionName forKey:@"RegionName"];
-    [encoder encodeObject:hostName forKey:@"HostName"];
-}
-
 -(void)sign
 {
-    // headers to sign
-    NSMutableDictionary *headers = [NSMutableDictionary dictionary];
-    [headers setObject:self.hostName forKey:@"Host"];
-    
-    [AmazonAuthUtils signRequestV4:self headers:headers payload:[self queryString] credentials:self.credentials];
+    [self setParameterValue:credentials.accessKey forKey:@"AWSAccessKeyId"];
+    [self setParameterValue:@"2"                                        forKey:@"SignatureVersion"];
+    [self setParameterValue:[NSDate ISO8061FormattedCurrentTimestamp]   forKey:@"Timestamp"];
+    [self setParameterValue:@"HmacSHA256"                               forKey:@"SignatureMethod"];
+
+    NSData   *dataToSign = [[AmazonAuthUtils getV2StringToSign:[NSURL URLWithString:self.endpoint] request:self] dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *signature  = [AmazonAuthUtils HMACSign:dataToSign withKey:credentials.secretKey usingAlgorithm:kCCHmacAlgSHA256];
+
+    [self setParameterValue:signature forKey:@"Signature"];
 }
 
 -(NSMutableURLRequest *)configureURLRequest
@@ -102,9 +76,7 @@
     }
 
     [self.urlRequest setHTTPMethod:@"POST"];
-    
     [self.urlRequest setHTTPBody:[[self queryString] dataUsingEncoding:NSUTF8StringEncoding]];
-    
     [self.urlRequest setValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
 
     NSURL *url = [NSURL URLWithString:self.endpoint];
@@ -258,19 +230,17 @@
 -(void)dealloc
 {
     delegate = nil;
-    
     [credentials release];
+    [endpoint release];
     [urlRequest release];
+    [parameters release];
+    [userAgent release];
     [urlConnection release];
     [responseTimer release];
-    [httpMethod release];
-    [parameters release];
-    [endpoint release];
+    [requestTag release];
     [serviceName release];
     [regionName release];
     [hostName release];
-    [userAgent release];
-    [requestTag release];
 
     [super dealloc];
 }

@@ -20,6 +20,7 @@
  *
  */
 @interface S3InitiateMultipartUploadRequest:S3AbstractPutRequest {
+    BOOL      expiresSet;
 }
 
 -(id)initWithKey:(NSString *)aKey inBucket:(NSString *)aBucket;
@@ -44,6 +45,6 @@
 @property (nonatomic, retain) NSString *redirectLocation;
 
 /** Number of milliseconds before expiration. */
-@property (nonatomic, readonly) int32_t expires;
+@property (nonatomic, assign, readonly) NSInteger expires;
 
 @end

@@ -57,7 +57,6 @@
 @synthesize iamInstanceProfile;
 @synthesize ebsOptimized;
 @synthesize ebsOptimizedIsSet;
-@synthesize sriovNetSupport;
 
 
 -(id)init
@@ -102,7 +101,6 @@
         iamInstanceProfile    = nil;
         ebsOptimized          = NO;
         ebsOptimizedIsSet     = NO;
-        sriovNetSupport       = nil;
     }
 
     return self;
@@ -197,7 +195,6 @@
     [buffer appendString:[[[NSString alloc] initWithFormat:@"NetworkInterfaces: %@,", networkInterfaces] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"IamInstanceProfile: %@,", iamInstanceProfile] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"EbsOptimized: %d,", ebsOptimized] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"SriovNetSupport: %@,", sriovNetSupport] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
 
@@ -205,13 +202,13 @@
 }
 
 
--(void)setSourceDestCheck:(BOOL)theValue
+-(void)setSourceDestCheck:(bool)theValue
 {
     sourceDestCheck      = theValue;
     sourceDestCheckIsSet = YES;
 }
 
--(void)setEbsOptimized:(BOOL)theValue
+-(void)setEbsOptimized:(bool)theValue
 {
     ebsOptimized      = theValue;
     ebsOptimizedIsSet = YES;
@@ -255,7 +252,6 @@
     [hypervisor release];
     [networkInterfaces release];
     [iamInstanceProfile release];
-    [sriovNetSupport release];
 
     [super dealloc];
 }

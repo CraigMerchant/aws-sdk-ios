@@ -29,20 +29,11 @@
 @interface EC2CreateSpotDatafeedSubscriptionRequest:AmazonServiceRequestConfig
 
 {
-    BOOL     dryRun;
-    BOOL     dryRunIsSet;
     NSString *bucket;
     NSString *prefix;
 }
 
 
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * The Amazon S3 bucket in which to store the Spot Instance datafeed.

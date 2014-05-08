@@ -154,7 +154,7 @@
 /**
  * The name of the cluster placement group, if applicable. For more
  * information, go to <a
- * .aws.amazon.com/AWSEC2/latest/UserGuide/using_cluster_computing.html">
+ * webservices.com/AWSEC2/latest/UserGuide/using_cluster_computing.html">
  * Using Cluster Instances</a> in the Amazon EC2 User Guide.
  * <p>
  * <b>Constraints:</b><br/>
@@ -182,8 +182,7 @@
 @property (nonatomic, retain) NSMutableArray *enabledMetrics;
 
 /**
- * The current state of the Auto Scaling group when a
- * <a>DeleteAutoScalingGroup</a> action is in progress.
+ * A list of status conditions for the Auto Scaling group.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Length: </b>1 - 255<br/>

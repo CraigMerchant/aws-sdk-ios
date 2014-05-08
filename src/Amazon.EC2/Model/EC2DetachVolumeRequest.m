@@ -18,8 +18,6 @@
 
 @implementation EC2DetachVolumeRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize volumeId;
 @synthesize instanceId;
 @synthesize device;
@@ -30,13 +28,11 @@
 -(id)init
 {
     if (self = [super init]) {
-        dryRun      = NO;
-        dryRunIsSet = NO;
-        volumeId    = nil;
-        instanceId  = nil;
-        device      = nil;
-        force       = NO;
-        forceIsSet  = NO;
+        volumeId   = nil;
+        instanceId = nil;
+        device     = nil;
+        force      = NO;
+        forceIsSet = NO;
     }
 
     return self;
@@ -58,7 +54,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"VolumeId: %@,", volumeId] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"InstanceId: %@,", instanceId] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Device: %@,", device] autorelease]];
@@ -70,13 +65,7 @@
 }
 
 
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
-
--(void)setForce:(BOOL)theValue
+-(void)setForce:(bool)theValue
 {
     force      = theValue;
     forceIsSet = YES;

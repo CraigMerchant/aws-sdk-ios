@@ -26,4 +26,7 @@
 {
 }
 
+// override super (for V4)
+-(void)sign;
+
 @end

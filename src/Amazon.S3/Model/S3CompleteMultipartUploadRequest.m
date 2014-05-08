@@ -15,15 +15,10 @@
 
 #import "S3CompleteMultipartUploadRequest.h"
 
-@interface S3CompleteMultipartUploadRequest () {
-}
-
-@property (nonatomic, retain) NSMutableDictionary *parts;
-
-@end
 
 @implementation S3CompleteMultipartUploadRequest
 
+@synthesize uploadId;
 
 -(id)initWithMultipartUpload:(S3MultipartUpload *)multipartUpload
 {
@@ -46,7 +41,7 @@
     [urlRequest setHTTPMethod:kHttpMethodPost];
 
     [urlRequest setHTTPBody:[self requestBody]];
-    [urlRequest setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[[urlRequest HTTPBody] length]] forHTTPHeaderField:kHttpHdrContentLength];
+    [urlRequest setValue:[NSString stringWithFormat:@"%d", [[urlRequest HTTPBody] length]] forHTTPHeaderField:kHttpHdrContentLength];
     [urlRequest setValue:@"text/xml" forHTTPHeaderField:kHttpHdrContentType];
 
     return urlRequest;
@@ -54,11 +49,11 @@
 
 -(void)addPartWithPartNumber:(int)partNumber withETag:(NSString *)etag
 {
-    if (nil == self.parts) {
-        self.parts = [[NSMutableDictionary new] autorelease];
+    if (nil == parts) {
+        parts = [[NSMutableDictionary alloc] init];
     }
 
-    [self.parts setObject:etag forKey:[NSNumber numberWithInt:partNumber]];
+    [parts setObject:etag forKey:[NSNumber numberWithInt:partNumber]];
 }
 
 -(NSData *)requestBody
@@ -69,10 +64,10 @@
         return [part1 compare:part2];
     };
 
-    NSArray *keys = [[self.parts allKeys] sortedArrayUsingComparator:comparePartNumbers];
+    NSArray *keys = [[parts allKeys] sortedArrayUsingComparator:comparePartNumbers];
     for (NSNumber *partNumber in keys)
     {
-        [xml appendFormat:@"<Part><PartNumber>%d</PartNumber><ETag>%@</ETag></Part>", [partNumber intValue], [self.parts objectForKey:partNumber]];
+        [xml appendFormat:@"<Part><PartNumber>%d</PartNumber><ETag>%@</ETag></Part>", [partNumber integerValue], [parts objectForKey:partNumber]];
     }
 
     [xml appendString:@"</CompleteMultipartUpload>"];
@@ -82,8 +77,8 @@
 
 -(void)dealloc
 {
-    [_uploadId release];
-    [_parts release];
+    [uploadId release];
+    [parts release];
 
     [super dealloc];
 }

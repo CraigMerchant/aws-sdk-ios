@@ -34,31 +34,27 @@
 @synthesize createdTime;
 @synthesize ebsOptimized;
 @synthesize ebsOptimizedIsSet;
-@synthesize associatePublicIpAddress;
-@synthesize associatePublicIpAddressIsSet;
 
 
 -(id)init
 {
     if (self = [super init]) {
-        launchConfigurationName       = nil;
-        launchConfigurationARN        = nil;
-        imageId                       = nil;
-        keyName                       = nil;
-        securityGroups                = [[NSMutableArray alloc] initWithCapacity:1];
-        userData                      = nil;
-        instanceType                  = nil;
-        kernelId                      = nil;
-        ramdiskId                     = nil;
-        blockDeviceMappings           = [[NSMutableArray alloc] initWithCapacity:1];
-        instanceMonitoring            = nil;
-        spotPrice                     = nil;
-        iamInstanceProfile            = nil;
-        createdTime                   = nil;
-        ebsOptimized                  = NO;
-        ebsOptimizedIsSet             = NO;
-        associatePublicIpAddress      = NO;
-        associatePublicIpAddressIsSet = NO;
+        launchConfigurationName = nil;
+        launchConfigurationARN  = nil;
+        imageId                 = nil;
+        keyName                 = nil;
+        securityGroups          = [[NSMutableArray alloc] initWithCapacity:1];
+        userData                = nil;
+        instanceType            = nil;
+        kernelId                = nil;
+        ramdiskId               = nil;
+        blockDeviceMappings     = [[NSMutableArray alloc] initWithCapacity:1];
+        instanceMonitoring      = nil;
+        spotPrice               = nil;
+        iamInstanceProfile      = nil;
+        createdTime             = nil;
+        ebsOptimized            = NO;
+        ebsOptimizedIsSet       = NO;
     }
 
     return self;
@@ -104,7 +100,6 @@
     [buffer appendString:[[[NSString alloc] initWithFormat:@"IamInstanceProfile: %@,", iamInstanceProfile] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"CreatedTime: %@,", createdTime] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"EbsOptimized: %d,", ebsOptimized] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"AssociatePublicIpAddress: %d,", associatePublicIpAddress] autorelease]];
     [buffer appendString:[super description]];
     [buffer appendString:@"}"];
 
@@ -112,16 +107,10 @@
 }
 
 
--(void)setEbsOptimized:(BOOL)theValue
+-(void)setEbsOptimized:(bool)theValue
 {
     ebsOptimized      = theValue;
     ebsOptimizedIsSet = YES;
-}
-
--(void)setAssociatePublicIpAddress:(BOOL)theValue
-{
-    associatePublicIpAddress      = theValue;
-    associatePublicIpAddressIsSet = YES;
 }
 
 

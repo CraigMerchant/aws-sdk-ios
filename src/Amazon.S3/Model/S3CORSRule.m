@@ -18,6 +18,13 @@
 
 @implementation S3CORSRule
 
+@synthesize ruleId=_ruleId;
+@synthesize allowedMethods=_allowedMethods;
+@synthesize allowedOrigins=_allowedOrigins;
+@synthesize maxAgeSeconds=_maxAgeSeconds;
+@synthesize exposeHeaders=_exposeHeaders;
+@synthesize allowedHeaders=_allowedHeaders;
+
 -(NSString *)toXml
 {
     NSMutableString *xml = [[NSMutableString alloc] init];
@@ -59,12 +66,11 @@
 
 -(void)dealloc
 {
-    [_ruleId release];
-    [_allowedMethods release];
-    [_allowedOrigins release];
-    [_exposeHeaders release];
-    [_allowedHeaders release];
-
+    self.ruleId = nil;
+    self.allowedMethods = nil;
+    self.allowedOrigins = nil;
+    self.exposeHeaders = nil;
+    self.allowedHeaders = nil;
     [super dealloc];
 }
 

@@ -20,12 +20,10 @@
 
 -(id)initWithAccessKey:(NSString *)theAccessKey withSecretKey:(NSString *)theSecretKey
 {
-    AmazonCredentials *credentials = [[AmazonCredentials alloc] initWithAccessKey:theAccessKey withSecretKey:theSecretKey];
-    if (self = [self initWithCredentials:credentials]) {
+    if (self = [self init]) {
+        AmazonCredentials *credentials = [[[AmazonCredentials alloc] initWithAccessKey:theAccessKey withSecretKey:theSecretKey] autorelease];
+        [self initWithCredentials:credentials];
     }
-    
-    [credentials release];
-    
     return self;
 }
 

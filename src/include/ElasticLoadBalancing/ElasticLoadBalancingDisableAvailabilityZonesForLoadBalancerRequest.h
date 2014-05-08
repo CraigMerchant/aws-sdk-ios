@@ -36,15 +36,17 @@
 
 
 /**
- * The name associated with the load balancer.
+ * The name associated with the LoadBalancer. The name must be unique
+ * within the client AWS account.
  */
 @property (nonatomic, retain) NSString *loadBalancerName;
 
 /**
- * A list of Availability Zones to be removed from the load balancer.
+ * A list of Availability Zones to be removed from the LoadBalancer.
  * <note> There must be at least one Availability Zone registered with a
- * load balancer at all times. Specified Availability Zones must be in
- * the same region. </note>
+ * LoadBalancer at all times. The client cannot remove all the
+ * Availability Zones from a LoadBalancer. Specified Availability Zones
+ * must be in the same Region. </note>
  */
 @property (nonatomic, retain) NSMutableArray *availabilityZones;
 
@@ -59,11 +61,13 @@
  * Constructs a new DisableAvailabilityZonesForLoadBalancerRequest object.
  * Callers should use properties to initialize any additional object members.
  *
- * @param theLoadBalancerName The name associated with the load balancer.
+ * @param theLoadBalancerName The name associated with the LoadBalancer.
+ * The name must be unique within the client AWS account.
  * @param theAvailabilityZones A list of Availability Zones to be removed
- * from the load balancer. <note> There must be at least one Availability
- * Zone registered with a load balancer at all times. Specified
- * Availability Zones must be in the same region. </note>
+ * from the LoadBalancer. <note> There must be at least one Availability
+ * Zone registered with a LoadBalancer at all times. The client cannot
+ * remove all the Availability Zones from a LoadBalancer. Specified
+ * Availability Zones must be in the same Region. </note>
  */
 -(id)initWithLoadBalancerName:(NSString *)theLoadBalancerName andAvailabilityZones:(NSMutableArray *)theAvailabilityZones;
 

@@ -30,8 +30,6 @@
 @interface EC2DescribeLicensesRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSMutableArray *licenseIds;
     NSMutableArray *filters;
 }
@@ -44,13 +42,6 @@
  * property methods to initialize this object after creating it.
  */
 -(id)init;
-
-/**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
 
 /**
  * Specifies the license registration for which details are to be

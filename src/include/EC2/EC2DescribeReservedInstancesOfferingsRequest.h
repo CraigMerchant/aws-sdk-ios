@@ -30,8 +30,6 @@
 @interface EC2DescribeReservedInstancesOfferingsRequest:AmazonServiceRequestConfig
 
 {
-    BOOL           dryRun;
-    BOOL           dryRunIsSet;
     NSMutableArray *reservedInstancesOfferingIds;
     NSString       *instanceType;
     NSString       *availabilityZone;
@@ -41,11 +39,6 @@
     NSString       *offeringType;
     NSString       *nextToken;
     NSNumber       *maxResults;
-    BOOL           includeMarketplace;
-    BOOL           includeMarketplaceIsSet;
-    NSNumber       *minDuration;
-    NSNumber       *maxDuration;
-    NSNumber       *maxInstanceCount;
 }
 
 
@@ -58,13 +51,6 @@
 -(id)init;
 
 /**
- * The value of the DryRun property for this object.
- */
-@property (nonatomic) BOOL           dryRun;
-
-@property (nonatomic, readonly) BOOL dryRunIsSet;
-
-/**
  * An optional list of the unique IDs of the Reserved Instance offerings
  * to describe.
  */
@@ -74,7 +60,7 @@
  * The instance type on which the Reserved Instance can be used.
  * <p>
  * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>t1.micro, m1.small, m1.medium, m1.large, m1.xlarge, m3.xlarge, m3.2xlarge, m2.xlarge, m2.2xlarge, m2.4xlarge, cr1.8xlarge, hi1.4xlarge, hs1.8xlarge, c1.medium, c1.xlarge, c3.large, c3.xlarge, c3.2xlarge, c3.4xlarge, c3.8xlarge, cc1.4xlarge, cc2.8xlarge, g2.2xlarge, cg1.4xlarge
+ * <b>Allowed Values: </b>t1.micro, m1.small, m1.medium, m1.large, m1.xlarge, m2.xlarge, m2.2xlarge, m2.4xlarge, m3.xlarge, m3.2xlarge, c1.medium, c1.xlarge, hi1.4xlarge, hs1.8xlarge, cc1.4xlarge, cc2.8xlarge, cg1.4xlarge
  */
 @property (nonatomic, retain) NSString *instanceType;
 
@@ -85,9 +71,6 @@
 
 /**
  * The Reserved Instance product description.
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>Linux/UNIX, Linux/UNIX (Amazon VPC), Windows, Windows (Amazon VPC)
  */
 @property (nonatomic, retain) NSString *productDescription;
 
@@ -104,17 +87,11 @@
  * The tenancy of the Reserved Instance offering. A Reserved Instance
  * with tenancy of dedicated will run on single-tenant hardware and can
  * only be launched within a VPC.
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>default, dedicated
  */
 @property (nonatomic, retain) NSString *instanceTenancy;
 
 /**
  * The Reserved Instance offering type.
- * <p>
- * <b>Constraints:</b><br/>
- * <b>Allowed Values: </b>Heavy Utilization, Medium Utilization, Light Utilization
  */
 @property (nonatomic, retain) NSString *offeringType;
 
@@ -127,28 +104,6 @@
  * The value of the MaxResults property for this object.
  */
 @property (nonatomic, retain) NSNumber *maxResults;
-
-/**
- * Include Marketplace offerings in the response.
- */
-@property (nonatomic) BOOL           includeMarketplace;
-
-@property (nonatomic, readonly) BOOL includeMarketplaceIsSet;
-
-/**
- * Minimum duration (in seconds) to filter when searching for offerings.
- */
-@property (nonatomic, retain) NSNumber *minDuration;
-
-/**
- * Maximum duration (in seconds) to filter when searching for offerings.
- */
-@property (nonatomic, retain) NSNumber *maxDuration;
-
-/**
- * The value of the MaxInstanceCount property for this object.
- */
-@property (nonatomic, retain) NSNumber *maxInstanceCount;
 
 /**
  * Adds a single object to reservedInstancesOfferingIds.

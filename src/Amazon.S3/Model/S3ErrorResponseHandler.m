@@ -16,21 +16,17 @@
 #import "S3ErrorResponseHandler.h"
 #import "AmazonUnmarshallerXMLParserDelegate.h"
 
-@interface S3ErrorResponseHandler () {
-}
-@property (nonatomic, retain) AmazonServiceException *exception;
-@property (nonatomic, assign) int32_t httpStatusCode;
-
-@end
-
 
 @implementation S3ErrorResponseHandler
 
--(id)initWithStatusCode:(int32_t)statusCode
+
+@synthesize exception;
+
+-(id)initWithStatusCode:(NSInteger)statusCode
 {
     if (self = [super init])
     {
-        _httpStatusCode = statusCode;
+        httpStatusCode = statusCode;
     }
     return self;
 }
@@ -57,17 +53,14 @@
 
 -(AmazonServiceException *)exception
 {
-    if (_exception == nil) {
-        _exception = [[AmazonServiceException exceptionWithStatusCode:self.httpStatusCode] retain];
+    if (exception == nil) {
+        exception = [AmazonServiceException exceptionWithStatusCode:httpStatusCode];
     }
-    
-    return _exception;
+    return exception;
 }
 
 -(void)dealloc
 {
-    [_exception release];
-
     [super dealloc];
 }
 

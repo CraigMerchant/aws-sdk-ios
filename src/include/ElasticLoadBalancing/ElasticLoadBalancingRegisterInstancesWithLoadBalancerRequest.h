@@ -37,14 +37,20 @@
 
 
 /**
- * The name associated with the load balancer. The name must be unique
- * within your set of load balancers.
+ * The name associated with the LoadBalancer. The name must be unique
+ * within the client AWS account.
  */
 @property (nonatomic, retain) NSString *loadBalancerName;
 
 /**
- * A list of instance IDs that should be registered with the load
- * balancer.
+ * A list of instance IDs that should be registered with the
+ * LoadBalancer. <note>If you stop and then restart the instance, the
+ * instance ID changes. Elastic Load Balancing cannot recognize the new
+ * ID, which prevents it from routing traffic to your instance. We
+ * recommend you de-register and then register your the new instance ID
+ * with the load balancer after you restart your instance. To de-register
+ * your instances from load balancer, use
+ * <a>DeregisterInstancesFromLoadBalancer</a> action.</note>
  */
 @property (nonatomic, retain) NSMutableArray *instances;
 
@@ -59,10 +65,16 @@
  * Constructs a new RegisterInstancesWithLoadBalancerRequest object.
  * Callers should use properties to initialize any additional object members.
  *
- * @param theLoadBalancerName The name associated with the load balancer.
- * The name must be unique within your set of load balancers.
+ * @param theLoadBalancerName The name associated with the LoadBalancer.
+ * The name must be unique within the client AWS account.
  * @param theInstances A list of instance IDs that should be registered
- * with the load balancer.
+ * with the LoadBalancer. <note>If you stop and then restart the
+ * instance, the instance ID changes. Elastic Load Balancing cannot
+ * recognize the new ID, which prevents it from routing traffic to your
+ * instance. We recommend you de-register and then register your the new
+ * instance ID with the load balancer after you restart your instance. To
+ * de-register your instances from load balancer, use
+ * <a>DeregisterInstancesFromLoadBalancer</a> action.</note>
  */
 -(id)initWithLoadBalancerName:(NSString *)theLoadBalancerName andInstances:(NSMutableArray *)theInstances;
 

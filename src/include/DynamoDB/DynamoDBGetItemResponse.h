@@ -52,13 +52,12 @@
 @property (nonatomic, retain) NSMutableDictionary *item;
 
 /**
- * Represents the capacity units consumed by an operation. The data
- * returned includes the total provisioned throughput consumed, along
- * with statistics for the table and any indexes involved in the
- * operation. <i>ConsumedCapacity</i> is only returned if it was asked
- * for in the request. For more information, see <a
+ * The table name that consumed provisioned throughput, and the number of
+ * capacity units consumed by it. <i>ConsumedCapacity</i> is only
+ * returned if it was asked for in the request. For more information, see
+ * <a
  * odb/latest/developerguide/ProvisionedThroughputIntro.html">Provisioned
- * Throughput</a> in the Amazon DynamoDB Developer Guide.
+ * Throughput</a> in the <i>Amazon DynamoDB Developer Guide</i>.
  */
 @property (nonatomic, retain) DynamoDBConsumedCapacity *consumedCapacity;
 

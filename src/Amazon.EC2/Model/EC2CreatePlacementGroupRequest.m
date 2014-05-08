@@ -18,8 +18,6 @@
 
 @implementation EC2CreatePlacementGroupRequest
 
-@synthesize dryRun;
-@synthesize dryRunIsSet;
 @synthesize groupName;
 @synthesize strategy;
 
@@ -27,10 +25,8 @@
 -(id)init
 {
     if (self = [super init]) {
-        dryRun      = NO;
-        dryRunIsSet = NO;
-        groupName   = nil;
-        strategy    = nil;
+        groupName = nil;
+        strategy  = nil;
     }
 
     return self;
@@ -53,7 +49,6 @@
     NSMutableString *buffer = [[NSMutableString alloc] initWithCapacity:256];
 
     [buffer appendString:@"{"];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"DryRun: %d,", dryRun] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"GroupName: %@,", groupName] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Strategy: %@,", strategy] autorelease]];
     [buffer appendString:[super description]];
@@ -62,12 +57,6 @@
     return [buffer autorelease];
 }
 
-
--(void)setDryRun:(BOOL)theValue
-{
-    dryRun      = theValue;
-    dryRunIsSet = YES;
-}
 
 
 -(void)dealloc

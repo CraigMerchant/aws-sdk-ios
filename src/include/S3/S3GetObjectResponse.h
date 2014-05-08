@@ -19,8 +19,9 @@
 /** Contains the response from a getObject operation.
  *
  */
-@interface S3GetObjectResponse : S3Response
-{
+@interface S3GetObjectResponse:S3Response {
+    NSMutableDictionary *metadata;
+    NSOutputStream      *outputStream;
 }
 
 /**
@@ -39,18 +40,21 @@
 
 @property (nonatomic, retain) NSString *redirectLocation;
 
-/**
- * If this is set, then the response will write the data
- * to the supplied stream instead of making it available through
- * the data property.
- */
-@property (nonatomic, retain) NSOutputStream *outputStream;
-
 /** Get the value for a user-defined metadata key.
  * @param aKey The key of the metadata.
  * @return The metadata value corresponding to the supplied key.
  */
-- (NSString *)getMetadataForKey:(NSString *)aKey;
+-(NSString *)getMetadataForKey:(NSString *)aKey;
+
+/** Set the output stream for the response data.
+ *
+ * If this is set, then the response will write the data
+ * to the supplied stream instead of making it available through
+ * the data property.
+ */
+-(void)setOutputStream:(NSOutputStream *)stream;
+
+
 
 
 @end

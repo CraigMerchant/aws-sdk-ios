@@ -45,7 +45,7 @@
     return self;
 }
 
--(id)initWithSelectExpression:(NSString *)theSelectExpression andConsistentRead:(BOOL)theConsistentRead
+-(id)initWithSelectExpression:(NSString *)theSelectExpression andConsistentRead:(bool)theConsistentRead
 {
     if (self = [self init]) {
         self.selectExpression = theSelectExpression;
@@ -72,7 +72,7 @@
 }
 
 
--(void)setConsistentRead:(BOOL)theValue
+-(void)setConsistentRead:(bool)theValue
 {
     consistentRead      = theValue;
     consistentReadIsSet = YES;

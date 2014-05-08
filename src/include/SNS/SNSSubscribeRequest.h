@@ -37,7 +37,7 @@
 
 
 /**
- * The ARN of the topic you want to subscribe to.
+ * The ARN of topic you want to subscribe to.
  */
 @property (nonatomic, retain) NSString *topicArn;
 
@@ -49,9 +49,7 @@
  * SMTP</li> <li><code>email-json</code> -- delivery of JSON-encoded
  * message via SMTP</li> <li><code>sms</code> -- delivery of message via
  * SMS</li> <li><code>sqs</code> -- delivery of JSON-encoded message to
- * an Amazon SQS queue</li> <li><code>application</code> -- delivery of
- * JSON-encoded message to an EndpointArn for a mobile app and
- * device.</li> </ul>
+ * an Amazon SQS queue</li> </ul>
  */
 @property (nonatomic, retain) NSString *protocol;
 
@@ -65,8 +63,7 @@
  * address</li> <li>For the <code>sms</code> protocol, the endpoint is a
  * phone number of an SMS-enabled device</li> <li>For the
  * <code>sqs</code> protocol, the endpoint is the ARN of an Amazon SQS
- * queue</li> <li>For the <code>application</code> protocol, the endpoint
- * is the EndpointArn of a mobile app and device.</li> </ul>
+ * queue</li> </ul>
  */
 @property (nonatomic, retain) NSString *endpoint;
 
@@ -81,7 +78,7 @@
  * Constructs a new SubscribeRequest object.
  * Callers should use properties to initialize any additional object members.
  *
- * @param theTopicArn The ARN of the topic you want to subscribe to.
+ * @param theTopicArn The ARN of topic you want to subscribe to.
  * @param theProtocol The protocol you want to use. Supported protocols
  * include: <ul> <li><code>http</code> -- delivery of JSON-encoded
  * message via HTTP POST</li> <li><code>https</code> -- delivery of
@@ -89,9 +86,7 @@
  * delivery of message via SMTP</li> <li><code>email-json</code> --
  * delivery of JSON-encoded message via SMTP</li> <li><code>sms</code> --
  * delivery of message via SMS</li> <li><code>sqs</code> -- delivery of
- * JSON-encoded message to an Amazon SQS queue</li>
- * <li><code>application</code> -- delivery of JSON-encoded message to an
- * EndpointArn for a mobile app and device.</li> </ul>
+ * JSON-encoded message to an Amazon SQS queue</li> </ul>
  * @param theEndpoint The endpoint that you want to receive
  * notifications. Endpoints vary by protocol: <ul> <li>For the
  * <code>http</code> protocol, the endpoint is an URL beginning with
@@ -102,8 +97,7 @@
  * address</li> <li>For the <code>sms</code> protocol, the endpoint is a
  * phone number of an SMS-enabled device</li> <li>For the
  * <code>sqs</code> protocol, the endpoint is the ARN of an Amazon SQS
- * queue</li> <li>For the <code>application</code> protocol, the endpoint
- * is the EndpointArn of a mobile app and device.</li> </ul>
+ * queue</li> </ul>
  */
 -(id)initWithTopicArn:(NSString *)theTopicArn andProtocol:(NSString *)theProtocol andEndpoint:(NSString *)theEndpoint;
 

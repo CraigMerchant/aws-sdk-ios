@@ -16,8 +16,8 @@
 
 #import "ElasticLoadBalancingResponse.h"
 
-#import "ElasticLoadBalancingInvalidConfigurationRequestException.h"
 #import "ElasticLoadBalancingLoadBalancerNotFoundException.h"
+#import "ElasticLoadBalancingInvalidConfigurationRequestException.h"
 
 
 /**
@@ -42,7 +42,7 @@
 -(id)init;
 
 /**
- * A list of updated Availability Zones for the load balancer.
+ * A list of updated Availability Zones for the LoadBalancer.
  */
 @property (nonatomic, retain) NSMutableArray *availabilityZones;
 

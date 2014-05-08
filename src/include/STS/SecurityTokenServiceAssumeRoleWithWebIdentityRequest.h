@@ -82,12 +82,12 @@
 @property (nonatomic, retain) NSString *webIdentityToken;
 
 /**
- * The fully-qualified host component of the domain name of the identity
- * provider. Specify this value only for OAuth access tokens. Do not
- * specify this value for OpenID Connect ID tokens, such as
- * <code>accounts.google.com</code>. Do not include URL schemes and port
- * numbers. Currently, <code>www.amazon.com</code> and
- * <code>graph.facebook.com</code> are supported.
+ * Specify this value only for OAuth access tokens. Do not specify this
+ * value for OpenID Connect ID tokens, such as
+ * <code>accounts.google.com</code>. This is the fully-qualified host
+ * component of the domain name of the identity provider. Do not include
+ * URL schemes and port numbers. Currently, <code>www.amazon.com</code>
+ * and <code>graph.facebook.com</code> are supported.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Length: </b>4 - 2048<br/>
@@ -95,14 +95,12 @@
 @property (nonatomic, retain) NSString *providerId;
 
 /**
- * An AWS IAM policy in JSON format. <p>The temporary security
- * credentials that are returned by the operation have the permissions
- * that are associated with the access policy of the role being assumed,
- * except for any permissions explicitly denied by the policy you pass.
- * This gives you a way to further restrict the permissions for the
- * federated user. These policies and any applicable resource-based
- * policies are evaluated when calls to AWS are made using the temporary
- * security credentials.
+ * A supplemental policy that is associated with the temporary security
+ * credentials from the <code>AssumeRoleWithWebIdentity</code> call. The
+ * resulting permissions of the temporary security credentials are an
+ * intersection of this policy and the access policy that is associated
+ * with the role. Use this policy to further restrict the permissions of
+ * the temporary security credentials.
  * <p>
  * <b>Constraints:</b><br/>
  * <b>Length: </b>1 - 2048<br/>

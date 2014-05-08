@@ -142,11 +142,6 @@
         return;
     }
 
-    if ([elementName isEqualToString:@"Scheme"]) {
-        self.response.scheme = self.currentText;
-        return;
-    }
-
     if ([elementName isEqualToString:@"LoadBalancerDescription"]) {
         if (caller != nil) {
             [parser setDelegate:caller];

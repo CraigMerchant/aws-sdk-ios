@@ -17,13 +17,12 @@
 #import "ElasticLoadBalancingResponse.h"
 
 #import "ElasticLoadBalancingInvalidSubnetException.h"
+#import "ElasticLoadBalancingCertificateNotFoundException.h"
+#import "ElasticLoadBalancingSubnetNotFoundException.h"
+#import "ElasticLoadBalancingTooManyLoadBalancersException.h"
+#import "ElasticLoadBalancingDuplicateLoadBalancerNameException.h"
 #import "ElasticLoadBalancingInvalidConfigurationRequestException.h"
 #import "ElasticLoadBalancingInvalidSecurityGroupException.h"
-#import "ElasticLoadBalancingCertificateNotFoundException.h"
-#import "ElasticLoadBalancingInvalidSchemeException.h"
-#import "ElasticLoadBalancingDuplicateLoadBalancerNameException.h"
-#import "ElasticLoadBalancingTooManyLoadBalancersException.h"
-#import "ElasticLoadBalancingSubnetNotFoundException.h"
 
 
 /**
@@ -48,7 +47,7 @@
 -(id)init;
 
 /**
- * The DNS name for the load balancer.
+ * The DNS name for the LoadBalancer.
  */
 @property (nonatomic, retain) NSString *dNSName;
 

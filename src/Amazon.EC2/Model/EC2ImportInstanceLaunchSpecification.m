@@ -19,14 +19,17 @@
 @implementation EC2ImportInstanceLaunchSpecification
 
 @synthesize architecture;
-@synthesize groupNames;
+@synthesize securityGroups;
 @synthesize additionalInfo;
 @synthesize userData;
 @synthesize instanceType;
 @synthesize placement;
+@synthesize blockDeviceMappings;
 @synthesize monitoring;
 @synthesize monitoringIsSet;
 @synthesize subnetId;
+@synthesize disableApiTermination;
+@synthesize disableApiTerminationIsSet;
 @synthesize instanceInitiatedShutdownBehavior;
 @synthesize privateIpAddress;
 
@@ -35,14 +38,17 @@
 {
     if (self = [super init]) {
         architecture                      = nil;
-        groupNames                        = [[NSMutableArray alloc] initWithCapacity:1];
+        securityGroups                    = [[NSMutableArray alloc] initWithCapacity:1];
         additionalInfo                    = nil;
         userData                          = nil;
         instanceType                      = nil;
         placement                         = nil;
+        blockDeviceMappings               = [[NSMutableArray alloc] initWithCapacity:1];
         monitoring                        = NO;
         monitoringIsSet                   = NO;
         subnetId                          = nil;
+        disableApiTermination             = NO;
+        disableApiTerminationIsSet        = NO;
         instanceInitiatedShutdownBehavior = nil;
         privateIpAddress                  = nil;
     }
@@ -51,13 +57,22 @@
 }
 
 
--(void)addGroupName:(NSString *)groupNameObject
+-(void)addSecurityGroup:(NSString *)securityGroupObject
 {
-    if (groupNames == nil) {
-        groupNames = [[NSMutableArray alloc] initWithCapacity:1];
+    if (securityGroups == nil) {
+        securityGroups = [[NSMutableArray alloc] initWithCapacity:1];
     }
 
-    [groupNames addObject:groupNameObject];
+    [securityGroups addObject:securityGroupObject];
+}
+
+-(void)addBlockDeviceMapping:(EC2BlockDeviceMapping *)blockDeviceMappingObject
+{
+    if (blockDeviceMappings == nil) {
+        blockDeviceMappings = [[NSMutableArray alloc] initWithCapacity:1];
+    }
+
+    [blockDeviceMappings addObject:blockDeviceMappingObject];
 }
 
 
@@ -67,13 +82,15 @@
 
     [buffer appendString:@"{"];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Architecture: %@,", architecture] autorelease]];
-    [buffer appendString:[[[NSString alloc] initWithFormat:@"GroupNames: %@,", groupNames] autorelease]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"SecurityGroups: %@,", securityGroups] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"AdditionalInfo: %@,", additionalInfo] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"UserData: %@,", userData] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"InstanceType: %@,", instanceType] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Placement: %@,", placement] autorelease]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"BlockDeviceMappings: %@,", blockDeviceMappings] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"Monitoring: %d,", monitoring] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"SubnetId: %@,", subnetId] autorelease]];
+    [buffer appendString:[[[NSString alloc] initWithFormat:@"DisableApiTermination: %d,", disableApiTermination] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"InstanceInitiatedShutdownBehavior: %@,", instanceInitiatedShutdownBehavior] autorelease]];
     [buffer appendString:[[[NSString alloc] initWithFormat:@"PrivateIpAddress: %@,", privateIpAddress] autorelease]];
     [buffer appendString:[super description]];
@@ -83,21 +100,28 @@
 }
 
 
--(void)setMonitoring:(BOOL)theValue
+-(void)setMonitoring:(bool)theValue
 {
     monitoring      = theValue;
     monitoringIsSet = YES;
+}
+
+-(void)setDisableApiTermination:(bool)theValue
+{
+    disableApiTermination      = theValue;
+    disableApiTerminationIsSet = YES;
 }
 
 
 -(void)dealloc
 {
     [architecture release];
-    [groupNames release];
+    [securityGroups release];
     [additionalInfo release];
     [userData release];
     [instanceType release];
     [placement release];
+    [blockDeviceMappings release];
     [subnetId release];
     [instanceInitiatedShutdownBehavior release];
     [privateIpAddress release];

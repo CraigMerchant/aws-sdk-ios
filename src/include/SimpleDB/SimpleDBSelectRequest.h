@@ -31,8 +31,8 @@
 {
     NSString *selectExpression;
     NSString *nextToken;
-    BOOL     consistentRead;
-    BOOL     consistentReadIsSet;
+    bool     consistentRead;
+    bool     consistentReadIsSet;
 }
 
 
@@ -55,9 +55,9 @@
  * consistent eventually, and the client may not see data that was
  * written immediately before your read.
  */
-@property (nonatomic) BOOL           consistentRead;
+@property (nonatomic) bool           consistentRead;
 
-@property (nonatomic, readonly) BOOL consistentReadIsSet;
+@property (nonatomic, readonly) bool consistentReadIsSet;
 
 
 /**
@@ -85,7 +85,7 @@
  * returned. Otherwise, results will be consistent eventually, and the
  * client may not see data that was written immediately before your read.
  */
--(id)initWithSelectExpression:(NSString *)theSelectExpression andConsistentRead:(BOOL)theConsistentRead;
+-(id)initWithSelectExpression:(NSString *)theSelectExpression andConsistentRead:(bool)theConsistentRead;
 
 /**
  * Returns a string representation of this object; useful for testing and

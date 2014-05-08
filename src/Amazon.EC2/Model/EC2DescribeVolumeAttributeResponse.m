@@ -75,7 +75,7 @@
 }
 
 
--(void)setAutoEnableIO:(BOOL)theValue
+-(void)setAutoEnableIO:(bool)theValue
 {
     autoEnableIO      = theValue;
     autoEnableIOIsSet = YES;

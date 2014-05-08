@@ -22,18 +22,13 @@
     AmazonServiceRequest *request = [[EC2Request alloc] init];
 
     [request setParameterValue:@"ModifyInstanceAttribute"           forKey:@"Action"];
-    [request setParameterValue:@"2013-10-15"   forKey:@"Version"];
+    [request setParameterValue:@"2013-02-01"   forKey:@"Version"];
 
     [request setDelegate:[modifyInstanceAttributeRequest delegate]];
     [request setCredentials:[modifyInstanceAttributeRequest credentials]];
     [request setEndpoint:[modifyInstanceAttributeRequest requestEndpoint]];
     [request setRequestTag:[modifyInstanceAttributeRequest requestTag]];
 
-    if (modifyInstanceAttributeRequest != nil) {
-        if (modifyInstanceAttributeRequest.dryRunIsSet) {
-            [request setParameterValue:(modifyInstanceAttributeRequest.dryRun ? @"true":@"false") forKey:[NSString stringWithFormat:@"%@", @"DryRun"]];
-        }
-    }
     if (modifyInstanceAttributeRequest != nil) {
         if (modifyInstanceAttributeRequest.instanceId != nil) {
             [request setParameterValue:[NSString stringWithFormat:@"%@", modifyInstanceAttributeRequest.instanceId] forKey:[NSString stringWithFormat:@"%@", @"InstanceId"]];
@@ -134,11 +129,6 @@
     if (modifyInstanceAttributeRequest != nil) {
         if (modifyInstanceAttributeRequest.ebsOptimizedIsSet) {
             [request setParameterValue:(modifyInstanceAttributeRequest.ebsOptimized ? @"true":@"false") forKey:[NSString stringWithFormat:@"%@", @"EbsOptimized.Value"]];
-        }
-    }
-    if (modifyInstanceAttributeRequest != nil) {
-        if (modifyInstanceAttributeRequest.sriovNetSupport != nil) {
-            [request setParameterValue:[NSString stringWithFormat:@"%@", modifyInstanceAttributeRequest.sriovNetSupport] forKey:[NSString stringWithFormat:@"%@", @"SriovNetSupport.Value"]];
         }
     }
 

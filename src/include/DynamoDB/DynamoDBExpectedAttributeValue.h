@@ -25,8 +25,8 @@
 
 {
     DynamoDBAttributeValue *value;
-    BOOL                   exists;
-    BOOL                   existsIsSet;
+    bool                   exists;
+    bool                   existsIsSet;
 }
 
 
@@ -63,9 +63,9 @@
  * evaluate to true. (In other words, the conditions are ANDed together.)
  * Otherwise, the conditional operation will fail.
  */
-@property (nonatomic) BOOL           exists;
+@property (nonatomic) bool           exists;
 
-@property (nonatomic, readonly) BOOL existsIsSet;
+@property (nonatomic, readonly) bool existsIsSet;
 
 
 /**
@@ -112,7 +112,7 @@
  * evaluate to true. (In other words, the conditions are ANDed together.)
  * Otherwise, the conditional operation will fail.
  */
--(id)initWithExists:(BOOL)theExists;
+-(id)initWithExists:(bool)theExists;
 
 /**
  * Returns a string representation of this object; useful for testing and

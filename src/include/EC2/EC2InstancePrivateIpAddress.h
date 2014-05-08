@@ -26,8 +26,8 @@
 {
     NSString                               *privateIpAddress;
     NSString                               *privateDnsName;
-    BOOL                                   primary;
-    BOOL                                   primaryIsSet;
+    bool                                   primary;
+    bool                                   primaryIsSet;
     EC2InstanceNetworkInterfaceAssociation *association;
 }
 
@@ -53,9 +53,9 @@
 /**
  * The value of the Primary property for this object.
  */
-@property (nonatomic) BOOL           primary;
+@property (nonatomic) bool           primary;
 
-@property (nonatomic, readonly) BOOL primaryIsSet;
+@property (nonatomic, readonly) bool primaryIsSet;
 
 /**
  * The value of the Association property for this object.
